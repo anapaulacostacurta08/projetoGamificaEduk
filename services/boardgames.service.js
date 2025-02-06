@@ -112,10 +112,10 @@ const boardgamesService = {
             .doc(id)
             .update(boardgame);
     },
-    addPlayers:  (boardgameid, players) => {
+    addPlayers:  (id, players) => {
         return firebase.firestore()
             .collection("boardgames")
-            .doc(boardgameid)
+            .doc(id)
             .update(players);
             
     }

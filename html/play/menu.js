@@ -15,7 +15,7 @@ const boardgame = getBoardgame();
 function logout() {
   firebase.auth().signOut().then(() => {
       sessionStorage.clear();
-      window.location.href = "../../index.html";
+      window.location.href = "../home/home.html";
   }).catch(() => {
       alert('Erro ao fazer logout');
   })

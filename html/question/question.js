@@ -1,8 +1,13 @@
-const question_box = document.querySelector(".question_box");
-const que_text = document.querySelector(".que_text");
-const option_list = document.querySelector(".option_list");
-const timeText = document.querySelector(".timer .time_left_txt");
-const timeCount = document.querySelector(".timer .timer_sec");
+//const question_box = document.querySelector(".question_box");
+const question_box = document.getElementById("question_box");
+//const que_text = document.querySelector(".que_text");
+const que_text = document.getElementById("que_text");
+//const option_list = document.querySelector(".option_list");
+const option_list = document.getElementById("option_list");
+//const timeText = document.querySelector(".timer .time_left_txt");
+const timeText = document.getElementById("time_left_txt");
+//const timeCount = document.querySelector(".timer .timer_sec");
+const timeCount = document.getElementById("timer_sec");
 var user_UID = sessionStorage.userUid;
 var User = getUser();
 getProfile();
@@ -79,7 +84,8 @@ function optionSelected(answer) {
 
 function setScore(corret){
   var boardgame = getBoardgame();
-  var players = boardgame.players;
+  var players = boardgame.dados.players;
+  var boardgameid = boardgame.id;
   var count = 0;
   let score_old = parseInt(sessionStorage.score_round);
   let score;
@@ -100,7 +106,7 @@ function setScore(corret){
   //Salvar Score na variável
   players[count].score_round = score;
   //Atualizar no banco de dados
-  boardgamesService.addPlayers(boardgame.boardgameid, {players});
+  boardgamesService.addPlayers(boardgameid, {players});
   //Atualizar Sessão
   sessionStorage.setItem("score_round",score);
 
@@ -109,10 +115,9 @@ function setScore(corret){
   const level = boardgame.level;
   const hora = (new Date()).toLocaleTimeString('pt-BR');
   const data = (new Date()).toLocaleDateString('pt-BR');
-  var log_answers = {user_UID: user_UID, data: data, hora: hora, level: level, boardgame_id: boardgame_id, category: sessionStorage.question_type, question_numb:sessionStorage.question_numb, user_answer:sessionStorage.userAnswer, score_old: score_old, score_round: score, tokenid: sessionStorage.token};
+  var log_answers = {user_UID: user_UID, data: data, hora: hora, level: level, boardgame_id: boardgame_id, category: sessionStorage.question_category, question_numb:sessionStorage.question_numb, user_answer:sessionStorage.userAnswer, score_old: score_old, score_new: score, tokenid: sessionStorage.token};
   // Salvar no banco de dados.
   logboardgamesService.save(log_answers);
-  
 }
 
 function setBoardGame(boardgame){
@@ -192,7 +197,7 @@ function getProfile(){
   }
   document.getElementById("nameUser").innerHTML = User.nickname;
   var avatar = User.avatar;
-  document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
+  document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
   document.getElementById("score_total").innerHTML = User.score;
   document.getElementById("score_round").innerHTML = sessionStorage.score_round;
   document.getElementById("level").innerHTML = sessionStorage.level;

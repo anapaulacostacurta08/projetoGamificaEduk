@@ -44,7 +44,7 @@ function setAtualQuiz(){
     let answered_quizzes = getAnsweredQuizzes();
     let quizString;
     let answerString;
-    let typeString;
+    let categoryString;
     let numbString;
     let quizAtual;
     //buscar as questões da sessão
@@ -55,7 +55,7 @@ function setAtualQuiz(){
       if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
         quizString = JSON.stringify(quiz);
         answerString = quiz.answer[0];
-        typeString = quiz.type;
+        categoryString = quiz.category;
         numbString = quiz.numb;
       }
     });
@@ -63,7 +63,7 @@ function setAtualQuiz(){
       sessionStorage.setItem('quiz', quizString);
       sessionStorage.setItem('answer',answerString);
       sessionStorage.setItem('question_numb',numbString);
-      sessionStorage.setItem('question_type',typeString);
+      sessionStorage.setItem('question_category',categoryString);
       quizAtual = JSON.parse(quizString);
       return quizAtual;
 }
