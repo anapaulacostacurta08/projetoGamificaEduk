@@ -21,10 +21,8 @@ function logout() {
   })
 }
 
-function sair(){
-  if (window.confirm("Você irá perder todo o histórico desta rodada! Tem certeza que deseja sair?")) {
-    window.location.href = "../home/home.html";
-  }
+function voltar(){
+  window.location.href = "../home/home.html";
 }
 
 function getBoardgame(){
