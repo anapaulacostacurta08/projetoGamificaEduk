@@ -20,9 +20,9 @@
   <script src="../../../services/questions.service.js"></script>
 </head>
 <body>
-  <div class="container-sm">
-    <header>
-      <nav class="navbar navbar-expand-sm">
+  <div class="container">
+    <div class="card card-container">
+      <header>
         <nav class="navbar navbar-expand-sm">
           <span id="profile" class="col-sm-3 text-center">
               <p>
@@ -41,37 +41,37 @@
               <span class="badge rounded-pill bg-info border border-2 border-dark p-2 m-1"><span id="score_round" class="badge bg-light text-dark border border-2 border-dark"></span>&nbsp;PONTOS NÍVEL</span>
           </span>
         </nav>
-      </nav>
-    </header>
-    <article>
-      <div class="container">
-        <div id="question-card">
-          <form id="question-form">
-            <!-- question Box -->
-            <div class="question_box">
-                <header>
-                <div class="timer">
-                    <div class="time_left_txt">Tempo Restante</div>
-                    <div class="timer_sec">15</div>
-                </div>
-                <div class="time_line"></div>
-                </header>
-                <section>
-                <div class="que_text">
-                    <!-- Here I've inserted question from JavaScript -->
-                </div>
-                <div class="option_list">
-                    <!-- Here I've inserted options from JavaScript -->
-                </div>
-                </section>
-            </div>
-            <button class="btn btn-success" type="submit">Enviar</button>
-          </form>
+      </header>
+      <article>
+        <div class="container">
+          <div id="question-card">
+            <form id="question-form">
+              <!-- question Box -->
+              <div class="question_box">
+                  <header>
+                  <div class="timer">
+                      <div class="time_left_txt">Tempo Restante</div>
+                      <div class="timer_sec">15</div>
+                  </div>
+                  <div class="time_line"></div>
+                  </header>
+                  <section>
+                  <div class="que_text">
+                      <!-- Here I've inserted question from JavaScript -->
+                  </div>
+                  <div class="option_list">
+                      <!-- Here I've inserted options from JavaScript -->
+                  </div>
+                  </section>
+              </div>
+              <button class="btn btn-success" type="submit">Enviar</button>
+            </form>
+          </div>
         </div>
-      </div>
-    </article>
-    <script src="../question.js"></script>
-    <script src="quiz.js"></script>
-  </div>
+      </article>
+      <script src="../question.js"></script>
+      <script src="quiz.js"></script>
+    </div>
+  </div>  
 </body>
 </html>
