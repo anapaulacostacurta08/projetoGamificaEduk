@@ -1,5 +1,9 @@
 sessionStorage.setItem('hasquiz',true);
 
+var user_UID = sessionStorage.userUid;
+var User = getUser();
+getProfile();
+
 let hasquiz;
 if (sessionStorage.hasquiz === undefined) {
   sessionStorage.setItem("hasquiz",true);
@@ -114,3 +118,22 @@ document.getElementById("question-form").addEventListener("submit", function(eve
     sessionStorage.removeItem('quiz');
     window.location.href = "../../play/menu.html";
   });
+
+  function getUser(){
+    let UserString = sessionStorage.User;
+    let User = JSON.parse(UserString);
+    console.log(User);
+    return User;
+  }
+  
+  function getProfile(){
+    if(User === undefined){
+        User = getUser();
+    }
+    document.getElementById("nameUser").innerHTML = User.nickname;
+    var avatar = User.avatar;
+    document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
+    document.getElementById("score_total").innerHTML = User.score;
+    document.getElementById("score_round").innerHTML = sessionStorage.score_round;
+    document.getElementById("level").innerHTML = sessionStorage.level;
+  }
