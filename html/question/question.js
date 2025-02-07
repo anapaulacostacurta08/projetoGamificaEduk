@@ -145,7 +145,7 @@ function startTimer(time) {
     if (time < 0) {
       //if timer is less than 0
       clearInterval(counter); //clear counter
-      timeText.textContent = "Intervalo"; //change the time text to time off
+      timeText.textContent = "Tempo Restante"; //change the time text to time off
       const allOptions = option_list.children.length; //getting all option items
       let correcAns = sessionStorage.answer; //getting correct answer from array
       for (i = 0; i < allOptions; i++) {
