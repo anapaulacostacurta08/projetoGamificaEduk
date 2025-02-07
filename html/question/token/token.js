@@ -20,16 +20,17 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
     event.preventDefault();
     // Captura os dados do formulário
     const tokenid = document.getElementById("tokenid").value;
+
         if(category == "quiz"){
             let pos_token = token_quiz.indexOf(tokenid);
-            let pos_token_used = tokens_quiz_used.indexOf(tokenid);
             if(!(tokens_quiz_used === "undefined")){
                     if(pos_token > -1){
                         tokenValidoQuiz();
                     }else{
                         tokenInvalido();
                     }
-            }else{       
+            }else{    
+                let pos_token_used = tokens_quiz_used.indexOf(tokenid);   
                 if (pos_token_used > -1){
                     tokenValidoQuiz
                 }else{
