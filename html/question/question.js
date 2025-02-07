@@ -116,8 +116,9 @@ function setScore(corret){
   players[count].push(array_tokens);
   sessionStorage.setItem("usedtokens_quiz",JSON.stringify(array_tokens));
 
-  boardgamesService.addPlayers(boardgameid, {players});
-  
+  boardgamesService.addPlayers(boardgameid, {players}).then(buscarBoardgame(boardgame.dados.boardgameid));
+  //atualizar o boargame da sessão
+
   //Atualizar o Score dos pontos do nível na Sessão
   sessionStorage.setItem("score_round",score);
 
@@ -287,4 +288,15 @@ if(quizString === undefined || quizString === "undefined"){
   console.log(quiz);
 }
 return quiz;
+}
+
+function buscarBoardgame(rodada_id){
+  boardgamesService.getBoardGameByRodadaID(rodada_id).then((boardgames) => {
+    boardgames.forEach(boardgame => {
+      let boardgame_id = boardgame.dados.boardgameid;
+      if(boardgame_id == rodada_id){
+        return setBoardGame(boardgame);
+      }
+    })
+  })
 }

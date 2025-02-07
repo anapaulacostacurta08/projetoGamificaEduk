@@ -94,6 +94,26 @@ const boardgamesService = {
     console.log(boardgames);
     return boardgams;
 },
+getBoardgamebyData: async (data) => {
+    const querySnapshot = await firebase.firestore().collection("boardgames")
+    .where('round_date','==', data)
+    .where('state','==','started')
+    .get();
+    console.log(querySnapshot);
+
+    if(querySnapshot.empty){
+        throw new Error("Tabuleiro não encontrador:" + boardgameid);
+    }
+    var boardgames = new Array();
+    querySnapshot.forEach(doc => {
+            var id = doc.id;
+            var dados = doc.data();
+            var boardgame = {id,dados};
+            boardgames.push(boardgame);
+    });
+    console.log(boardgames);
+    return boardgams;
+},
     remove: boardgames => {
         return firebase.firestore()
             .collection("boardgames")
