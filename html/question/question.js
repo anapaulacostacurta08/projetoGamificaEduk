@@ -107,12 +107,29 @@ function setScore(corret){
   
   //Salvar Score na variável
   players[count].score_round = score;
-  //Atualizar no banco de dados
+
+  //Atualizar os quiz respondidos
+  var array_answered = players[count].quiz_answered;
+  if(array_answered === undefined){
+    array_answered = new Array();
+  }
+  array_answered.push(sessionStorage.question_numb);
+  players[count].push(array_answered);
+
+  //Atualizar os tokens usados
+  var array_tokens = players[count].quiz_tokens;
+  if(array_tokens === undefined){
+    array_tokens= new Array();
+  }
+  array_tokens.push(sessionStorage.token);
+  players[count].push( array_tokens);
+
   boardgamesService.addPlayers(boardgameid, {players});
-  //Atualizar Sessão
+  
+  //Atualizar o Score dos pontos do nível na Sessão
   sessionStorage.setItem("score_round",score);
 
-  //Log da resposta
+  //gravar na Log as resposta selecionadas
   const boardgame_id = boardgame.dados.boardgameid;
   const level = boardgame.dados.level;
   const hora = (new Date()).toLocaleTimeString('pt-BR');

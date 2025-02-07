@@ -22,45 +22,26 @@
 <body>
   <div class="container">
     <div class="card card-container">
-      <header>
-        <nav class="navbar navbar-expand-sm">
-          <span id="profile" class="col-sm-3 text-center">
-              <p>
-                  <span id="avatarUser"></span>
-                  <br/>
-                  <span id="nameUser"></span>
-                  <br/>
-                  <span class="badge rounded-pill bg-primary border border-2 border-dark">NÍVEL &nbsp;&nbsp;
-                      <span id="level" class="badge bg-light text-dark border border-2 border-dark"></span>
-                  </span>
-              </p>
-          </span>
-          <span class="col-sm-5">&nbsp;&nbsp;</span>
-          <span id="coins" class="col-sm-3">
-              <span class="badge rounded-pill bg-primary border border-2 border-dark p-2 m-1"><span id="score_total" class="badge bg-light text-dark border border-2 border-dark"></span>&nbsp;AB@ COINS</span><br>
-              <span class="badge rounded-pill bg-info border border-2 border-dark p-2 m-1"><span id="score_round" class="badge bg-light text-dark border border-2 border-dark"></span>&nbsp;PONTOS NÍVEL</span>
-          </span>
-        </nav>
-      </header>
-      <article>
         <div class="container">
           <div id="question-card">
             <form id="question-form">
               <!-- question Box -->
               <div class="container">
-                  <div class="card card-container">
+                  <div class="card card-container m-1">
                     <div id="question_box">
-                      <header>
+                      <header class="d-flex justify-content-center">
                         <div class="timer card m-1 p-1 bg-primary" style="width:150px">
                             <div id="time_left_txt" class="bg-primary text-center m-1 p-1">Tempo Restante</div>
                             <div id="timer_sec" class="badge rounded-pill bg-warning m-1 p-1"">15</div>
                         </div>
                         <div id="time_line"></div>
                       </header>
+                      <hr class="colorgraph">
                       <section>
                           <div id="que_text"></div>
                           <div id="option_list"></div>
                       </section>
+                      <hr class="colorgraph">
                       <section class="d-flex flex-row-reverse">
                         <span class="btn-menu">   
                           <button class="badge bg-success p-2" type="submit">FECHAR</button>
