@@ -1,92 +1,6 @@
 
-/* Home - index.html */
- 
-
-
-/* END - Home - index.html */
-
-
-.quiz_box header {
-    position: relative;
-    z-index: 2;
-    height: 30px;
-    padding: 0 15px;
-    background: #fff;
-    border-radius: 2px 2px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.1);
-}
-
-.quiz_box header .title {
-    font-size: 10px;
-    font-weight: 600;
-}
-
-.quiz_box header .timer {
-    color: #004085;
-    background: #cce5ff;
-    border: 1px solid #b8daff;
-    height: 15px;
-    padding: 0 2px;
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 50px;
-}
-
-.quiz_box header .timer .time_left_txt {
-    font-weight: 400;
-    font-size: 10px;
-    user-select: none;
-}
-
-.quiz_box header .timer .timer_sec {
-    font-size: 10px;
-    font-weight: 500;
-    height: 30px;
-    width: 15px;
-    color: #fff;
-    border-radius: 2px;
-    line-height: 15px;
-    text-align: center;
-    background: #343a40;
-    border: 1px solid #343a40;
-    user-select: none;
-}
-
-.quiz_box header .time_line {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    height: 3px;
-    background: #007bff;
-}
-
-section {
-    padding: 5px 5px 5px 5px;
-    background: #fff;
-}
-
-section .que_text {
-    font-size: 10px;
-    font-weight: 600;
-}
-
-section .option_list {
-    padding: 2px 0px;
-    display: block;
-}
-
-section .option_list .option {
-    background: aliceblue;
-    border: 1px solid #84c5fe;
-    border-radius: 2px;
-    padding: 2px 2px;
+.option {
     font-size: 12px;
-    margin-bottom: 2px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -94,33 +8,28 @@ section .option_list .option {
     justify-content: space-between;
 }
 
-section .option_list .option:last-child {
-    margin-bottom: 0px;
-}
-
-section .option_list .option:hover {
+.option:hover {
     color: #004085;
     background: #cce5ff;
     border: 1px solid #b8daff;
 }
 
-section .option_list .option.correct {
+ .option.correct {
     color: #155724;
     background: #d4edda;
     border: 1px solid #c3e6cb;
 }
 
-section .option_list .option.incorrect {
+.option.incorrect {
     color: #721c24;
     background: #f8d7da;
     border: 1px solid #f5c6cb;
 }
-
-section .option_list .option.disabled {
+.option.disabled {
     pointer-events: none;
 }
 
-section .option_list .option .icon {
+.option .icon {
     height: 15px;
     width: 15px;
     border: 2px solid transparent;
@@ -131,14 +40,13 @@ section .option_list .option .icon {
     transition: all 0.3s ease;
     line-height: 12px;
 }
-
-.option_list .option .icon.tick {
+.icon.tick {
     color: #23903c;
     border-color: #23903c;
     background: #d4edda;
 }
 
-.option_list .option .icon.cross {
+.icon.cross {
     color: #a42834;
     background: #f8d7da;
     border-color: #a42834;
