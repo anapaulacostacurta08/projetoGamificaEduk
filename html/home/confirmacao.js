@@ -36,9 +36,9 @@ function logout() {
 }
 
 function getCurrentUser(user_UID){
-    if (sessionStorage.User === undefined) {
+    if (sessionStorage.User === undefined || sessionStorage.User === "undefined")  {
         return userService.findByUid(user_UID).then (user=>{
-            if(user === undefined){
+            if(user === undefined || user === "undefined"){
                 sessionStorage.setItem("profile_atualizar",true);
             }else{
                 sessionStorage.setItem("profile_atualizar",false);
@@ -58,7 +58,7 @@ function setUser(User){
 function getUser(){
     let userString = sessionStorage.User;
     let user;
-    if(!(userString === undefined)){
+    if(!(userString === undefined) || !(userString === "undefined"){
         user = JSON.parse(userString);
     }
     console.log(user);

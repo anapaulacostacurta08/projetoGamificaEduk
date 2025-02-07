@@ -37,7 +37,7 @@ function quiz() {
   window.location.href = "../question/token/token.html";
 }
 let hasquiz;
-if (sessionStorage.hasquiz === undefined) {
+if (sessionStorage.hasquiz === undefined || sessionStorage.hasquiz === "undefined") {
    sessionStorage.setItem("hasquiz",true);
 }else{
   if(sessionStorage.hasquiz == "true"){
@@ -60,7 +60,7 @@ function desafio() {
 }
 
 let haschallange;
-if (sessionStorage.haschallange === undefined) {
+if (sessionStorage.haschallange === undefined || sessionStorage.haschallange === "undefined") {
   sessionStorage.setItem("haschallange",true);
 }else{
   if(sessionStorage.haschallange == "true"){
@@ -82,7 +82,7 @@ function sorte() {
 }
 
 let hasluck;
-if (sessionStorage.hasluck === undefined) {
+if (sessionStorage.hasluck === undefined || sessionStorage.hasluck === "undefined") {
   sessionStorage.setItem("hasluck",true);
 }else{
   if(sessionStorage.hasluck == "true"){
@@ -114,7 +114,7 @@ function getUser(){
 }
 
 function getProfile(){
-  if(User === undefined){
+  if(User === undefined || User === "undefined"){
       User = getUser();
   }
   document.getElementById("nameUser").innerHTML = User.nickname;

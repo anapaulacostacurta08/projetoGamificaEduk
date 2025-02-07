@@ -6,7 +6,7 @@ const quiz = getAtualQuiz();
 var user_UID = sessionStorage.userUid;
 
 let hasquiz;
-if (sessionStorage.hasquiz === undefined) {
+if (sessionStorage.hasquiz === undefined || sessionStorage.hasquiz === "undefined") {
   sessionStorage.setItem("hasquiz",true);
 }else{
   if(sessionStorage.hasquiz == "true"){
@@ -23,7 +23,7 @@ if(hasquiz){
 function getQuizzes(){
     var quizzesString = sessionStorage.quizzes;
     var quizzes;
-    if (quizzesString  === undefined){
+    if (quizzesString  === undefined || quizzesString  === "undefined"){
       questionsService.getQuizzesByLevel(parseInt(sessionStorage.level),"quiz").then(questions =>{
         console.log(questions);
         setQuizzes(questions);
@@ -43,7 +43,7 @@ function setAtualQuiz(){
     let numbString;
     let quizAtual;
     //buscar as questões da sessão
-    if( quizzes === undefined){
+    if( quizzes === undefined || quizzes === "undefined")){
       quizzes = getQuizzes();
     }
     quizzes.forEach(quiz => {
@@ -75,7 +75,7 @@ function getAnsweredQuizzes(){
   // Get the stringified object from sessionStorage
   let answered_quizzesString = sessionStorage.answered_quizzes;
   let answered_quizzes;
-  if(answered_quizzesString === undefined){
+  if(answered_quizzesString === undefined || answered_quizzesString === "undefined"){
     var boardgame = getBoardgame();
     var players = boardgame.dados.players;
     players.forEach(player => {

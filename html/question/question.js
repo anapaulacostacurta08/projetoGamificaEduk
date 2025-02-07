@@ -104,7 +104,7 @@ function setScore(corret){
 
   //Atualizar os quiz respondidos
   var array_answered = players[count].quiz_answered;
-  if(array_answered === undefined){
+  if(array_answered === undefined || array_answered === "undefined"){
     array_answered = new Array();
   }
   array_answered.push(sessionStorage.question_numb);
@@ -113,7 +113,7 @@ function setScore(corret){
 
   //Atualizar os tokens usados
   var array_tokens = players[count].usedtokens_quiz;
-  if(array_tokens === undefined){
+  if(array_tokens === undefined || array_tokens === "undefined"){
     array_tokens= new Array();
   }
   array_tokens.push(sessionStorage.token_quiz);
@@ -203,7 +203,7 @@ function getUser(){
 }
 
 function getProfile(){
-  if(User === undefined){
+  if(User === undefined || User === "undefined"){
       User = getUser();
   }
   document.getElementById("nameUser").innerHTML = User.nickname;

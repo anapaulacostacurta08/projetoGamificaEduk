@@ -57,7 +57,7 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
 function getTokensQuiz(){
         var tokensString = sessionStorage.tokens_quiz;
         var tokens_quiz;
-        if (tokensString === undefined){
+        if (tokensString === undefined || tokensString === "undefined"){
             tokenService.getTokens().then(tokens => {
                 tokens.forEach(token => {
                     tokensString = JSON.stringify(token.quiz);
@@ -90,7 +90,7 @@ function getUser(){
   }
   
   function getProfile(){
-    if(User === undefined){
+    if(User === undefined || User === "undefined"){
         User = getUser();
     }
     document.getElementById("nameUser").innerHTML = User.nickname;
@@ -117,7 +117,7 @@ function getUsedTokensQuiz(){
     // Get the stringified object from sessionStorage
     let tokens_quizString = sessionStorage.usedtokens_quiz;
     let usedtokens_quiz;
-    if(tokens_quizString === undefined){
+    if(tokens_quizString === undefined || tokens_quizString === "undefined"){
       var boardgame = getBoardgame();
       var players = boardgame.dados.players;
       players.forEach(player => {

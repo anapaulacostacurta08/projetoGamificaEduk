@@ -19,7 +19,7 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
   let boardgame_level = boardgame.dados.level;
   var players = boardgame.dados.players;
   let score = 0;
-  if (players === undefined){
+  if (players === undefined || players === "undefined"){
     players = new Array();
     players[0] = {user_UID:user_UID,score_round:score};
     boardgamesService.addPlayers(boardgameid, {players});
@@ -69,9 +69,9 @@ function buscarBoardgame(rodada_id){
 
 function getBoardgame(rodada_id){
   let boardgameString = sessionStorage.boardgame;
-  if(boardgameString === undefined){
+  if(boardgameString === undefined || boardgameString === "undefined"){
     boardgameString = buscarBoardgame(rodada_id);
-    if (boardgame === undefined){
+    if (boardgame === undefined || boardgame === "undefined"){
       alert('Aconteceu um erro imprevisto e por esse motivo será necessário realizar a consulta novamente!');
     }
   }
@@ -101,7 +101,7 @@ function getUser(){
 }
 
 function getProfile(){
-  if(User === undefined){
+  if(User === undefined || User === "undefined"){
       User = getUser();
   }
   document.getElementById("nameUser").innerHTML = User.nickname;
