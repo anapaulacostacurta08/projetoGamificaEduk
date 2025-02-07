@@ -111,11 +111,11 @@ function setScore(corret){
   sessionStorage.setItem("score_round",score);
 
   //Log da resposta
-  const boardgame_id = boardgame.boardgameid;
-  const level = boardgame.level;
+  const boardgame_id = boardgame.dados.boardgameid;
+  const level = boardgame.dados.level;
   const hora = (new Date()).toLocaleTimeString('pt-BR');
   const data = (new Date()).toLocaleDateString('pt-BR');
-  var log_answers = {user_UID: user_UID, data: data, hora: hora, level: level, boardgame_id: boardgame_id, category: sessionStorage.question_category, question_numb:sessionStorage.question_numb, user_answer:sessionStorage.userAnswer, score_old: score_old, score_new: score, tokenid: sessionStorage.token};
+  var log_answers = {user_UID: user_UID, data: data, hora: hora, level: level, boardgameid: boardgameid, rodada_id: boardgame_id, category: sessionStorage.question_category, question_numb:sessionStorage.question_numb, user_answer:sessionStorage.userAnswer, score_old: score_old, score_new: score, tokenid: sessionStorage.token};
   // Salvar no banco de dados.
   logboardgamesService.save(log_answers);
 }
