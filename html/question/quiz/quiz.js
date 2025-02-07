@@ -36,7 +36,7 @@ function getQuizzes(){
 
 function setAtualQuiz(){
     let answered_quizzes = getAnsweredQuizzes();
-    if(answered_quizzes === "answered_quizzes"){
+    if(answered_quizzes === undefined || answered_quizzes === "undefined"){
       answered_quizzes = new Array();
     }
     let quizString;
