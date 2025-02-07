@@ -12,8 +12,7 @@ const boardgame = getBoardgame();
 var quizzes = getQuizzes();
 const quiz = getAtualQuiz();
 
-
-function quiz() {
+function btnQuiz() {
   sessionStorage.setItem("question_category","quiz");
   window.location.href = "../question/token/token.html";
 }
@@ -35,7 +34,7 @@ function existsQuiz(){
   }
 }
 
-function desafio() {
+function btnDesafio() {
   sessionStorage.setItem("question_category","challange");
   window.location.href = "../question/token/token.html";
 }
@@ -59,7 +58,7 @@ function existsChallange(){
 }
 
 
-function sorte() {
+function btnSorte() {
   sessionStorage.setItem("question_category","luck");
   window.location.href = "../question/token/token.html";
 }
@@ -81,11 +80,11 @@ function existsLuck(){
   }
 }
 
-function extra(){
+function btnExtra(){
   window.location.href = "../extra/extra.html";
 }
 
-function quizfinal(){
+function btnQuizfinal(){
   sessionStorage.setItem("question_category","quiz_final");
   window.location.href = "../question/token/token.html";
 }
@@ -118,6 +117,6 @@ function logout() {
   })
 }
 
-function voltar(){
+function btnVoltar(){
   window.location.href = "../home/home.html";
 }
