@@ -25,18 +25,18 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
             let pos_token = token_quiz.indexOf(tokenid);
             if(!(tokens_quiz_used === "undefined")){
                     if(pos_token > -1){
-                        tokenValidoQuiz(true);
+                        tokenValidoQuiz(tokenid,true);
                     }else{
                         tokenInvalido();
                     }
             }else{    
                 let pos_token_used = tokens_quiz_used.indexOf(tokenid);   
                 if (pos_token_used > -1){
-                    tokenValidoQuiz(false);
+                    tokenValidoQuiz(tokenid, false);
                 }else{
                     let pos_token = token_quiz.indexOf(tokenid);
                     if(pos_token > -1){
-                        tokenValidoQuiz(true);
+                        tokenValidoQuiz(tokenid,true);
                     }else{
                         tokenInvalido();
                     }
