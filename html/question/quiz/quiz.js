@@ -108,6 +108,8 @@ document.getElementById("question-form").addEventListener("submit", function(eve
    let answered_quizzes = getAnsweredQuizzes();
    answered_quizzes.push(quiz.numb);
    sessionStorage.setItem('answered_quizzes', JSON.stringify(answered_quizzes));
+   //Melhoria Gravar na base de dados os tokens e quizzes respondidos
+    
    //limpar token da sessão e quiz atual 
     
     sessionStorage.removeItem('token');

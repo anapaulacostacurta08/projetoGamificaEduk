@@ -8,6 +8,7 @@ const option_list = document.getElementById("option_list");
 const timeText = document.getElementById("time_left_txt");
 //const timeCount = document.querySelector(".timer .timer_sec");
 const timeCount = document.getElementById("timer_sec");
+
 var user_UID = sessionStorage.userUid;
 var User = getUser();
 getProfile();
@@ -55,19 +56,19 @@ let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 //if user clicked on option
 function optionSelected(answer) {
   let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
-  let correcAns =  sessionStorage.answer;   
+  let correcAns =  sessionStorage.answer;
+  let correct;
   const allOptions = option_list.children.length; //getting all option items
   sessionStorage.setItem("userAnswer",userAns);
-
   if (userAns == correcAns) {
     answer.classList.add("correct"); //adding green color to correct selected option
     answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
-    setScore(true);
+    correct = true;
   } else {
     answer.classList.add("incorrect"); //adding red color to correct selected option
     answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
     console.log("Wrong Answer");
-    setScore(false);
+    correct = false;
     for (i = 0; i < allOptions; i++) {
       if (option_list.children[i].textContent == correcAns) {
         //if there is an option which is matched to an array answer
@@ -80,6 +81,7 @@ function optionSelected(answer) {
   for (i = 0; i < allOptions; i++) {
     option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
   }
+  setScore(correct);
 }
 
 function setScore(corret){
