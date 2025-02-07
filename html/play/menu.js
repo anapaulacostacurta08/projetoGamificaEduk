@@ -4,75 +4,58 @@ firebase.auth().onAuthStateChanged( (user) => {
       window.location.href = "../login/login.html";
   }
 })
+
 var user_UID = sessionStorage.userUid;
 var User = getUser();
 getProfile();
-
 const boardgame = getBoardgame();
+var quizzes = getQuizzes();
+const quiz = getAtualQuiz();
 
-
-
-function logout() {
-  firebase.auth().signOut().then(() => {
-      sessionStorage.clear();
-      window.location.href = "../home/home.html";
-  }).catch(() => {
-      alert('Erro ao fazer logout');
-  })
-}
-
-function voltar(){
-  window.location.href = "../home/home.html";
-}
-
-function getBoardgame(){
-  let boardgameString = sessionStorage.boardgame;
-  let boardgame = JSON.parse(boardgameString);
-  console.log(boardgame);
-  return boardgame;
-}
 
 function quiz() {
   sessionStorage.setItem("question_category","quiz");
   window.location.href = "../question/token/token.html";
 }
-let hasquiz;
-if (sessionStorage.hasquiz === undefined || sessionStorage.hasquiz === "undefined") {
-   sessionStorage.setItem("hasquiz",true);
-}else{
-  if(sessionStorage.hasquiz == "true"){
-    hasquiz = true;
+
+function existsQuiz(){
+  let hasquiz;
+  if (sessionStorage.hasquiz === undefined || sessionStorage.hasquiz === "undefined") {
+    sessionStorage.setItem("hasquiz",true);
   }else{
-    hasquiz = false;
+    if(sessionStorage.hasquiz == "true"){
+      hasquiz = true;
+    }else{
+      hasquiz = false;
+    }
+  }
+  if(!hasquiz){
+    //Não tem mais Quiz para apresentar desativa o botão
+    document.getElementById("AppQuiz").disabled = true;
   }
 }
-
-if(!hasquiz){
-  //Não tem mais Quiz para apresentar desativa o botão
-   document.getElementById("AppQuiz").disabled = true;
-}
-
-
 
 function desafio() {
   sessionStorage.setItem("question_category","challange");
   window.location.href = "../question/token/token.html";
 }
 
-let haschallange;
-if (sessionStorage.haschallange === undefined || sessionStorage.haschallange === "undefined") {
-  sessionStorage.setItem("haschallange",true);
-}else{
-  if(sessionStorage.haschallange == "true"){
-    haschallange = true;
+function existsChallange(){
+  let haschallange;
+  if (sessionStorage.haschallange === undefined || sessionStorage.haschallange === "undefined") {
+    sessionStorage.setItem("haschallange",true);
   }else{
-    haschallange = false;
+    if(sessionStorage.haschallange == "true"){
+      haschallange = true;
+    }else{
+      haschallange = false;
+    }
   }
-}
 
-if(!haschallange){
-  //Não tem mais Quiz para apresentar desativa o botão
-  document.getElementById("AppDesafio").disabled = true;
+  if(!haschallange){
+    //Não tem mais Quiz para apresentar desativa o botão
+    document.getElementById("AppDesafio").disabled = true;
+  }
 }
 
 
@@ -81,20 +64,21 @@ function sorte() {
   window.location.href = "../question/token/token.html";
 }
 
-let hasluck;
-if (sessionStorage.hasluck === undefined || sessionStorage.hasluck === "undefined") {
-  sessionStorage.setItem("hasluck",true);
-}else{
-  if(sessionStorage.hasluck == "true"){
-    hasluck = true;
+function existsLuck(){
+  let hasluck;
+  if (sessionStorage.hasluck === undefined || sessionStorage.hasluck === "undefined") {
+    sessionStorage.setItem("hasluck",true);
   }else{
-    hasluck = false;
+    if(sessionStorage.hasluck == "true"){
+      hasluck = true;
+    }else{
+      hasluck = false;
+    }
   }
-}
-
-if(!hasluck){
-  //Não tem mais Quiz para apresentar desativa o botão
-  document.getElementById("AppSorte").disabled = true;
+  if(!hasluck){
+    //Não tem mais Quiz para apresentar desativa o botão
+    document.getElementById("AppSorte").disabled = true;
+  }
 }
 
 function extra(){
@@ -123,4 +107,17 @@ function getProfile(){
   document.getElementById("score_total").innerHTML = User.score;
   document.getElementById("score_round").innerHTML = sessionStorage.score_round;
   document.getElementById("level").innerHTML = sessionStorage.level;
+}
+
+function logout() {
+  firebase.auth().signOut().then(() => {
+      sessionStorage.clear();
+      window.location.href = "../home/home.html";
+  }).catch(() => {
+      alert('Erro ao fazer logout');
+  })
+}
+
+function voltar(){
+  window.location.href = "../home/home.html";
 }

@@ -12,9 +12,6 @@ const timeCount = document.getElementById("timer_sec");
 var user_UID = sessionStorage.userUid;
 var User = getUser();
 
-const boardgame = getBoardgame();
-
-
 function showQuestion(question){
   //creating a new span and div tag for question and option and passing the value using array index
   let que_tag = '<span class="fw-bold">' +  question.numb +".</span>"+'<span class="fw-bold">' +  question.text +"</span>";
@@ -199,4 +196,95 @@ function getUser(){
   let User = JSON.parse(UserString);
   console.log(User);
   return User;
+}
+
+function getAnsweredQuizzes(){
+  // Get the stringified object from sessionStorage
+  let answered_quizzesString = sessionStorage.answered_quizzes;
+  let answered_quizzes;
+  if(answered_quizzesString === undefined || answered_quizzesString === "undefined"){
+    var boardgame = getBoardgame();
+    var players = boardgame.dados.players;
+    players.forEach(player => {
+      if(player.user_UID == user_UID){
+        answered_quizzes = player.answered_quizzes;
+        sessionStorage.setItem('answered_quizzes', JSON.stringify(answered_quizzes));
+      }
+    })
+  }else{
+    // Parse the string back into an object
+    answered_quizzes = JSON.parse(answered_quizzesString);
+    console.log(answered_quizzes);
+  }
+  return answered_quizzes;
+}
+
+function getQuizzes(){
+  var quizzesString = sessionStorage.quizzes;
+  var quizzes;
+  if (quizzesString  === undefined || quizzesString  === "undefined"){
+    questionsService.getQuizzesByLevel(parseInt(sessionStorage.level),"quiz").then(questions =>{
+      console.log(questions);
+      setQuizzes(questions);
+    });
+  }else{
+    quizzes = JSON.parse(quizzesString);
+    console.log(quizzes);
+  }
+  return quizzes;
+}
+
+function setAtualQuiz(){
+  let answered_quizzes = getAnsweredQuizzes();
+  if(answered_quizzes === undefined || answered_quizzes === "undefined"){
+    answered_quizzes = new Array();
+  }
+  let quizString;
+  let answerString;
+  let categoryString;
+  let numbString;
+  let quizAtual;
+  //buscar as questões da sessão
+  if( quizzes === undefined || quizzes === "undefined"){
+    quizzes = getQuizzes();
+  }
+  quizzes.forEach(quiz => {
+    if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
+      quizString = JSON.stringify(quiz);
+      answerString = quiz.answer[0];
+      categoryString = quiz.category;
+      numbString = quiz.numb;
+    }
+  });
+  //Coloca quiz atual na sessão.
+    sessionStorage.setItem('quiz', quizString);
+    sessionStorage.setItem('answer',answerString);
+    sessionStorage.setItem('question_numb',numbString);
+    sessionStorage.setItem('question_category',categoryString);
+    quizAtual = JSON.parse(quizString);
+    return quizAtual;
+}
+
+function setQuizzes(questions){
+  // Convert the user object into a string
+  let quizzesString = JSON.stringify(questions);
+  // Store the stringified object in sessionStorage
+  sessionStorage.setItem('quizzes', quizzesString);
+  //sessionStorage.setItem('answered_quizzes', JSON.stringify(new Array()));
+}
+
+function getAtualQuiz(){
+let quizString = sessionStorage.quiz;
+let quiz;
+if (quizString === undefined || quizString === "undefined"){
+  quizString = setAtualQuiz();
+}
+if(quizString === undefined || quizString === "undefined"){
+  sessionStorage.setItem('hasquiz',false);
+}else {
+  sessionStorage.setItem('hasquiz',true);
+  quiz = JSON.parse(quizString);
+  console.log(quiz);
+}
+return quiz;
 }
