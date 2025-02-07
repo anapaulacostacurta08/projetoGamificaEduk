@@ -11,7 +11,6 @@ const timeCount = document.getElementById("timer_sec");
 
 var user_UID = sessionStorage.userUid;
 var User = getUser();
-getProfile();
 
 const boardgame = getBoardgame();
 
