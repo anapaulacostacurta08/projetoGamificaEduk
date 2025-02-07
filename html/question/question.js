@@ -201,15 +201,3 @@ function getUser(){
   console.log(User);
   return User;
 }
-
-function getProfile(){
-  if(User === undefined || User === "undefined"){
-      User = getUser();
-  }
-  document.getElementById("nameUser").innerHTML = User.nickname;
-  var avatar = User.avatar;
-  document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
-  document.getElementById("score_total").innerHTML = User.score;
-  document.getElementById("score_round").innerHTML = sessionStorage.score_round;
-  document.getElementById("level").innerHTML = sessionStorage.level;
-}
