@@ -36,6 +36,9 @@ function getQuizzes(){
 
 function setAtualQuiz(){
     let answered_quizzes = getAnsweredQuizzes();
+    if(answered_quizzes === "answered_quizzes"){
+      answered_quizzes = new Array();
+    }
     let quizString;
     let answerString;
     let categoryString;
