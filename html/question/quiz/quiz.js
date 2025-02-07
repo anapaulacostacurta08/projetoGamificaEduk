@@ -1,5 +1,4 @@
 sessionStorage.setItem('hasquiz',true);
-const boardgame = getBoardgame();
 //Buscar quiz e colocar na sessão;
 var quizzes = getQuizzes();
 const quiz = getAtualQuiz();
@@ -114,11 +113,5 @@ function fechar(){
     window.location.href = "../../play/menu.html";
 }
 
-function getBoardgame(){
-  let boardgameString = sessionStorage.boardgame;
-  let boardgame = JSON.parse(boardgameString);
-  console.log(boardgame);
-  return boardgame;
-}
 
   
