@@ -64,5 +64,3 @@ function getUser(){
     console.log(user);
     return user;
 }
-
-
