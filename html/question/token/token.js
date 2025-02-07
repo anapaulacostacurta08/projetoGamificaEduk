@@ -12,7 +12,7 @@ var boardgame = getBoardgame;
 
 const category = sessionStorage.question_category;
 
-var token_quiz = getTokensQuiz();
+var tokens_quiz = getTokensQuiz();
 var tokens_quiz_used = getUsedTokensQuiz();
 
 // Captura o evento de envio do formulário
@@ -22,7 +22,7 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
     const tokenid = document.getElementById("tokenid").value;
 
         if(category == "quiz"){
-            let pos_token = token_quiz.indexOf(tokenid);
+            let pos_token = tokens_quiz.indexOf(tokenid);
             if(!(tokens_quiz_used === "undefined")){
                     if(pos_token > -1){
                         tokenValidoQuiz(tokenid,true);
