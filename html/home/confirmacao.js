@@ -58,7 +58,7 @@ function setUser(User){
 function getUser(){
     let userString = sessionStorage.User;
     let user;
-    if(!(userString === undefined) || !(userString === "undefined"){
+    if(!(userString === undefined) || !(userString === "undefined")){
         user = JSON.parse(userString);
     }
     console.log(user);

@@ -20,25 +20,27 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
     event.preventDefault();
     // Captura os dados do formulário
     const tokenid = document.getElementById("tokenid").value;
-    
         if(category == "quiz"){
-            let pos_token_used = tokens_quiz_used.indexOf(tokenid);        
-            if (pos_token_used > -1){
-                alert("Token Válido!");
-                sessionStorage.setItem("token_quiz",tokenid); // Manter o token durante a resposta da pergunta
-                window.location.href = "../quiz/quiz.html";
-            }else{
-                let pos_token = token_quiz.indexOf(tokenid);
-                if(pos_token > -1){
-                    alert("Token Válido!");
-                    sessionStorage.setItem("token_quiz",tokenid); // Manter o token durante a resposta da pergunta
-                    setTokensQuiz(tokenid);
-                    window.location.href = "../quiz/quiz.html";
+            let pos_token = token_quiz.indexOf(tokenid);
+            let pos_token_used = tokens_quiz_used.indexOf(tokenid);
+            if(!(tokens_quiz_used === "undefined")){
+                    if(pos_token > -1){
+                        tokenValidoQuiz();
+                    }else{
+                        tokenInvalido();
+                    }
+            }else{       
+                if (pos_token_used > -1){
+                    tokenValidoQuiz
                 }else{
-                    alert("Token inválido!");
-                    window.location.href = "../../play/menu.html";
+                    let pos_token = token_quiz.indexOf(tokenid);
+                    if(pos_token > -1){
+                        tokenValidoQuiz();
+                    }else{
+                        tokenInvalido();
+                    }
                 }
-            }
+            }     
         }
         if(category == "challange"){
             window.location.href = "../challange/challange.html";
@@ -49,10 +51,21 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
         if(category == "quiz_final"){
             window.location.href = "../final/final.html";
         }
-    
-    
 });
 
+function tokenInvalido(){
+    alert("Token inválido!");
+    window.location.href = "../../play/menu.html";
+}
+
+function tokenValidoQuiz(tokenid,remove){
+    alert("Token Válido!");
+    sessionStorage.setItem("token_quiz",tokenid); // Manter o token durante a resposta da pergunta
+    if(remove){
+        setTokensQuiz(tokenid);
+    }
+    window.location.href = "../quiz/quiz.html";
+}
 
 function getTokensQuiz(){
         var tokensString = sessionStorage.tokens_quiz;

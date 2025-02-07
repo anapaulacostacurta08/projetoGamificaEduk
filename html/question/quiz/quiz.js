@@ -43,7 +43,7 @@ function setAtualQuiz(){
     let numbString;
     let quizAtual;
     //buscar as questões da sessão
-    if( quizzes === undefined || quizzes === "undefined")){
+    if( quizzes === undefined || quizzes === "undefined"){
       quizzes = getQuizzes();
     }
     quizzes.forEach(quiz => {
