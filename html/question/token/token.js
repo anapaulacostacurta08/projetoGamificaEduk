@@ -8,11 +8,12 @@ firebase.auth().onAuthStateChanged( (user) => {
 var user_UID = sessionStorage.userUid;
 var User = getUser();
 getProfile();
-
+var boardgame = getBoardgame;
 
 const category = sessionStorage.question_category;
 
-var tokens = getTokens(category);
+var token_quiz = getTokensQuiz();
+var tokens_quiz_used = getUsedTokensQuiz();
 
 // Captura o evento de envio do formulário
 document.getElementById("play-form").addEventListener("submit", function(event) {
@@ -21,15 +22,22 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
     const tokenid = document.getElementById("tokenid").value;
     
         if(category == "quiz"){
-            let pos_token = tokens.indexOf(tokenid);
-            if ( pos_token > -1){
+            let pos_token_used = tokens_quiz_used.indexOf(tokenid);        
+            if (pos_token_used > -1){
                 alert("Token Válido!");
-                sessionStorage.setItem("token",tokenid); // Manter o token durante a resposta da pergunta
-                setTokens(tokens, tokenid);//removendo apenas da sessão o token utilizado.
+                sessionStorage.setItem("token_quiz",tokenid); // Manter o token durante a resposta da pergunta
                 window.location.href = "../quiz/quiz.html";
             }else{
-                alert("Token inválido!");
-                window.location.href = "../../play/menu.html";
+                let pos_token = token_quiz.indexOf(tokenid);
+                if(pos_token > -1){
+                    alert("Token Válido!");
+                    sessionStorage.setItem("token_quiz",tokenid); // Manter o token durante a resposta da pergunta
+                    setTokensQuiz(tokenid);
+                    window.location.href = "../quiz/quiz.html";
+                }else{
+                    alert("Token inválido!");
+                    window.location.href = "../../play/menu.html";
+                }
             }
         }
         if(category == "challange"){
@@ -43,38 +51,26 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
         }
     
     
-    });
+});
 
 
-function getTokens(){
-    var tokensString = sessionStorage.tokens;
-    var tokens;
-    if (tokensString === undefined){
-        tokenService.getTokens().then(tokens => {
-            tokens.forEach(token => {
-                tokensString = JSON.stringify(token.quiz);
-                // Store the stringified object in sessionStorage
-                sessionStorage.setItem('tokens', tokensString);
+function getTokensQuiz(){
+        var tokensString = sessionStorage.tokens_quiz;
+        var tokens_quiz;
+        if (tokensString === undefined){
+            tokenService.getTokens().then(tokens => {
+                tokens.forEach(token => {
+                    tokensString = JSON.stringify(token.quiz);
+                    // Store the stringified object in sessionStorage
+                    sessionStorage.setItem('tokens_quiz', tokensString);
+                });
             });
-        });
-    }else{
-        // Convert the user object into a string
-        tokens = JSON.parse(tokensString);
-    }
-    return tokens;
+        }else{
+            // Convert the user object into a string
+            tokens_quiz = JSON.parse(tokensString);
+        }
+        return tokens_quiz;
 }
-
-
-function setTokens(tokens, tokenid){
-  // Convert the user object into a string
-  let removetoken = tokens.splice(tokens.indexOf(tokenid),1);
-  console.log(removetoken);
-  let tokensString = JSON.stringify(tokens);
-  // Store the stringified object in sessionStorage
-  console.log(tokensString);
-  sessionStorage.setItem('tokens', tokensString);
-}
-
 
 function logout() {
     firebase.auth().signOut().then(() => {
@@ -107,4 +103,43 @@ function getUser(){
 
   function voltar(){
     window.location.href = "../../play/menu.html";
+  }
+
+  
+function getBoardgame(){
+    let boardgameString = sessionStorage.boardgame;
+    let boardgame = JSON.parse(boardgameString);
+    console.log(boardgame);
+    return boardgame;
+}
+
+function getUsedTokensQuiz(){
+    // Get the stringified object from sessionStorage
+    let tokens_quizString = sessionStorage.usedtokens_quiz;
+    let usedtokens_quiz;
+    if(tokens_quizString === undefined){
+      var boardgame = getBoardgame();
+      var players = boardgame.dados.players;
+      players.forEach(player => {
+        if(player.user_UID == user_UID){
+          usedtokens_quiz = player.usedtokens_quiz;
+          sessionStorage.setItem('usedtokens_quiz', JSON.stringify(usedtokens_quiz));
+        }
+      })
+    }else{
+      // Parse the string back into an object
+      usedtokens_quiz = JSON.parse(tokens_quizString);
+      console.log(usedtokens_quiz);
+    }
+    return usedtokens_quiz;
+}
+
+function setTokensQuiz(tokenid){
+    // Convert the user object into a string
+    let removetoken = tokens_quiz.splice(tokens_quiz.indexOf(tokenid),1);
+    console.log(removetoken);
+    let tokensString = JSON.stringify(tokens_quiz);
+    // Store the stringified object in sessionStorage
+    console.log(tokensString);
+    sessionStorage.setItem('tokens_quiz', tokensString);
   }

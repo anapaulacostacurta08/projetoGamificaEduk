@@ -15,12 +15,6 @@ getProfile();
 
 const boardgame = getBoardgame();
 
-function getBoardgame(){
-  let boardgameString = sessionStorage.boardgame;
-  let boardgame = JSON.parse(boardgameString);
-  console.log(boardgame);
-  return boardgame;
-}
 
 function showQuestion(question){
   //creating a new span and div tag for question and option and passing the value using array index
@@ -115,14 +109,16 @@ function setScore(corret){
   }
   array_answered.push(sessionStorage.question_numb);
   players[count].push(array_answered);
+  sessionStorage.setItem("answered_quizzes",JSON.stringify(array_answered));
 
   //Atualizar os tokens usados
-  var array_tokens = players[count].quiz_tokens;
+  var array_tokens = players[count].usedtokens_quiz;
   if(array_tokens === undefined){
     array_tokens= new Array();
   }
-  array_tokens.push(sessionStorage.token);
-  players[count].push( array_tokens);
+  array_tokens.push(sessionStorage.token_quiz);
+  players[count].push(array_tokens);
+  sessionStorage.setItem("usedtokens_quiz",JSON.stringify(array_tokens));
 
   boardgamesService.addPlayers(boardgameid, {players});
   
@@ -134,14 +130,9 @@ function setScore(corret){
   const level = boardgame.dados.level;
   const hora = (new Date()).toLocaleTimeString('pt-BR');
   const data = (new Date()).toLocaleDateString('pt-BR');
-  var log_answers = {user_UID: user_UID, data: data, hora: hora, level: level, boardgameid: boardgameid, rodada_id: boardgame_id, category: sessionStorage.question_category, question_numb:sessionStorage.question_numb, user_answer:sessionStorage.userAnswer, score_old: score_old, score_new: score, tokenid: sessionStorage.token};
+  var log_answers = {user_UID: user_UID, data: data, hora: hora, level: level, boardgameid: boardgameid, rodada_id: boardgame_id, category: sessionStorage.question_category, question_numb:sessionStorage.question_numb, user_answer:sessionStorage.userAnswer, score_old: score_old, score_new: score, tokenid: sessionStorage.sessionStorage.token_quiz};
   // Salvar no banco de dados.
   logboardgamesService.save(log_answers);
-}
-
-function setBoardGame(boardgame){
-  let boardgameString = JSON.stringify(boardgame);
-  sessionStorage.setItem('boardgame', boardgameString);
 }
 
 function getBoardgame(){
@@ -150,6 +141,7 @@ function getBoardgame(){
   console.log(boardgame);
   return boardgame;
 }
+
 
 function startTimer(time) {
   counter = setInterval(timer, 1000);

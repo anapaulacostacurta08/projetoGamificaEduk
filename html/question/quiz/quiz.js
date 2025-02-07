@@ -1,4 +1,9 @@
 sessionStorage.setItem('hasquiz',true);
+const boardgame = getBoardgame();
+//Buscar quiz e colocar na sessão;
+var quizzes = getQuizzes();
+const quiz = getAtualQuiz();
+var user_UID = sessionStorage.userUid;
 
 let hasquiz;
 if (sessionStorage.hasquiz === undefined) {
@@ -10,19 +15,9 @@ if (sessionStorage.hasquiz === undefined) {
     hasquiz = false;
   }
 }
-//Buscar quiz e colocar na sessão;
-var quizzes = getQuizzes();
-
-const quiz = getAtualQuiz();
-
 if(hasquiz){
     showQuestion(quiz);
     startTimer(15);
-}else{
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('quiz');
-    sessionStorage.removeItem('answer');
-    window.location.href = "../../play/menu.html";
 }
 
 function getQuizzes(){
@@ -73,15 +68,27 @@ function setQuizzes(questions){
     let quizzesString = JSON.stringify(questions);
     // Store the stringified object in sessionStorage
     sessionStorage.setItem('quizzes', quizzesString);
-    sessionStorage.setItem('answered_quizzes', JSON.stringify(new Array()));
+    //sessionStorage.setItem('answered_quizzes', JSON.stringify(new Array()));
 }
 
 function getAnsweredQuizzes(){
   // Get the stringified object from sessionStorage
   let answered_quizzesString = sessionStorage.answered_quizzes;
+  let answered_quizzes;
+  if(answered_quizzesString === undefined){
+    var boardgame = getBoardgame();
+    var players = boardgame.dados.players;
+    players.forEach(player => {
+      if(player.user_UID == user_UID){
+        answered_quizzes = player.answered_quizzes;
+        sessionStorage.setItem('answered_quizzes', JSON.stringify(answered_quizzes));
+      }
+    })
+  }else{
     // Parse the string back into an object
-  let answered_quizzes = JSON.parse(answered_quizzesString);
-  console.log(answered_quizzes);
+    answered_quizzes = JSON.parse(answered_quizzesString);
+    console.log(answered_quizzes);
+  }
   return answered_quizzes;
 }
 
@@ -101,20 +108,17 @@ function getAtualQuiz(){
   return quiz;
 }
 
-document.getElementById("question-form").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-  //Atualizar Quiz respondido na sessão
-   let answered_quizzes = getAnsweredQuizzes();
-   answered_quizzes.push(quiz.numb);
-   sessionStorage.setItem('answered_quizzes', JSON.stringify(answered_quizzes));
-   //Melhoria Gravar na base de dados os tokens e quizzes respondidos
-    
-   //limpar token da sessão e quiz atual 
-    
-    sessionStorage.removeItem('token');
+function fechar(){
+    sessionStorage.removeItem('token_quiz');
     sessionStorage.removeItem('quiz');
     window.location.href = "../../play/menu.html";
-  });
+}
+
+function getBoardgame(){
+  let boardgameString = sessionStorage.boardgame;
+  let boardgame = JSON.parse(boardgameString);
+  console.log(boardgame);
+  return boardgame;
+}
 
   
