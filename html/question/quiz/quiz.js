@@ -234,4 +234,24 @@ function setAtualQuiz(){
   }
   return quizAtual;
 }
-  
+
+function getAnsweredQuizzes(){
+  // Get the stringified object from sessionStorage
+  let answered_quizzesString = sessionStorage.answered_quizzes;
+  let answered_quizzes;
+  if(answered_quizzesString === undefined || answered_quizzesString === "undefined"){
+    var boardgame = getBoardgame();
+    var players = boardgame.dados.players;
+    players.forEach(player => {
+      if(player.user_UID == user_UID){
+        answered_quizzes = player.answered_quizzes;
+        sessionStorage.setItem('answered_quizzes', JSON.stringify(answered_quizzes));
+      }
+    })
+  }else{
+    // Parse the string back into an object
+    answered_quizzes = JSON.parse(answered_quizzesString);
+    console.log(answered_quizzes);
+  }
+  return answered_quizzes;
+}
