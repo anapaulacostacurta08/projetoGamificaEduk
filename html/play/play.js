@@ -82,7 +82,7 @@ function getBoardgame(rodada_id){
   let tBoardgame;
   if(!(boardgamesToday === undefined) || !(boardgamesToday === "undefined")){
     boardgamesToday.forEach(boardgame => {
-      if(boardgame.dados.boardgame_id == rodada_id){
+      if(boardgame.dados.boardgameid == rodada_id){
         setBoardGame(boardgame);
         tBoardgame = boardgame;
       }
