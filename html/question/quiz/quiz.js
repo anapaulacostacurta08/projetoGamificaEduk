@@ -5,7 +5,7 @@ const timeText = document.getElementById("time_left_txt");
 const timeCount = document.getElementById("timer_sec");
 
 //Buscar quiz e colocar na sessão;
-var user_UID = sessionStorage.userUid;
+
 var quiz = getAtualQuiz();
 showQuestion(quiz);
 startTimer(15);
@@ -261,4 +261,27 @@ function getBoardgame(){
   let boardgame = JSON.parse(boardgameString);
   console.log(boardgame);
   return boardgame;
+}
+
+function getQuizzes(){
+  var quizzesString = sessionStorage.quizzes;
+  var quizzes;
+  if (quizzesString  === undefined || quizzesString  === "undefined"){
+    questionsService.getQuizzesByLevel(parseInt(sessionStorage.level),"quiz").then(questions =>{
+      console.log(questions);
+      setQuizzes(questions);
+    });
+  }else{
+    quizzes = JSON.parse(quizzesString);
+    console.log(quizzes);
+  }
+  return quizzes;
+}
+
+function setQuizzes(questions){
+  // Convert the user object into a string
+  let quizzesString = JSON.stringify(questions);
+  // Store the stringified object in sessionStorage
+  sessionStorage.setItem('quizzes', quizzesString);
+  //sessionStorage.setItem('answered_quizzes', JSON.stringify(new Array()));
 }

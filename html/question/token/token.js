@@ -5,14 +5,11 @@ firebase.auth().onAuthStateChanged( (user) => {
     }
 })
 
-var user_UID = sessionStorage.userUid;
-var User = getUser();
 getProfile();
 var boardgame = getBoardgame;
 
 const category = sessionStorage.question_category;
 
-var tokens_quiz = getTokensQuiz();
 var tokens_quiz_used = getUsedTokensQuiz();
 
 // Captura o evento de envio do formulário
@@ -68,23 +65,6 @@ function tokenValidoQuiz(tokenid,remove){
     window.location.href = "../quiz/quiz.html";
 }
 
-function getTokensQuiz(){
-        var tokensString = sessionStorage.tokens_quiz;
-        var tokens_quiz;
-        if (tokensString === undefined || tokensString === "undefined"){
-            tokenService.getTokens().then(tokens => {
-                tokens.forEach(token => {
-                    tokensString = JSON.stringify(token.quiz);
-                    // Store the stringified object in sessionStorage
-                    sessionStorage.setItem('tokens_quiz', tokensString);
-                });
-            });
-        }else{
-            // Convert the user object into a string
-            tokens_quiz = JSON.parse(tokensString);
-        }
-        return tokens_quiz;
-}
 
 function logout() {
     firebase.auth().signOut().then(() => {

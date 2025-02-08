@@ -1,16 +1,5 @@
-firebase.auth().onAuthStateChanged( (user) => {
-  if (!user) {
-      sessionStorage.clear;
-      window.location.href = "../login/login.html";
-  }
-})
-
-var user_UID = sessionStorage.userUid;
-var User = getUser();
 getProfile();
-var boardgame = getBoardgame();
-var quizzes = getQuizzes();
-const quiz = getAtualQuiz();
+var quiz = getAtualQuiz();
 
 function btnQuiz() {
   sessionStorage.setItem("question_category","quiz");
@@ -56,7 +45,6 @@ function existsChallange(){
     document.getElementById("btnDesafio").disabled = true;
   }
 }
-
 
 function btnSorte() {
   sessionStorage.setItem("question_category","luck");

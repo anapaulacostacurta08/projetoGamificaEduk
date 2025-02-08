@@ -1,11 +1,3 @@
-firebase.auth().onAuthStateChanged( (user) => {
-    if (!user) {
-        sessionStorage.clear;
-        window.location.href = "../login/login.html";
-    }
-});
-
-var user_UID = sessionStorage.userUid;
 
 function save_profile(){
     const name = document.getElementById("nome");
@@ -46,19 +38,5 @@ function voltar(){
     window.location.href = "confirmacao.html";
 }
 
-function setUser(User){
-    let UserString = JSON.stringify(User);
-    sessionStorage.setItem('User', UserString);
-}
-  
-function getUser(){
-    let userString = sessionStorage.User;
-    let user;
-    if(!(userString === undefined)){
-        user = JSON.parse(userString);
-    }
-    console.log(user);
-    return user;
-}
 
 
