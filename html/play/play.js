@@ -68,8 +68,8 @@ function buscarBoardgame(rodada_id){
 }
 
 function getBoardgame(rodada_id){
-  let tmp_boardgame = sessionStorage.boardgamesToday;
-  if(!(tmp_boardgame === undefined) || !(tmp_boardgame === "undefined")){
+  let boardgamesToday = sessionStorage.boardgamesToday;
+  if(!(boardgamesToday === undefined) || !(boardgamesToday === "undefined")){
     boardgamesToday.forEach(boardgame => {
       if(boardgame.dados.boardgame_id == rodada_id){
         setBoardGame(boardgame);
