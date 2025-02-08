@@ -95,7 +95,7 @@ function getBoardgamesToday(){
     if(boardgamesString === undefined || boardgamesString === "undefined"){
         boardgamesString = buscarBoardgamesToday();
     }
-    let boardgames = JSON.parse(boardgameString);
+    let boardgames = JSON.parse(boardgamesString);
     console.log(boardgames);
     return boardgames;
 }
