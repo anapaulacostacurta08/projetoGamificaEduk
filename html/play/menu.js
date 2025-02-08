@@ -204,17 +204,17 @@ function setQuizzes(questions){
 }
 
 function getAtualQuiz(){
-let quizString = sessionStorage.quiz;
-let quiz;
-if (quizString === undefined || quizString === "undefined"){
-  quizString = setAtualQuiz();
-}
-if(quizString === undefined || quizString === "undefined"){
-  sessionStorage.setItem('hasquiz',false);
-}else {
-  sessionStorage.setItem('hasquiz',true);
-  quiz = JSON.parse(quizString);
-  console.log(quiz);
-}
-return quiz;
+  let quizString = sessionStorage.quiz;
+  let quiz;
+  if (quizString === undefined || quizString === "undefined"){
+    quizString = setAtualQuiz();
+  }
+  if(quizString === undefined || quizString === "undefined"){
+    sessionStorage.setItem('hasquiz',false);
+  }else {
+    sessionStorage.setItem('hasquiz',true);
+    quiz = JSON.parse(quizString);
+    console.log(quiz);
+  }
+  return quiz;
 }
