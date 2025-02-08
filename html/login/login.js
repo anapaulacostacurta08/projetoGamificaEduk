@@ -1,6 +1,6 @@
 firebase.auth().onAuthStateChanged( (user) => {
     if (user) {
-        sessionStorage.setItem("userUid", user.uid);
+        sessionStorage.setItem("c", user.uid);
         window.location.href = "../home/confirmacao.html";
     }
 })

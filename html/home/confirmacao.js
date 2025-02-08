@@ -1,13 +1,13 @@
-var usuario;
 firebase.auth().onAuthStateChanged( (user) => {
-    usuario = user;
     if (!user) {
         sessionStorage.clear;
         window.location.href = "../login/login.html";
     }
+    
+
 })
 
-const userUid = usuario.uid;
+const userUid = sessionStorage.userUid;
 const User = getCurrentUser();
 const boardgamesToday = getBoardgamesToday();
 const quizzes = getQuizzes();
