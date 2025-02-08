@@ -8,7 +8,7 @@ firebase.auth().onAuthStateChanged( (user) => {
 var user_UID = sessionStorage.userUid;
 var User = getUser();
 getProfile();
-const boardgame = getBoardgame();
+var boardgame = getBoardgame();
 var quizzes = getQuizzes();
 const quiz = getAtualQuiz();
 
@@ -119,4 +119,11 @@ function logout() {
 
 function btnVoltar(){
   window.location.href = "../home/home.html";
+}
+
+function getBoardgame(){
+  let boardgameString = sessionStorage.boardgame;
+  let boardgame = JSON.parse(boardgameString);
+  console.log(boardgame);
+  return boardgame;
 }
