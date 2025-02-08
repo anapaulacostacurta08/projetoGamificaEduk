@@ -114,15 +114,16 @@ function getProfile(){
   document.getElementById("score_total").innerHTML = User.score;
 }
 
-function getBoardgamesToday(){
+function buscarBoardgamesToday(){
   boardgamesService.getBoardgamebyData(data_today).then(boardgames =>{
-    setBoardgamesToday(boardgames);
+    return setBoardgamesToday(boardgames);
   })
 }
+
 function getBoardgamesToday(){
   let boardgamesString = sessionStorage.boardgamesToday;
   if(boardgamesString === undefined || boardgamesString === "undefined"){
-      boardgamesString = getBoardgamesToday();
+      boardgamesString = buscarBoardgamesToday();
   }
   let boardgames = JSON.parse(boardgameString);
   console.log(boardgames);
