@@ -9,7 +9,7 @@ var user_UID = sessionStorage.userUid;
 var data_today = (new Date()).toLocaleDateString('pt-BR');
 var User = getUser();
 getProfile();
-var boardgames = getBoardgamesToday();
+var boardgamesToday = getBoardgamesToday();
 
 
 // Captura o evento de envio do formulário
@@ -53,7 +53,6 @@ document.getElementById("play-form").addEventListener("submit", function(event) 
 function setBoardGame(boardgame){
   let boardgameString = JSON.stringify(boardgame);
   sessionStorage.setItem('boardgame', boardgameString);
-  return boardgameString;
 }
 
 function buscarBoardgame(rodada_id){
@@ -61,27 +60,38 @@ function buscarBoardgame(rodada_id){
     boardgames.forEach(boardgame => {
       let boardgame_id = boardgame.dados.boardgameid;
       if(boardgame_id == rodada_id){
-        return setBoardGame(boardgame);
+        setBoardGame(boardgame);
       }
     })
   })
 }
 
+function getBoardgame(){
+  let boardgameString = sessionStorage.boardgame;
+  if(!(boardgameString === undefined) || !(boardgameString === "undefined")){
+    let boardgame = JSON.parse(boardgameString);
+    console.log(boardgame);
+    return boardgame;
+  }else{
+    alert("realize a pesquisa novamente!");
+  }
+}
+
 function getBoardgame(rodada_id){
-  let boardgamesToday = sessionStorage.boardgamesToday;
+  boardgamesToday = getBoardgamesToday();
+  let tBoardgame;
   if(!(boardgamesToday === undefined) || !(boardgamesToday === "undefined")){
     boardgamesToday.forEach(boardgame => {
       if(boardgame.dados.boardgame_id == rodada_id){
         setBoardGame(boardgame);
-        tmp_boardgame = boardgame;
+        tBoardgame = boardgame;
       }
-    })
+    });
   }else{
-      boardgameString = buscarBoardgame(rodada_id);
-      tmp_boardgame = JSON.parse(boardgameString);
-      console.log(boardgame);
+      buscarBoardgame(rodada_id);
+      tBoardgame = getBoardgame();
   }
-  return tmp_boardgame;
+  return tBoardgame;
 }
 
 function voltar(){
@@ -116,7 +126,7 @@ function getProfile(){
 
 function buscarBoardgamesToday(){
   boardgamesService.getBoardgamebyData(data_today).then(boardgames =>{
-    return setBoardgamesToday(boardgames);
+    setBoardgamesToday(boardgames);
   })
 }
 
@@ -124,14 +134,14 @@ function getBoardgamesToday(){
   let boardgamesString = sessionStorage.boardgamesToday;
   if(boardgamesString === undefined || boardgamesString === "undefined"){
       boardgamesString = buscarBoardgamesToday();
+  }else{
+    let boardgames = JSON.parse(boardgamesString);
+    console.log(boardgames);
+    return boardgames;
   }
-  let boardgames = JSON.parse(boardgamesString);
-  console.log(boardgames);
-  return boardgames;
 }
 
 function setBoardgamesToday(boardgames){
   let boardgamesString = JSON.stringify(boardgames);
   sessionStorage.setItem('boardgamesToday', boardgamesString);
-  return boardgamesString;
 }
