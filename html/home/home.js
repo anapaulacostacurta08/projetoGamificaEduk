@@ -9,7 +9,7 @@ var data_today = (new Date()).toLocaleDateString('pt-BR');
 var user_UID = sessionStorage.userUid;
 var User = getCurrentUser(user_UID);
 getProfile();
-var boardgames = getBoardgamesToday();
+getBoardgamesToday();
 
 function getProfile(){
     if(User === undefined){
@@ -86,22 +86,21 @@ function getUser(){
 
 function buscarBoardgamesToday(){
     boardgamesService.getBoardgamebyData(data_today).then(boardgames =>{
-      return setBoardgamesToday(boardgames);
+      setBoardgamesToday(boardgames);
     })
 }
   
 function getBoardgamesToday(){
     let boardgamesString = sessionStorage.boardgamesToday;
+    let boardgames;
     if(boardgamesString === undefined || boardgamesString === "undefined"){
-        boardgamesString = buscarBoardgamesToday();
-    }
-    let boardgames = JSON.parse(boardgamesString);
-    console.log(boardgames);
-    return boardgames;
+        boardgamesString = buscarBoardgamesToday().then(
+            console.log(boardgames)
+        );
+    }   
 }
 
 function setBoardgamesToday(boardgames){
     let boardgamesString = JSON.stringify(boardgames);
     sessionStorage.setItem('boardgamesToday', boardgamesString);
-    return boardgamesString;
 }
