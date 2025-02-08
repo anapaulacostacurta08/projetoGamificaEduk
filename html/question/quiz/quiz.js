@@ -255,3 +255,10 @@ function getAnsweredQuizzes(){
   }
   return answered_quizzes;
 }
+
+function getBoardgame(){
+  let boardgameString = sessionStorage.boardgame;
+  let boardgame = JSON.parse(boardgameString);
+  console.log(boardgame);
+  return boardgame;
+}
