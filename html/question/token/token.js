@@ -6,7 +6,7 @@ firebase.auth().onAuthStateChanged( (user) => {
 })
 
 getProfile();
-var boardgame = getBoardgame;
+var boardgame = getBoardgame();
 
 const category = sessionStorage.question_category;
 
@@ -16,7 +16,7 @@ var tokens_quiz_used = getUsedTokensQuiz();
 document.getElementById("play-form").addEventListener("submit", function(event) {
     event.preventDefault();
     // Captura os dados do formulário
-    const tokenid = document.getElementById("tokenid").value;
+    let tokenid = document.getElementById("tokenid").value;
 
         if(category == "quiz"){
             let pos_token = tokens_quiz.indexOf(tokenid);
