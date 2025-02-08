@@ -246,24 +246,23 @@ function setAtualQuiz(){
   let numbString;
   let quizAtual;
   //buscar as questões da sessão
-  if( quizzes === undefined || quizzes === "undefined"){
-    quizzes = getQuizzes();
-  }
-  quizzes.forEach(quiz => {
-    if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
-      quizString = JSON.stringify(quiz);
-      answerString = quiz.answer[0];
-      categoryString = quiz.category;
-      numbString = quiz.numb;
-    }
-  });
-  //Coloca quiz atual na sessão.
+  if( !(quizzes === undefined) || !(quizzes === "undefined")){
+    quizzes.forEach(quiz => {
+      if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
+        quizString = JSON.stringify(quiz);
+        answerString = quiz.answer[0];
+        categoryString = quiz.category;
+        numbString = quiz.numb;
+      }
+    });
+    //Coloca quiz atual na sessão.
     sessionStorage.setItem('quiz', quizString);
     sessionStorage.setItem('answer',answerString);
     sessionStorage.setItem('question_numb',numbString);
     sessionStorage.setItem('question_category',categoryString);
     quizAtual = JSON.parse(quizString);
-    return quizAtual;
+  }
+  return quizAtual;
 }
 
 function setQuizzes(questions){
@@ -275,19 +274,19 @@ function setQuizzes(questions){
 }
 
 function getAtualQuiz(){
-let quizString = sessionStorage.quiz;
-let quiz;
-if (quizString === undefined || quizString === "undefined"){
-  quizString = setAtualQuiz();
-}
-if(quizString === undefined || quizString === "undefined"){
-  sessionStorage.setItem('hasquiz',false);
-}else {
-  sessionStorage.setItem('hasquiz',true);
-  quiz = JSON.parse(quizString);
-  console.log(quiz);
-}
-return quiz;
+  let quizString = sessionStorage.quiz;
+  let quiz;
+  if (quizString === undefined || quizString === "undefined"){
+    quizString = setAtualQuiz();
+  }
+  if(quizString === undefined || quizString === "undefined"){
+    sessionStorage.setItem('hasquiz',false);
+  }else {
+    sessionStorage.setItem('hasquiz',true);
+    quiz = JSON.parse(quizString);
+    console.log(quiz);
+  }
+  return quiz;
 }
 
 function buscarBoardgame(rodada_id){

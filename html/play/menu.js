@@ -30,7 +30,7 @@ function existsQuiz(){
   }
   if(!hasquiz){
     //Não tem mais Quiz para apresentar desativa o botão
-    document.getElementById("AppQuiz").disabled = true;
+    document.getElementById("btnQuiz").disabled = true;
   }
 }
 
@@ -53,7 +53,7 @@ function existsChallange(){
 
   if(!haschallange){
     //Não tem mais Quiz para apresentar desativa o botão
-    document.getElementById("AppDesafio").disabled = true;
+    document.getElementById("btnDesafio").disabled = true;
   }
 }
 
@@ -65,7 +65,7 @@ function btnSorte() {
 
 function existsLuck(){
   let hasluck;
-  if (sessionStorage.hasluck === undefined || sessionStorage.hasluck === "undefined") {
+  if ( (sessionStorage.hasluck === undefined) || (sessionStorage.hasluck === "undefined")) {
     sessionStorage.setItem("hasluck",true);
   }else{
     if(sessionStorage.hasluck == "true"){
@@ -76,7 +76,7 @@ function existsLuck(){
   }
   if(!hasluck){
     //Não tem mais Quiz para apresentar desativa o botão
-    document.getElementById("AppSorte").disabled = true;
+    document.getElementById("btnSorte").disabled = true;
   }
 }
 
@@ -97,7 +97,7 @@ function getUser(){
 }
 
 function getProfile(){
-  if(User === undefined || User === "undefined"){
+  if(User === undefined){
       User = getUser();
   }
   document.getElementById("nameUser").innerHTML = User.nickname;
@@ -175,24 +175,23 @@ function setAtualQuiz(){
   let numbString;
   let quizAtual;
   //buscar as questões da sessão
-  if( quizzes === undefined || quizzes === "undefined"){
-    quizzes = getQuizzes();
-  }
-  quizzes.forEach(quiz => {
-    if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
-      quizString = JSON.stringify(quiz);
-      answerString = quiz.answer[0];
-      categoryString = quiz.category;
-      numbString = quiz.numb;
-    }
-  });
-  //Coloca quiz atual na sessão.
+  if( !(quizzes === undefined) || !(quizzes === "undefined")){
+    quizzes.forEach(quiz => {
+      if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
+        quizString = JSON.stringify(quiz);
+        answerString = quiz.answer[0];
+        categoryString = quiz.category;
+        numbString = quiz.numb;
+      }
+    });
+    //Coloca quiz atual na sessão.
     sessionStorage.setItem('quiz', quizString);
     sessionStorage.setItem('answer',answerString);
     sessionStorage.setItem('question_numb',numbString);
     sessionStorage.setItem('question_category',categoryString);
     quizAtual = JSON.parse(quizString);
-    return quizAtual;
+  }
+  return quizAtual;
 }
 
 function setQuizzes(questions){

@@ -57,4 +57,66 @@ body, html {
     width: 150px;
 }
   
+.option {
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.option:hover {
+    color: #004085;
+    background: #cce5ff;
+    border: 1px solid #b8daff;
+}
+
+ .option.correct {
+    color: #155724;
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+
+.option.incorrect {
+    color: #721c24;
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+}
+.option.disabled {
+    pointer-events: none;
+}
+
+.option .icon {
+    height: 15px;
+    width: 15px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 10px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    line-height: 12px;
+}
+.icon.tick {
+    color: #23903c;
+    border-color: #23903c;
+    background: #d4edda;
+}
+
+.icon.cross {
+    color: #a42834;
+    background: #f8d7da;
+    border-color: #a42834;
+}
+
+.choice-prefix {
+    padding: 1rem 2rem;
+    background-color: #56a5eb;
+    color: white;
+}
+
+.choice-text {
+    padding: 1rem;
+    width: 100%;
+}
