@@ -94,9 +94,7 @@ function getBoardgamesToday(){
     let boardgamesString = sessionStorage.boardgamesToday;
     let boardgames;
     if(boardgamesString === undefined || boardgamesString === "undefined"){
-        boardgamesString = buscarBoardgamesToday().then(
-            console.log(boardgames)
-        );
+        boardgamesString = buscarBoardgamesToday();
     }   
 }
 
