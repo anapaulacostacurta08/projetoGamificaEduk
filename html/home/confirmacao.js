@@ -6,8 +6,7 @@ firebase.auth().onAuthStateChanged( (user) => {
     
 
 })
-
-const userUid = sessionStorage.userUid;
+const user_UID = sessionStorage.userUid;
 const User = getCurrentUser();
 const boardgamesToday = getBoardgamesToday();
 const quizzes = getQuizzes();

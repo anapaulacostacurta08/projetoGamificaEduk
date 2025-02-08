@@ -9,7 +9,6 @@ const timeText = document.getElementById("time_left_txt");
 //const timeCount = document.querySelector(".timer .timer_sec");
 const timeCount = document.getElementById("timer_sec");
 
-var user_UID = sessionStorage.userUid;
 var User = getUser();
 
 function showQuestion(question){
