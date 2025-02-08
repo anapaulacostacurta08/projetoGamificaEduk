@@ -1,16 +1,16 @@
 firebase.auth().onAuthStateChanged( (user) => {
     if (user) {
+        
         window.location.href = "../home/confirmacao.html";
     }
 })
 
 function login() {
-    //var user_UID;
     firebase.auth().signInWithEmailAndPassword(
         form.email().value, form.password().value
     ).then((userCredential) => {
         user = userCredential.user.auth.currentUser;
-        sessionStorage.setItem("userUid", user_UID);
+        console.log("Usuário logou:" + userCredential.user.uid);
     }).catch(error => {
         console.log(getErrorMessage(error));
     });
