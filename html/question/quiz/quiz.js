@@ -216,7 +216,7 @@ function setAtualQuiz(){
   let numbString;
   let quizAtual;
   //buscar as questões da sessão
-  if( !(quizzes === undefined) || !(quizzes === "undefined")){
+  if( !(quizzes === undefined)){
     quizzes.forEach(quiz => {
       if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
         quizString = JSON.stringify(quiz);
