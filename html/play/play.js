@@ -48,18 +48,7 @@ firebase.auth().onAuthStateChanged((user) => {
             }
           }
         });
-        //document.getElementById("score_round").innerHTML = score;
-        //document.getElementById("level").innerHTML = boardgame_level;
-        fetch("./menu.html", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ score_round: score, level: boardgame_level, boardgame_id: boardgame_id })
-        }).then(res => res.json())
-          .then(data => console.log(data))
-          .catch(error => console.error(error));
-        //window.location.href = "./menu.html?score_round="+score";
+        window.location.href = "./menu.html?score_round="+score+"&level="+boardgame_level+"&boardgame_id="+boardgame_id;
       });
     });
   }
