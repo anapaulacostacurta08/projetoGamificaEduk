@@ -16,31 +16,32 @@ firebase.auth().onAuthStateChanged((user) => {
       event.preventDefault();
       // Captura os dados do formulário
       let rodada_id = document.getElementById("boardgameid").value;
+      let boardgame_level;
+      let score = 0;
       boardgamesService.getBoardGameByRodadaID(rodada_id).then((boardgames) => {
         boardgames.forEach(boardgame => {
           let boardgame_id = boardgame.dados.boardgameid;
           if(boardgame_id == rodada_id){
             let boardgameid = boardgame.id;
-            let boardgame_level = boardgame.dados.level;
+            boardgame_level = boardgame.dados.level;
             var players = boardgame.dados.players;
-            let score = 0;
             if (players === undefined){
               players = new Array();
-              players[0] = {user_UID:user_UID,score_round:score};
+              players[0] = {user_UID:user.uid,score_round:score};
               boardgamesService.addPlayers(boardgameid, {players});
             }else{
               //variável para verficar se o jogador já entrou no tabuleiro
               let isOnPlayer = false;
               players.forEach(player => {
-                if(player.user_UID == user_UID){
+                if(player.user_UID == user.uid){
                   isOnPlayer = true;
                   score = player.score_round;
                 }
               });
               if (isOnPlayer){
-                alert('Você já entrou no jogo!Retornando para o Jogo!');
+                alert('Retornando para o Jogo!');
               }else{
-                players.push({user_UID:user_UID,score_round:0});
+                players.push({user_UID:user.uid,score_round:0});
                 boardgamesService.addPlayers(boardgameid, {players});
               }
             }
@@ -53,7 +54,7 @@ firebase.auth().onAuthStateChanged((user) => {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ score_round: score, level: level, boardgame_id: boardgame_id })
+          body: JSON.stringify({ score_round: score, level: boardgame_level, boardgame_id: boardgame_id })
         }).then(res => res.json())
           .then(data => console.log(data))
           .catch(error => console.error(error));
