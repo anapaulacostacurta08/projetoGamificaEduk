@@ -4,12 +4,15 @@ firebase.auth().onAuthStateChanged((user) => {
   if (!user) {
       window.location.href = "../login/login.html";
   }else{
+    
     userService.findByUid(user.uid).then(user=>{
       document.getElementById("nameUser").innerHTML = user.nickname;
       user_UID = user.uid;
       var avatar = user.avatar;
       document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
       document.getElementById("score_total").innerHTML = user.score;
+      //menu.html?score_round=0&level=1&boardgame_id=A02
+      //Coletar os dados da barra de endereço
     }).catch(error => {
         console.log(error);
     });
