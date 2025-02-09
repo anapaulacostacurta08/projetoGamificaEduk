@@ -34,7 +34,7 @@ function logout() {
 }
 
 function getCurrentUser(){
-    userService.findByUid(userUid).then(user=>{
+    userService.findByUid(user_UID).then(user=>{
             if(user === undefined){
                 var btn_jogar = document.getElementById("btnJogar");
                 btn_jogar.disabled = true;  
