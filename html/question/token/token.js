@@ -1,3 +1,4 @@
+var token_quiz;
 firebase.auth().onAuthStateChanged( (user) => {
     if (!user) {
         sessionStorage.clear;

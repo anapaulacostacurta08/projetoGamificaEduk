@@ -20,6 +20,11 @@ firebase.auth().onAuthStateChanged( (user) => {
         }
     }
 })
+//const user_UID = sessionStorage.userUid;
+//const User = getCurrentUser();
+//const boardgamesToday = getBoardgamesToday();
+//const quizzes = getQuizzes();
+const token_quiz = getTokensQuiz();
 
 function jogar(){
     window.location.href = "./home.html";

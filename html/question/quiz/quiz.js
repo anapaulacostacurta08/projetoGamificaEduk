@@ -1,3 +1,5 @@
+var quizzes;
+
 const question_box = document.getElementById("question_box");
 const que_text = document.getElementById("que_text");
 const option_list = document.getElementById("option_list");
