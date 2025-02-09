@@ -17,7 +17,7 @@ firebase.auth().onAuthStateChanged((user) => {
       // Captura os dados do formulário
       let rodada_id = document.getElementById("boardgameid").value;
       let boardgame_level;
-      let boardgame_idç
+      let boardgame_id;
       let score = 0;
       boardgamesService.getBoardGameByRodadaID(rodada_id).then((boardgames) => {
         boardgames.forEach(boardgame => {
