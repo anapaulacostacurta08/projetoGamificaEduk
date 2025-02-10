@@ -19,14 +19,25 @@ const boardgamesService = {
         console.log(boardgames);
         return boardgames;
     },
-    findByUid: uid => {
-        return firebase.firestore()
+    findByUid: async (uid) => {
+        const querySnapshot =  await firebase.firestore()
             .collection("boardgames")
             .doc(uid)
             .get()
-            .then(doc => {
-                return doc.data();
+            console.log(querySnapshot);
+
+            if(querySnapshot.empty){
+                throw new Error("Tabuleiro não encontrado:" + rodadaid);
+            }
+            var boardgames = new Array();
+            querySnapshot.forEach(doc => {
+                var id = doc.id;
+                var dados = doc.data();
+                var boardgame = {id,dados};
+                boardgames.push(boardgame);
             });
+            console.log(boardgames);
+            return boardgames;
     },
     getBoardGameByRodadaID: async (rodadaid) => {
             const querySnapshot = await firebase.firestore().collection("boardgames")

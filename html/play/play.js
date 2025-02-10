@@ -2,6 +2,7 @@ firebase.auth().onAuthStateChanged((user) => {
   if (!user) {
       window.location.href = "../login/login.html";
   }else{
+    var host;
     userService.findByUid(user.uid).then(user=>{
       document.getElementById("nameUser").innerHTML = user.nickname;
       user_UID = user.uid;
@@ -48,7 +49,7 @@ firebase.auth().onAuthStateChanged((user) => {
             }
           }
         });
-        window.location.href = "./menu.html?score_round="+score+"&level="+boardgame_level+"&boardgame_id="+boardgame_id;
+        window.location.href = "./menu.html?score_round="+score+"&level="+boardgame_level+"&boardgameid="+boardgameid;
       });
     });
   }
