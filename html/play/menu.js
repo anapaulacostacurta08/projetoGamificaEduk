@@ -50,9 +50,6 @@ firebase.auth().onAuthStateChanged((user) => {
   } 
 });
 
-
-
-
 function logout() {
   firebase.auth().signOut().then(() => {
       window.location.href = "../home/home.html";
