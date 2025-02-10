@@ -7,12 +7,11 @@ firebase.auth().onAuthStateChanged((user) => {
     //var boardgameid;
     userService.findByUid(user.uid).then(user=>{
       document.getElementById("nameUser").innerHTML = user.nickname;
-      user_UID = user.uid;
       var avatar = user.avatar;
       document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
       document.getElementById("score_total").innerHTML = user.score;
       //menu.html?score_round=0&level=1&boardgame_id=A02
-      boardgamesService.getBoardgamebyPlayer(user_UID).then((boardgames) => {
+      boardgamesService.getBoardgamebyPlayer(user.uid).then((boardgames) => {
         boardgames.forEach(boardgame => {
           var players = boardgame.dados.players;
           players.forEach(player => {
