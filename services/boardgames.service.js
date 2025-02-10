@@ -125,6 +125,26 @@ getBoardgamebyData: async (data) => {
     console.log(boardgames);
     return boardgames;
 },
+getBoardgamebyPlayer: async (player) => {
+    const querySnapshot = await firebase.firestore().collection("boardgames")
+    .where('players.user_UID','==', player)
+    .where('state','==','started')
+    .get();
+    console.log(querySnapshot);
+
+    if(querySnapshot.empty){
+        throw new Error("Tabuleiroe não encontrados:" + data);
+    }
+    var boardgames = new Array();
+    querySnapshot.forEach(doc => {
+            var id = doc.id;
+            var dados = doc.data();
+            var boardgame = {id,dados};
+            boardgames.push(boardgame);
+    });
+    console.log(boardgames);
+    return boardgames;
+},
     remove: boardgames => {
         return firebase.firestore()
             .collection("boardgames")
