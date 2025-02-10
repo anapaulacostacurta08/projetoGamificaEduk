@@ -25,7 +25,8 @@ firebase.auth().onAuthStateChanged((user) => {
     boardgamesService.findByUid(boardgameid).then((boardgames) => {
         boardgames.forEach(boardgame => {
           let boardgame_id = boardgame.dados.boardgameid;
-    });
+        });
+      });
 
     function btnQuiz() {
       window.location.href = "../question/token/token.html?category=quiz&boardgame_id="+boardgameid;
@@ -46,7 +47,6 @@ firebase.auth().onAuthStateChanged((user) => {
     function btnQuizfinal(){
       window.location.href = "../question/token/token.html?category=quizfinal&boardgame_id="+boardgameid;;
     }
-  });
   } 
 });
 
