@@ -17,38 +17,32 @@
       <div class="container">
         <div class="card card-container">
             <header>
-              <nav class="navbar navbar-expand-sm">
-                <div class="container">
-                    <nav class="navbar navbar-brand">
-                        <span id="profile" class="m-1 text-center">
-                            <p><span id="avatarUser"></span><br/>
-                            <span id="nameUser"></span></p>
-                        </span>
-                        <span id="coins" class="m-2 align-middle">
-                            <span class="badge rounded-pill bg-primary">COINS</span><span id="score_total"></span>
-                        </span>
-                    </nav>
-                    <div id="menu_top">
-                        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar" aria-expanded="false">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="collapsibleNavbar">
-                            <ul id="professor" class="navbar-nav">
-                                <hr class="colorgraph">
-                                <li class="nav-item"><a class="nav-link" href="../adm/boardgames/boardgames.html">Cadastrar Rodada</a></li>
-                                <li class="nav-item"><a class="nav-link" href="../adm/boardgames/startboardgames.html">Iniciar Rodada</a></li>
-                                <li class="nav-item"><a class="nav-link" href="../adm/boardgames/closeboardgames.html">Encerrar Rodada</a></li>
+                <nav class="navbar navbar-expand-sm col-sm-12">
+                    <span id="profile" class="col-sm-2 text-center">
+                        <p">
+                            <span id="avatarUser"></span><br/>
+                            <span id="nameUser"></span><br/>
+                        </p>
+                    </span>
+                    <span class="col-sm-2">
+                        <li class="nav nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="../../assets/img/menu.png" width="10" height="5"></img></a>
+                            <ul class="dropdown-menu">
+                            <li><a id="perfil" class="dropdown-item" href="../home/atualizacao.html">Perfil</a></li>
+                            <li><a id="novarodada" class="dropdown-item" href="../adm/boardgames/boardgames.html">Nova Rodada</a></li>
+                            <li><a id="startrodada" class="dropdown-item" href="../adm/boardgames/startboardgames.html">Iniciar Rodada</a></li>
+                            <li><a id="closerodada" class="dropdown-item" href="../adm/boardgames/closeboardgames.html">Encerrar Rodada</a></li>
+                            <li><a id="closerodada" class="dropdown-item" onclick="logout()">Sair</a></li>
                             </ul>
-                            <ul class="navbar-nav">
-                                <hr class="colorgraph">
-                                <li class="nav-item"><a class="nav-link" onclick="logout()">Sair</a></li>
-                                <hr class="colorgraph">
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+                        </li>
+                    </span>
+                    <span class="col-sm-5">&nbsp;&nbsp;</span>
+                    <span id="coins" class="col-sm-2 ml-auto">
+                        <span class="badge rounded-pill bg-success"><span id="score_total" class="badge bg-light text-dark"></span>&nbsp;AB@ COINS</span><br>
+                    </span>
+                </nav>                  
             </header>  
+            <br/>  
             <form class="form-signin" id="boardgame-form">
               <h1 class="text-center">Nova Rodada</h1>
               <hr class="colorgraph">
