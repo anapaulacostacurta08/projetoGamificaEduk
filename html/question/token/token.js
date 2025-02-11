@@ -20,9 +20,11 @@ firebase.auth().onAuthStateChanged( (User) => {
           var tokens_quiz;
           boardgamesService.getBoardgamebyPlayer(User.uid, (new Date()).toLocaleDateString('pt-BR')).then((boardgames) => {
             boardgames.forEach(boardgame => {
+              var new_players = new Array();
               boardgameid = boardgame.id;
               players = boardgame.dados.players;
               players.forEach(player => {
+                new_players.push(player);
                 count++;
                 if(player.user_UID == User.uid){
                     tokens_quiz_used = player.usedtokens_quiz;
@@ -30,6 +32,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                     document.getElementById("level").innerHTML = boardgame.dados.level;
                 }
               });
+              players = new_players;
             });
           });
           count = count-1;
@@ -51,6 +54,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                             if(pos_token > -1){
                                 tokens_quiz_used = new Array();
                                 tokens_quiz_used.push(tokenid);
+                                
                                 players[count].push(tokens_quiz_used);
                                 boardgamesService.addPlayers(boardgameid, {players});
                                 alert("Token Válido!");        
