@@ -22,6 +22,7 @@ firebase.auth().onAuthStateChanged( (User) => {
               var new_players = new Array();
               boardgameid = boardgame.id;
               players = boardgame.dados.players;
+              players.map(players=>players);
               players.forEach(player => {
                 new_players.push(player);
                 if(player.user_UID == User.uid){
