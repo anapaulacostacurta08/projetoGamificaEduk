@@ -25,7 +25,7 @@ firebase.auth().onAuthStateChanged( (User) => {
               tmp_players.forEach(player => {
                 count++;
                 if(player.user_UID == User.uid){
-                    tokens_quiz_used = player.usedtokens_quiz;
+                    tokens_quiz_used = player.tokens_quiz_used;
                     document.getElementById("score_round").innerHTML = player.score_round;
                     document.getElementById("level").innerHTML = boardgame.dados.level;
                 }
