@@ -49,6 +49,7 @@ firebase.auth().onAuthStateChanged((User) => {
           boardgamesService.save(newboardgame);
           msg_sucesso.innerHTML= "Iniciada Cadastrada com Sucesso!";
           alert_sucesso.classList.add("show");
+          document.getElementById("bt-success").disabled = true;
         } catch (error){
           msg_error.innerHTML= "Rodada: "+boardgame.dados.boardgameid+" já cadastrada!";
           alert_error.classList.add("show");

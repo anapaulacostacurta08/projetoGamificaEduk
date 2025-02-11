@@ -62,6 +62,7 @@ firebase.auth().onAuthStateChanged((User) => {
           boardgamesService.update(userselect, boardgames).then(() => {
             msg_sucesso.innerHTML= "Iniciada Rodada com sucesso!";
             alert_sucesso.classList.add("show");
+            document.getElementById("ativar").disabled = true;
           }).catch((error) => {
             msg_error.innerHTML= error;
             alert_error.classList.add("show");
