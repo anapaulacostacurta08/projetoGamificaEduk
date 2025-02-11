@@ -6,7 +6,7 @@ firebase.auth().onAuthStateChanged( (User) => {
         userService.findByUid(User.uid).then(user=>{
             document.getElementById("nameUser").innerHTML = user.nickname;
             var avatar = user.avatar;
-            document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
+            document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
             document.getElementById("score_total").innerHTML = user.score;
           }).catch(error => {
               console.log(error);
