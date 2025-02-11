@@ -25,12 +25,17 @@ firebase.auth().onAuthStateChanged((User) => {
         const boardgameid = document.getElementById("boardgameid").value;
         const state = "waiting"; // "waiting", "started", "finished"
       
+        
         boardgamesService.getBoardGameByRodadaID(boardgameid).then(boardgames=>{
           boardgames.forEach(boardgame=>{
             msg_error.innerHTML= "Rodada: "+boardgame.dados.boardgameid+" já cadastrada!";
             alert_error.classList.add("show");
           })
-        })
+        }).catch(error => {
+              if(error == "Não encontrado"){
+                console.log(error);
+              }
+        });
 
         // Cria o objeto para salvar o quiz
         const newboardgame = {
@@ -42,7 +47,7 @@ firebase.auth().onAuthStateChanged((User) => {
         };
         try{
           boardgamesService.save(newboardgame);
-          msg_sucesso.innerHTML= "Iniciada Rodada com sucesso!";
+          msg_sucesso.innerHTML= "Iniciada Cadastrada com Sucesso!";
           alert_sucesso.classList.add("show");
         } catch (error){
           msg_error.innerHTML= "Rodada: "+boardgame.dados.boardgameid+" já cadastrada!";

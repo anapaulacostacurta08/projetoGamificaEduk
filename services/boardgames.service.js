@@ -48,7 +48,7 @@ const boardgamesService = {
             console.log(querySnapshot);
 
             if(querySnapshot.empty){
-                throw new Error("Tabuleiro não encontrado:" + rodadaid);
+                throw new Error("Não encontrado");
             }
             var boardgames = new Array();
             querySnapshot.forEach(doc => {
