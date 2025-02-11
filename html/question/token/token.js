@@ -64,7 +64,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                                     //}
                                 //});
                                 try{
-                                    boardgamesService.addPlayers(boardgameid, {players}).then(alert("Token Válido!"));
+                                    boardgamesService.addPlayers(boardgameid, players).then(alert("Token Válido!"));
                                     window.location.href = "../quiz/quiz.html";
                                 } catch (error) {
                                     alert(error);
@@ -84,7 +84,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                                         player.push(tokens_quiz_used);
                                     }
                                 });
-                                boardgamesService.addPlayers(boardgameid, {players}).then( alert("Token Válido!"));      
+                                boardgamesService.addPlayers(boardgameid, players).then( alert("Token Válido!"));      
                                 window.location.href = "../quiz/quiz.html";
                             }else{
                                 alert("Token inválido!");
