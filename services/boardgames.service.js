@@ -125,7 +125,7 @@ getBoardgamebyData: async (data) => {
     console.log(boardgames);
     return boardgames;
 },
-getBoardgamebyPlayer: async (player, data) => {
+getBoardgamebyPlayer: async (user_UID, data) => {
     const querySnapshot = await firebase.firestore().collection("boardgames")
             .where('state','==','started')
             .where('round_date','==',data)
@@ -141,7 +141,7 @@ getBoardgamebyPlayer: async (player, data) => {
                 var dados = doc.data();
                 var players = dados.players;
                 players.forEach(player => {
-                    if(player.user_UID == player){
+                    if(player.user_UID == user_UID){
                         var boardgame = {id,dados};
                         boardgames.push(boardgame);
                     }
