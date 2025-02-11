@@ -64,8 +64,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                                     //}
                                 //});
                                 try{
-                                    boardgamesService.addPlayers(boardgameid, {players});
-                                    alert("Token Válido!");
+                                    boardgamesService.addPlayers(boardgameid, {players}).then(alert("Token Válido!"));
                                     window.location.href = "../quiz/quiz.html";
                                 } catch (error) {
                                     alert(error);
