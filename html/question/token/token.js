@@ -17,12 +17,14 @@ firebase.auth().onAuthStateChanged( (User) => {
           var players;
           var tokens_quiz_used;
           var tokens_quiz;
+          var count =0;
           boardgamesService.getBoardgamebyPlayer(User.uid, (new Date()).toLocaleDateString('pt-BR')).then((boardgames) => {
             boardgames.forEach(boardgame => {
               boardgameid = boardgame.id;
               players = boardgame.dados.players;
               players.map(players=>players);
               players.forEach(player => {
+                count++;
                 if(player.user_UID == User.uid){
                     tokens_quiz_used = player.usedtokens_quiz;
                     document.getElementById("score_round").innerHTML = player.score_round;
@@ -47,14 +49,14 @@ firebase.auth().onAuthStateChanged( (User) => {
                     let pos_token = tokens_quiz.indexOf(tokenid);
                     if(!(tokens_quiz_used === "undefined") || !(tokens_quiz_used === undefined)){
                             if(pos_token > -1){
-                                players.forEach(player => {
-                                    if(player.user_UID == User.uid){
+                                //players.forEach(player => {
+                                    //if(player.user_UID == User.uid){
                                         tokens_quiz_used = new Array();
                                         tokens_quiz_used.push(tokenid);
-                                        player.map(player=>player);
-                                        player.push(tokens_quiz_used);
-                                    }
-                                });
+                                        //player.map(player=>player);
+                                        players[count-1].push(tokens_quiz_used);
+                                    //}
+                                //});
                                 boardgamesService.addPlayers(boardgameid, {players});
                                 alert("Token Válido!");        
                                 window.location.href = "../quiz/quiz.html";
