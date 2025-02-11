@@ -163,14 +163,14 @@ getBoardgamebyPlayer: async (user_UID, data) => {
             .doc()
             .set(boardgames)
     },
-    update: (id,boardgame)  => {
-        return firebase.firestore()
+    update: async (id,boardgame)  => {
+        return await firebase.firestore()
             .collection("boardgames")
             .doc(id)
             .update(boardgame);
     },
-    addPlayers:  (id, players) => {
-        return firebase.firestore()
+    addPlayers:  async (id, players) => {
+        return await firebase.firestore()
             .collection("boardgames")
             .doc(id)
             .update(players);
