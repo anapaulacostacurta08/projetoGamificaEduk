@@ -127,28 +127,23 @@ getBoardgamebyData: async (data) => {
 },
 getBoardgamebyPlayer: async (player, data) => {
     const querySnapshot = await firebase.firestore().collection("boardgames")
-    .where('round_date','==', data)
-    .where('state','==','started')
-    .get();
-    console.log(querySnapshot);
+            .where('state','==','started')
+            .where('round_date','==',data)
+            .get();
+            console.log(querySnapshot);
 
-    if(querySnapshot.empty){
-        throw new Error("Tabuleiroe não encontrados:" + data);
-    }
-    var boardgames = new Array();
-    querySnapshot.forEach(doc => {
-            var id = doc.id;
-            var dados = doc.data();
-            var players = dados.players;
-            players.forEach(player => {
-                if(player.user_UID == player){
-                    var boardgame = {id,dados};
-                    boardgames.push(boardgame);                
-                }
-              });
-    });
-    console.log(boardgames);
-    return boardgames;
+            if(querySnapshot.empty){
+                throw new Error("Tabuleiro não encontrado:" + rodadaid);
+            }
+            var boardgames = new Array();
+            querySnapshot.forEach(doc => {
+                var id = doc.id;
+                var dados = doc.data();
+                var boardgame = {id,dados};
+                boardgames.push(boardgame);
+            });
+            console.log(boardgames);
+            return boardgames;
 },
     remove: boardgames => {
         return firebase.firestore()
