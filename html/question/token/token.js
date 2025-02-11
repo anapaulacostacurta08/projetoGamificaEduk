@@ -15,7 +15,6 @@ firebase.auth().onAuthStateChanged( (User) => {
           const category = params.get('category');
           var boardgameid;
           var players;
-          var count=0;
           var tokens_quiz_used;
           var tokens_quiz;
           boardgamesService.getBoardgamebyPlayer(User.uid, (new Date()).toLocaleDateString('pt-BR')).then((boardgames) => {
@@ -25,17 +24,14 @@ firebase.auth().onAuthStateChanged( (User) => {
               players = boardgame.dados.players;
               players.forEach(player => {
                 new_players.push(player);
-                count++;
                 if(player.user_UID == User.uid){
                     tokens_quiz_used = player.usedtokens_quiz;
                     document.getElementById("score_round").innerHTML = player.score_round;
                     document.getElementById("level").innerHTML = boardgame.dados.level;
                 }
               });
-              players = new_players;
             });
           });
-          count = count-1;
 
           tokenService.getTokens().then(tokens => {
                 tokens.forEach(token => {
@@ -52,10 +48,13 @@ firebase.auth().onAuthStateChanged( (User) => {
                     let pos_token = tokens_quiz.indexOf(tokenid);
                     if(!(tokens_quiz_used === "undefined") || !(tokens_quiz_used === undefined)){
                             if(pos_token > -1){
-                                tokens_quiz_used = new Array();
-                                tokens_quiz_used.push(tokenid);
-                                
-                                players[count].push(tokens_quiz_used);
+                                players.forEach(player => {
+                                    if(player.user_UID == User.uid){
+                                        tokens_quiz_used = new Array();
+                                        tokens_quiz_used.push(tokenid);
+                                        player.push(tokens_quiz_used);
+                                    }
+                                });
                                 boardgamesService.addPlayers(boardgameid, {players});
                                 alert("Token Válido!");        
                                 window.location.href = "../quiz/quiz.html";
@@ -68,8 +67,12 @@ firebase.auth().onAuthStateChanged( (User) => {
                         let pos_token = tokens_quiz.indexOf(tokenid); 
                         if (pos_token_used > -1){ // Não foi usado  ainda
                             if(pos_token > -1){
-                                tokens_quiz_used.push(tokenid);
-                                players[count].push(tokens_quiz_used);
+                                players.forEach(player => {
+                                    if(player.user_UID == User.uid){
+                                        tokens_quiz_used.push(tokenid)
+                                        player.push(tokens_quiz_used);
+                                    }
+                                });
                                 boardgamesService.addPlayers(boardgameid, {players});
                                 alert("Token Válido!");        
                                 window.location.href = "../quiz/quiz.html";
