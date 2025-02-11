@@ -49,7 +49,7 @@ firebase.auth().onAuthStateChanged((User) => {
             }
           }
         });
-        window.location.href = "./menu.html?score_round="+score+"&level="+boardgame_level+"&boardgameid="+boardgameid;
+        window.location.href = "./menu.html";
       });
     });
   }

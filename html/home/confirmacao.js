@@ -48,18 +48,3 @@ function logout() {
 }
 
 
-
-function getBoardgamesToday(){
-    boardgamesService.getBoardgamebyData((new Date()).toLocaleDateString('pt-BR')).then(boardgames =>{
-      return boardgames;
-    })
-}
-
-function getTokensQuiz(){
-    tokenService.getTokens().then(tokens => {
-        tokens.forEach(token => {
-            return token.quiz
-        });
-    });
-}
-  

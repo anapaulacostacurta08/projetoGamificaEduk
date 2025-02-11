@@ -1,4 +1,3 @@
-//getProfile();
 //var quiz = getAtualQuiz();
 firebase.auth().onAuthStateChanged((User) => {
   if (!User) {
@@ -30,35 +29,28 @@ firebase.auth().onAuthStateChanged((User) => {
         console.log(error);
     });
 
-    /** 
-    boardgamesService.findByUid(boardgameid).then((boardgames) => {
-        boardgames.forEach(boardgame => {
-          let boardgame_id = boardgame.dados.boardgameid;
-        });
-      });
-    */
     
   } 
 });
 
 function btnQuiz() {
-  window.location.href = "../question/token/token.html?category=quiz&boardgame_id="+boardgameid;
+  window.location.href = "../question/token/token.html?category=quiz";
 }
 
 function btnDesafio() {
-  window.location.href = "../question/token/token.html?category=challange&boardgame_id="+boardgameid;
+  window.location.href = "../question/token/token.html?category=challange";
 }
 
 function btnSorte() {
-  window.location.href = "../question/token/token.html?category=luck&boardgame_id="+boardgameid;
+  window.location.href = "../question/token/token.html?category=luck";
 }
 
 function btnExtra(){
-  window.location.href = "../extra/extra.html?category=extra&boardgame_id="+boardgameid;
+  window.location.href = "../extra/extra.html?category=extra"
 }
 
 function btnQuizfinal(){
-  window.location.href = "../question/token/token.html?category=quizfinal&boardgame_id="+boardgameid;;
+  window.location.href = "../question/token/token.html?category=quizfinal";
 }
 
 function logout() {
