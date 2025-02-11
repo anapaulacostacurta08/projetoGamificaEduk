@@ -51,6 +51,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                                     if(player.user_UID == User.uid){
                                         tokens_quiz_used = new Array();
                                         tokens_quiz_used.push(tokenid);
+                                        player.map(player=>player);
                                         player.push(tokens_quiz_used);
                                     }
                                 });
