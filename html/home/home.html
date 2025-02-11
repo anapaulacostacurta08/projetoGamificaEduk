@@ -32,12 +32,22 @@
                         <span id="coins" class="col-sm-3 ml-auto">
                             <span class="badge rounded-pill bg-success"><span id="score_total" class="badge bg-light text-dark"></span>&nbsp;AB@ COINS</span><br>
                         </span>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="../../assets/img/menu.png" width="50" height="50"></img></a>
+                            <ul class="dropdown-menu">
+                              <li><a id="perfil" class="dropdown-item" href="../home/atualizacao.html">Perfil</a></li>
+                              <li><a id="novarodada" class="dropdown-item" href="../adm/boardgames/boardgames.html">Nova Rodada</a></li>
+                              <li><a id="startrodada" class="dropdown-item" href="../adm/boardgames/startboardgames.html">Iniciar Rodada</a></li>
+                              <li><a id="closerodada" class="dropdown-item" href="../adm/boardgames/closeboardgames.html">Encerrar Rodada</a></li>
+                              <li><a id="closerodada" class="dropdown-item" onclick="logout()">Sair</a></li>
+                            </ul>
+                        </li>
                     </nav>                  
                 </header>  
                 <br/>
                 <hr class="colorgraph">
                 <div id="menu-center" class="btn-menu text-center">
-                    <p><button type="button" class="badge bg-success p-2" id="appJogar" onclick="jogar()">JOGAR</button></p> 
+                    <p><button type="button" class="badge bg-success p-2" id="appJogar" onclick="jogar()">JOGAR</button></p>
                     <p><button type="button" class="badge bg-primary p-2" id="appRankingGeral" onclick="ranking_geral()">RANKING</button></p>
                 </div>
                 <hr class="colorgraph">
