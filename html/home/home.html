@@ -21,27 +21,29 @@
         <div class="container">
             <div class="card card-container">
                 <header>
-                    <nav class="navbar navbar-expand-sm">
-                        <span id="profile" class="col-sm-6 text-center">
-                            <p class="col-sm-3">
+                    <nav class="navbar navbar-expand-sm col-sm-12">
+                        <span id="profile" class="col-sm-2 text-center">
+                            <p">
                                 <span id="avatarUser"></span><br/>
                                 <span id="nameUser"></span><br/>
                             </p>
                         </span>
-                        <span class="col-sm-3">&nbsp;&nbsp;</span>
-                        <span id="coins" class="col-sm-3 ml-auto">
+                        <span class="col-sm-2">
+                            <li class="nav nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="../../assets/img/menu.png" width="10" height="5"></img></a>
+                                <ul class="dropdown-menu">
+                                <li><a id="perfil" class="dropdown-item" href="../home/atualizacao.html">Perfil</a></li>
+                                <li><a id="novarodada" class="dropdown-item" href="../adm/boardgames/boardgames.html">Nova Rodada</a></li>
+                                <li><a id="startrodada" class="dropdown-item" href="../adm/boardgames/startboardgames.html">Iniciar Rodada</a></li>
+                                <li><a id="closerodada" class="dropdown-item" href="../adm/boardgames/closeboardgames.html">Encerrar Rodada</a></li>
+                                <li><a id="closerodada" class="dropdown-item" onclick="logout()">Sair</a></li>
+                                </ul>
+                            </li>
+                        </span>
+                        <span class="col-sm-5">&nbsp;&nbsp;</span>
+                        <span id="coins" class="col-sm-2 ml-auto">
                             <span class="badge rounded-pill bg-success"><span id="score_total" class="badge bg-light text-dark"></span>&nbsp;AB@ COINS</span><br>
                         </span>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="../../assets/img/menu.png" width="50" height="50"></img></a>
-                            <ul class="dropdown-menu">
-                              <li><a id="perfil" class="dropdown-item" href="../home/atualizacao.html">Perfil</a></li>
-                              <li><a id="novarodada" class="dropdown-item" href="../adm/boardgames/boardgames.html">Nova Rodada</a></li>
-                              <li><a id="startrodada" class="dropdown-item" href="../adm/boardgames/startboardgames.html">Iniciar Rodada</a></li>
-                              <li><a id="closerodada" class="dropdown-item" href="../adm/boardgames/closeboardgames.html">Encerrar Rodada</a></li>
-                              <li><a id="closerodada" class="dropdown-item" onclick="logout()">Sair</a></li>
-                            </ul>
-                        </li>
                     </nav>                  
                 </header>  
                 <br/>
