@@ -19,12 +19,10 @@ firebase.auth().onAuthStateChanged( (User) => {
           var tokens_quiz;
           boardgamesService.getBoardgamebyPlayer(User.uid, (new Date()).toLocaleDateString('pt-BR')).then((boardgames) => {
             boardgames.forEach(boardgame => {
-              var new_players = new Array();
               boardgameid = boardgame.id;
               players = boardgame.dados.players;
               players.map(players=>players);
               players.forEach(player => {
-                new_players.push(player);
                 if(player.user_UID == User.uid){
                     tokens_quiz_used = player.usedtokens_quiz;
                     document.getElementById("score_round").innerHTML = player.score_round;
