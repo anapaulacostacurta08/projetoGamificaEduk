@@ -53,11 +53,11 @@ firebase.auth().onAuthStateChanged( (User) => {
                                     //if(player.user_UID == User.uid){
                                         tokens_quiz_used = new Array();
                                         tokens_quiz_used.push(tokenid);
-                                        players = new Array();
+                                        var players = new Array();
                                         tmp_players.forEach(tmp_player=>{
-                                            var player = tmp_player.data();
-                                            if(player.user_UID = User.uid){
-                                                player.push(tokens_quiz_used);
+                                            var player = tmp_players;
+                                            if(tmp_player.user_UID = User.uid){
+                                                player = {user_UID:tmp_player.user_UID, score_round: tmp_player.score_round, tokens_quiz_used};
                                             }
                                             players.push(player);
                                         })
