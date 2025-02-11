@@ -46,13 +46,14 @@ firebase.auth().onAuthStateChanged( (User) => {
         
                 if(category == "quiz"){
                     let pos_token = tokens_quiz.indexOf(tokenid);
+                    var players;
                     if(!(tokens_quiz_used === "undefined") || !(tokens_quiz_used === undefined)){
                             if(pos_token > -1){
                                 //players.forEach(player => {
                                     //if(player.user_UID == User.uid){
                                         tokens_quiz_used = new Array();
                                         tokens_quiz_used.push(tokenid);
-                                        var players = new players();
+                                        players = new players();
                                         tmp_players.forEach(tmp_player=>{
                                             var player = tmp_player.data();
                                             if(player.user_UID = User.uid){
@@ -74,7 +75,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                         let pos_token = tokens_quiz.indexOf(tokenid); 
                         if (pos_token_used > -1){ // Não foi usado  ainda
                             if(pos_token > -1){
-                                players.forEach(player => {
+                                tmp_players.forEach(player => {
                                     if(player.user_UID == User.uid){
                                         tokens_quiz_used.push(tokenid)
                                         player.push(tokens_quiz_used);
