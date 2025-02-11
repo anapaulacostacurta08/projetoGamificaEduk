@@ -139,8 +139,14 @@ getBoardgamebyPlayer: async (player, data) => {
             querySnapshot.forEach(doc => {
                 var id = doc.id;
                 var dados = doc.data();
-                var boardgame = {id,dados};
-                boardgames.push(boardgame);
+                var players = dados.players;
+                players.forEach(player => {
+                    if(player.user_UID == player){
+                        var boardgame = {id,dados};
+                        boardgames.push(boardgame);
+                    }
+                  });
+                
             });
             console.log(boardgames);
             return boardgames;
