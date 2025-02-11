@@ -57,7 +57,7 @@ firebase.auth().onAuthStateChanged( (User) => {
                                         tmp_players.forEach(tmp_player=>{
                                             var player = tmp_players;
                                             if(tmp_player.user_UID = User.uid){
-                                                player = {user_UID: tmp_player.user_UID, score_round: 10, tokens_quiz_used};
+                                                player = {user_UID: tmp_player.user_UID, score_round: tmp_player.score_round, tokens_quiz_used};
                                             }
                                             players.push(player);
                                         })
