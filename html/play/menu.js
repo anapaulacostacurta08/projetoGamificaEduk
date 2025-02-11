@@ -1,21 +1,21 @@
 //getProfile();
 //var quiz = getAtualQuiz();
-firebase.auth().onAuthStateChanged((user) => {
-  if (!user) {
+firebase.auth().onAuthStateChanged((User) => {
+  if (!User) {
       window.location.href = "../login/login.html";
   }else{
     //var boardgameid;
-    userService.findByUid(user.uid).then(user=>{
+    userService.findByUid(User.uid).then(user=>{
       document.getElementById("nameUser").innerHTML = user.nickname;
       var avatar = user.avatar;
       document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
       document.getElementById("score_total").innerHTML = user.score;
       //menu.html?score_round=0&level=1&boardgame_id=A02
-      boardgamesService.getBoardgamebyPlayer(user.uid).then((boardgames) => {
+      boardgamesService.getBoardgamebyPlayer(User.uid).then((boardgames) => {
         boardgames.forEach(boardgame => {
           var players = boardgame.dados.players;
           players.forEach(player => {
-            if(player.user_UID == user.uid){
+            if(player.user_UID == User.uid){
               //const params = new URLSearchParams(window.location.search);
               //const score_round = params.get('score_round');
               //boardgameid = params.get('boardgameid');

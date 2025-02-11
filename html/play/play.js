@@ -1,11 +1,10 @@
-firebase.auth().onAuthStateChanged((user) => {
-  if (!user) {
+firebase.auth().onAuthStateChanged((User) => {
+  if (!User) {
       window.location.href = "../login/login.html";
   }else{
-    var host;
-    userService.findByUid(user.uid).then(user=>{
+    userService.findByUid(User.uid).then(user=>{
       document.getElementById("nameUser").innerHTML = user.nickname;
-      user_UID = user.uid;
+      //var user_UID = User.uid;
       var avatar = user.avatar;
       document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
       document.getElementById("score_total").innerHTML = user.score;
@@ -30,13 +29,13 @@ firebase.auth().onAuthStateChanged((user) => {
             var players = boardgame.dados.players;
             if (players === undefined){
               players = new Array();
-              players[0] = {user_UID:user.uid,score_round:score};
+              players[0] = {user_UID:User.uid,score_round:score};
               boardgamesService.addPlayers(boardgameid, {players});
             }else{
               //variável para verficar se o jogador já entrou no tabuleiro
               let isOnPlayer = false;
               players.forEach(player => {
-                if(player.user_UID == user.uid){
+                if(player.user_UID == User.uid){
                   isOnPlayer = true;
                   score = player.score_round;
                 }
@@ -44,7 +43,7 @@ firebase.auth().onAuthStateChanged((user) => {
               if (isOnPlayer){
                 alert('Retornando para o Jogo!');
               }else{
-                players.push({user_UID:user.uid,score_round:0});
+                players.push({user_UID:User.uid,score_round:0});
                 boardgamesService.addPlayers(boardgameid, {players});
               }
             }

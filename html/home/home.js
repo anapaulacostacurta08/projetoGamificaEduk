@@ -1,8 +1,8 @@
-firebase.auth().onAuthStateChanged((user) => {
-    if (!user) {
+firebase.auth().onAuthStateChanged((User) => {
+    if (!User) {
         window.location.href = "../login/login.html";
     }else{
-        userService.findByUid(user.uid).then(user=>{
+        userService.findByUid(User.uid).then(user=>{
             if(user === undefined){
                 var btn_jogar = document.getElementById("btnJogar");
                 btn_jogar.disabled = true;  
