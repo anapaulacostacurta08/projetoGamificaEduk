@@ -52,9 +52,11 @@ firebase.auth().onAuthStateChanged( (User) => {
                                 tokens_quiz_used.push(tokenid);
                                 players[count-1].push(tokens_quiz_used);
                                 boardgamesService.addPlayers(boardgameid, {players});
-                                tokenValidoQuiz();
+                                alert("Token Válido!");        
+                                window.location.href = "../quiz/quiz.html";
                             }else{
-                                tokenInvalido();
+                                alert("Token inválido!");
+                                window.location.href = "../../play/menu.html";
                             }
                     }else{    
                         let pos_token_used = tokens_quiz_used.indexOf(tokenid);  
@@ -64,9 +66,11 @@ firebase.auth().onAuthStateChanged( (User) => {
                                 tokens_quiz_used.push(tokenid);
                                 players[count-1].push(tokens_quiz_used);
                                 boardgamesService.addPlayers(boardgameid, {players});
-                                tokenValidoQuiz();
+                                alert("Token Válido!");        
+                                window.location.href = "../quiz/quiz.html";
                             }else{
-                                tokenInvalido();
+                                alert("Token inválido!");
+                                window.location.href = "../../play/menu.html";
                             }
                         }
                     }
@@ -82,16 +86,6 @@ firebase.auth().onAuthStateChanged( (User) => {
                     window.location.href = "../final/final.html";
                 }
         });
-    }
-
-    function tokenInvalido(){
-        alert("Token inválido!");
-        window.location.href = "../../play/menu.html";
-    }
-    
-    function tokenValidoQuiz(){
-        alert("Token Válido!");        
-        window.location.href = "../quiz/quiz.html";
     }
 });
 
