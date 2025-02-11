@@ -40,7 +40,6 @@ firebase.auth().onAuthStateChanged((User) => {
                   isOnPlayer = true;
                   score = player.score_round;
                 }
-                player.score_round = 10;
               });
               if (isOnPlayer){
                 alert('Retornando para o Jogo!');
