@@ -158,10 +158,15 @@ getBoardgamebyPlayer: async (user_UID, data) => {
             .delete();
     },
     save: async (boardgames) => {
-        return await firebase.firestore()
+        try{
+            const querySnapshot = await firebase.firestore()
             .collection("boardgames")
             .doc()
-            .set(boardgames)
+            .set(boardgames);
+            return querySnapshot;
+        }catch (error) {
+            throw error;
+        }
     },
     update: async (id,boardgame)  => {
         return await firebase.firestore()
