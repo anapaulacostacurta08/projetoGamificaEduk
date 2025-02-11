@@ -14,16 +14,15 @@ firebase.auth().onAuthStateChanged( (User) => {
           const params = new URLSearchParams(window.location.search);
           const category = params.get('category');
           var boardgameid;
-          var players;
+          var tmp_players;
           var tokens_quiz_used;
           var tokens_quiz;
           var count =0;
           boardgamesService.getBoardgamebyPlayer(User.uid, (new Date()).toLocaleDateString('pt-BR')).then((boardgames) => {
             boardgames.forEach(boardgame => {
               boardgameid = boardgame.id;
-              players = boardgame.dados.players;
-              players.map(players=>players);
-              players.forEach(player => {
+              tmp_players = boardgame.dados.players;
+              tmp_players.forEach(player => {
                 count++;
                 if(player.user_UID == User.uid){
                     tokens_quiz_used = player.usedtokens_quiz;
@@ -53,8 +52,14 @@ firebase.auth().onAuthStateChanged( (User) => {
                                     //if(player.user_UID == User.uid){
                                         tokens_quiz_used = new Array();
                                         tokens_quiz_used.push(tokenid);
-                                        //player.map(player=>player);
-                                        players[count-1].push(tokens_quiz_used);
+                                        var players = new players();
+                                        tmp_players.forEach(tmp_player=>{
+                                            var player = tmp_player.data();
+                                            if(player.user_UID = User.uid){
+                                                player.push(tokens_quiz_used);
+                                            }
+                                            players.push(player);
+                                        })
                                     //}
                                 //});
                                 boardgamesService.addPlayers(boardgameid, {players});
