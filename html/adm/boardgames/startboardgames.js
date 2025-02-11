@@ -10,6 +10,11 @@ firebase.auth().onAuthStateChanged((User) => {
           console.log(error);
       });
 
+      const lista_boardgames = document.getElementById("lista_boardgames");
+      const pesquisa_boardgames = document.getElementById("startboardgame-form");
+      const ativar_boardgames = document.getElementById("ativarboardgame-form");
+      ativar_boardgames.style.display = "none";
+
       // Captura o evento de envio do formulário
       document.getElementById("startboardgame-form").addEventListener("submit", function(event) {
         event.preventDefault();
