@@ -26,7 +26,7 @@ firebase.auth().onAuthStateChanged((User) => {
         const activity_state = "waiting"; // "waiting", "started", "finished"
 
         let linhas = ''; 
-        boardgamesService.getBoardGameByDados(activity_id, activity_date, activity_teacher, activity_level, activity_state).then(activities => {
+        boardgamesService.getActivitiesbyDate(activity_id, activity_date, activity_teacher, activity_level, activity_state).then(activities => {
           activities.forEach(activity => {
                   var activity_uid = activity.uid;
                   var activity_dados = activity.dados;

@@ -19,7 +19,10 @@ firebase.auth().onAuthStateChanged((User) => {
         var msg_error = document.getElementById("res_error");  
       
         // Captura os dados do formulário
-        const activity_date = new Date(document.getElementById("activity_date_start").value).toLocaleDateString('pt-BR');
+        const activity_date_start = new Date(document.getElementById("activity_date_start").value).toLocaleDateString('pt-BR');
+        const activity_date_final = new Date(document.getElementById("activity_date_start").value).toLocaleDateString('pt-BR');
+        const activity_time_start = new Date(document.getElementById("activity_date_start").value).toLocaleDateString('pt-BR');
+        const activity_time_final = new Date(document.getElementById("activity_date_start").value).toLocaleDateString('pt-BR');
         const activity_level = document.getElementById("activity_level").value;
         const activity_teacher = User.uid;
         const activity_id = document.getElementById("activity_id").value;
