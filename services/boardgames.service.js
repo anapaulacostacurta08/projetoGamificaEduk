@@ -173,16 +173,5 @@ getBoardgamebyPlayer: async (user_UID, data) => {
             .collection("boardgames")
             .doc(id)
             .update(boardgame);
-    },
-    addPlayers:  async (id, players) => {
-        try{
-        const querySnapshot = await firebase.firestore()
-            .collection("boardgames")
-            .doc(id)
-            .update(players);
-            return querySnapshot;
-        }catch (error) {
-            throw error;
-        }
     }
 };

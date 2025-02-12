@@ -43,14 +43,11 @@ firebase.auth().onAuthStateChanged( (User) => {
             event.preventDefault();
             // Captura os dados do formulário
             let tokenid = document.getElementById("tokenid").value;
-        
                 if(category == "quiz"){
                     let pos_token = tokens_quiz.indexOf(tokenid);
                     var players;
                     if(!(tokens_quiz_used === "undefined") || !(tokens_quiz_used === undefined)){
                             if(pos_token > -1){
-                                //players.forEach(player => {
-                                    //if(player.user_UID == User.uid){
                                         tokens_quiz_used = new Array();
                                         tokens_quiz_used.push(tokenid);
                                         var players = new Array();
@@ -60,11 +57,9 @@ firebase.auth().onAuthStateChanged( (User) => {
                                                 player = {user_UID: tmp_player.user_UID, score_round: tmp_player.score_round, tokens_quiz_used};
                                             }
                                             players.push(player);
-                                        })
-                                    //}
-                                //});
+                                        })                               
                                 try{
-                                    boardgamesService.addPlayers(boardgameid, players).then(alert("Token Válido!"));
+                                    boardgamesService.update(boardgameid, {players}).then(alert("Token Válido!"));
                                     window.location.href = "../quiz/quiz.html";
                                 } catch (error) {
                                     alert(error);
@@ -84,15 +79,14 @@ firebase.auth().onAuthStateChanged( (User) => {
                                         player.push(tokens_quiz_used);
                                     }
                                 });
-                                boardgamesService.addPlayers(boardgameid, players).then( alert("Token Válido!"));      
+                                boardgamesService.update(boardgameid, {players}).then(alert("Token Válido!"));      
                                 window.location.href = "../quiz/quiz.html";
                             }else{
                                 alert("Token inválido!");
                                 window.location.href = "../../play/menu.html";
                             }
                         }
-                    }
-                    boardgamesService.addPlayers(boardgameid, {players});     
+                    }   
                 }
                 if(category == "challange"){
                     window.location.href = "../challange/challange.html";
