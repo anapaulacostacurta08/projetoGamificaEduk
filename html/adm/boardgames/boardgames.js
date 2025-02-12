@@ -19,17 +19,16 @@ firebase.auth().onAuthStateChanged((User) => {
         var msg_error = document.getElementById("res_error");  
       
         // Captura os dados do formulário
-        const round_date = (new Date()).toLocaleDateString('pt-BR');
-        const level = document.getElementById("activity_level").value;
-        const host = User.uid;
-        const boardgameid = document.getElementById("activity_id").value;
-        const state = "waiting"; // "waiting", "started", "finished"
+        const activity_date = document.getElementById("activity_date_start").value;
+        const activity_level = document.getElementById("activity_level").value;
+        const activity_teacher = User.uid;
+        const activity_id = document.getElementById("activity_id").value;
+        const activity_state = "waiting"; // "waiting", "started", "finished"
       
-        
+        /** 
         boardgamesService.getBoardGameByRodadaID(boardgameid).then(boardgames=>{
           boardgames.forEach(boardgame=>{
             msg_error.innerHTML= "Atividade: "+boardgame.dados.boardgameid+" já cadastrada!";
-            alert_error.classList.add("show");
           })
         }).catch(error => {
               if(error == "Não encontrado"){
@@ -37,21 +36,23 @@ firebase.auth().onAuthStateChanged((User) => {
               }
         });
 
+        */
+
         // Cria o objeto para salvar o quiz
-        const newboardgame = {
-          round_date,
-          boardgameid,
-          level,
-          host,
-          state,  
+        const newactivity = {
+          activity_date,
+          activity_id,
+          activity_level,
+          activity_teacher,
+          activity_state,  
         };
         try{
-          boardgamesService.save(newboardgame);
-          msg_sucesso.innerHTML= "Iniciada Cadastrada com Sucesso!";
+          boardgamesService.save(newactivity);
+          msg_sucesso.innerHTML= "Atividade cadastrada com Sucesso!";
           alert_sucesso.classList.add("show");
           document.getElementById("bt-success").disabled = true;
         } catch (error){
-          msg_error.innerHTML= "Rodada: "+boardgame.dados.boardgameid+" já cadastrada!";
+          msg_error.innerHTML= error;
           alert_error.classList.add("show");
         }
     });

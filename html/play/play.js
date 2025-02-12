@@ -15,22 +15,23 @@ firebase.auth().onAuthStateChanged((User) => {
     document.getElementById("play-form").addEventListener("submit", function(event) {
       event.preventDefault();
       // Captura os dados do formulário
-      let rodada_id = document.getElementById("boardgameid").value;
-      let boardgame_level;
-      let boardgame_id; // id do tabuleiro fisico
-      let boardgameid; // UID do doc no firestone
+      let activity_id = document.getElementById("activity_id").value;
+      let activity_level;
+      let activity_uid; // UID do doc no firestone
+      let activityid; // 
       let score = 0;
-      boardgamesService.getBoardGameByRodadaID(rodada_id).then((boardgames) => {
-        boardgames.forEach(boardgame => {
-          boardgame_id = boardgame.dados.boardgameid;
-          if(boardgame_id == rodada_id){
-            boardgameid = boardgame.id; // UID do doc no firestone
-            boardgame_level = boardgame.dados.level;
-            var tmp_players = boardgame.dados.players;
+
+      boardgamesService.getActivitybyPlayer(activity_id).then((activities) => {
+        activities.forEach(activity => {
+          activityid = activity.dados.activity_id;
+          if(activityid == activity_id){
+            activity_uid = activity.uid; // UID do doc no firestone
+            activity_level = activity.dados.level;
+            var tmp_players = activity.dados.players;
             if (tmp_players === undefined){
               let players = new Array();
               players.push({user_UID:User.uid,score_round:score});
-              boardgamesService.update(boardgameid, {players});
+              boardgamesService.update(activity_uid, {players});
             }else{
               let players = new Array();
               //variável para verficar se o jogador já entrou no tabuleiro
@@ -46,7 +47,7 @@ firebase.auth().onAuthStateChanged((User) => {
                 alert('Retornando para o Jogo!');
               }else{
                 players.push({user_UID:User.uid,score_round:score});
-                boardgamesService.update(boardgameid, {players});
+                boardgamesService.update(activity_uid, {players});
               }
             }
           }

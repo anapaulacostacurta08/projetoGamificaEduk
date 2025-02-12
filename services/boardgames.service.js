@@ -125,6 +125,32 @@ getBoardgamebyData: async (data) => {
     console.log(boardgames);
     return boardgames;
 },
+getActivitybyPlayer: async (activity_id, user_UID, data) => {
+    const querySnapshot = await firebase.firestore().collection("activities")
+            .where('state','==','started')
+            .where('round_date','==',data)
+            .get();
+            console.log(querySnapshot);
+
+            if(querySnapshot.empty){
+                throw new Error("Atividade não encontrado:" + activity_id);
+            }
+            var activities = new Array();
+            querySnapshot.forEach(doc => {
+                var uid = doc.id;
+                var dados = doc.data();
+                var players = dados.players;
+                players.forEach(player => {
+                    if(player.user_UID == user_UID){
+                        var activity = {uid,dados};
+                        activities.push(activity);
+                    }
+                  });
+                
+            });
+            console.log(activities);
+            return activities;
+},
 getBoardgamebyPlayer: async (user_UID, data) => {
     const querySnapshot = await firebase.firestore().collection("boardgames")
             .where('state','==','started')
@@ -157,12 +183,12 @@ getBoardgamebyPlayer: async (user_UID, data) => {
             .doc(boardgames.uid)
             .delete();
     },
-    save: async (boardgames) => {
+    save: async (activities) => {
         try{
             const querySnapshot = await firebase.firestore()
-            .collection("boardgames")
+            .collection("activities")
             .doc()
-            .set(boardgames);
+            .set(activities);
             return querySnapshot;
         }catch (error) {
             throw error;
