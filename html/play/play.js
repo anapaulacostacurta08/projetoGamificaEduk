@@ -30,7 +30,7 @@ firebase.auth().onAuthStateChanged((User) => {
             if (tmp_players === undefined){
               let players = new Array();
               players.push({user_UID:User.uid,score_round:score});
-              boardgamesService.addPlayers(boardgameid, {players});
+              boardgamesService.update(boardgameid, {players});
             }else{
               let players = new Array();
               //variável para verficar se o jogador já entrou no tabuleiro
@@ -46,7 +46,7 @@ firebase.auth().onAuthStateChanged((User) => {
                 alert('Retornando para o Jogo!');
               }else{
                 players.push({user_UID:User.uid,score_round:score});
-                boardgamesService.addPlayers(boardgameid, {players});
+                boardgamesService.update(boardgameid, {players});
               }
             }
           }
