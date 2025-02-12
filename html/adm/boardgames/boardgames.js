@@ -19,7 +19,7 @@ firebase.auth().onAuthStateChanged((User) => {
         var msg_error = document.getElementById("res_error");  
       
         // Captura os dados do formulário
-        const activity_date = document.getElementById("activity_date_start").value;
+        const activity_date = new Date(document.getElementById("activity_date_start").value).toLocaleDateString('pt-BR');
         const activity_level = document.getElementById("activity_level").value;
         const activity_teacher = User.uid;
         const activity_id = document.getElementById("activity_id").value;
@@ -37,7 +37,7 @@ firebase.auth().onAuthStateChanged((User) => {
         });
 
         */
-
+      
         // Cria o objeto para salvar o quiz
         const newactivity = {
           activity_date,
