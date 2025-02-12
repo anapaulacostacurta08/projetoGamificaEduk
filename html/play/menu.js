@@ -15,10 +15,6 @@ firebase.auth().onAuthStateChanged((User) => {
           var players = boardgame.dados.players;
           players.forEach(player => {
             if(player.user_UID == User.uid){
-              //const params = new URLSearchParams(window.location.search);
-              //const score_round = params.get('score_round');
-              //boardgameid = params.get('boardgameid');
-              //const level = params.get('level');
               document.getElementById("score_round").innerHTML = player.score_round;
               document.getElementById("level").innerHTML = boardgame.dados.level;
             }

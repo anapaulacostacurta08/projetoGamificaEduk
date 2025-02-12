@@ -26,25 +26,26 @@ firebase.auth().onAuthStateChanged((User) => {
           if(boardgame_id == rodada_id){
             boardgameid = boardgame.id; // UID do doc no firestone
             boardgame_level = boardgame.dados.level;
-            var players = boardgame.dados.players;
-            if (players === undefined){
-              players = new Array();
-              players[0] = {user_UID:User.uid,score_round:score};
+            var tmp_players = boardgame.dados.players;
+            if (tmp_players === undefined){
+              let players = new Array();
+              players.push({user_UID:User.uid,score_round:score});
               boardgamesService.addPlayers(boardgameid, players);
             }else{
+              let players = new Array();
               //variável para verficar se o jogador já entrou no tabuleiro
               let isOnPlayer = false;
-              players.forEach(player => {
-                player.score_round = 10;
+              tmp_players.forEach(player => {
                 if(player.user_UID == User.uid){
                   isOnPlayer = true;
                   score = player.score_round;
                 }
+                players.push({user_UID:player.user_UID,score_round:player.score_round});
               });
               if (isOnPlayer){
                 alert('Retornando para o Jogo!');
               }else{
-                players.push({user_UID:User.uid,score_round:0});
+                players.push({user_UID:User.uid,score_round:score});
                 boardgamesService.addPlayers(boardgameid, players);
               }
             }
