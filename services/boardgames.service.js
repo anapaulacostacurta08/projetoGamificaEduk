@@ -125,10 +125,10 @@ getBoardgamebyData: async (data) => {
     console.log(boardgames);
     return boardgames;
 },
-getActivitybyPlayer: async (activity_id, user_UID, data) => {
+getActivities: async (activity_id) => {
     const querySnapshot = await firebase.firestore().collection("activities")
-            .where('state','==','started')
-            .where('round_date','==',data)
+            .where('activity_id', '==',activity_id)
+            .where('activity_state','==','started')
             .get();
             console.log(querySnapshot);
 
@@ -139,14 +139,8 @@ getActivitybyPlayer: async (activity_id, user_UID, data) => {
             querySnapshot.forEach(doc => {
                 var uid = doc.id;
                 var dados = doc.data();
-                var players = dados.players;
-                players.forEach(player => {
-                    if(player.user_UID == user_UID){
-                        var activity = {uid,dados};
-                        activities.push(activity);
-                    }
-                  });
-                
+                var activity = {uid,dados};
+                activities.push(activity);
             });
             console.log(activities);
             return activities;

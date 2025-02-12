@@ -21,7 +21,7 @@ firebase.auth().onAuthStateChanged((User) => {
       let activityid; // 
       let score = 0;
 
-      boardgamesService.getActivitybyPlayer(activity_id).then((activities) => {
+      boardgamesService.getActivities(activity_id).then((activities) => {
         activities.forEach(activity => {
           activityid = activity.dados.activity_id;
           if(activityid == activity_id){
