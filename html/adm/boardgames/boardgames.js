@@ -10,7 +10,7 @@ firebase.auth().onAuthStateChanged((User) => {
           console.log(error);
       });
 
-      document.getElementById("boardgame-form").addEventListener("submit", function(event) {
+      document.getElementById("activity-form").addEventListener("submit", function(event) {
         event.preventDefault();
        
         var alert_sucesso = document.getElementById("alert_sucesso");
@@ -20,15 +20,15 @@ firebase.auth().onAuthStateChanged((User) => {
       
         // Captura os dados do formulário
         const round_date = (new Date()).toLocaleDateString('pt-BR');
-        const level = document.getElementById("level").value;
+        const level = document.getElementById("activity_level").value;
         const host = User.uid;
-        const boardgameid = document.getElementById("boardgameid").value;
+        const boardgameid = document.getElementById("activity_id").value;
         const state = "waiting"; // "waiting", "started", "finished"
       
         
         boardgamesService.getBoardGameByRodadaID(boardgameid).then(boardgames=>{
           boardgames.forEach(boardgame=>{
-            msg_error.innerHTML= "Rodada: "+boardgame.dados.boardgameid+" já cadastrada!";
+            msg_error.innerHTML= "Atividade: "+boardgame.dados.boardgameid+" já cadastrada!";
             alert_error.classList.add("show");
           })
         }).catch(error => {

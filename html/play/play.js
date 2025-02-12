@@ -30,7 +30,7 @@ firebase.auth().onAuthStateChanged((User) => {
             if (tmp_players === undefined){
               let players = new Array();
               players.push({user_UID:User.uid,score_round:score});
-              boardgamesService.addPlayers(boardgameid, players);
+              boardgamesService.addPlayers(boardgameid, {players});
             }else{
               let players = new Array();
               //variável para verficar se o jogador já entrou no tabuleiro
