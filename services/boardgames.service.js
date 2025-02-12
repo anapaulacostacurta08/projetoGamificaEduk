@@ -188,10 +188,10 @@ getBoardgamebyPlayer: async (user_UID, data) => {
             throw error;
         }
     },
-    update: async (id,boardgame)  => {
+    update: async (id,activities)  => {
         return await firebase.firestore()
-            .collection("boardgames")
+            .collection("activities")
             .doc(id)
-            .update(boardgame);
+            .update(activities);
     }
 };
