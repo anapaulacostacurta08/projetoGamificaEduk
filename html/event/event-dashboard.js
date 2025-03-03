@@ -7,11 +7,11 @@ firebase.auth().onAuthStateChanged((User) => {
             let players = event.dados.players;
             players.forEach(player => {
                 if(player.user_UID === User.uid){
-                    listItem.innerHTML =  listItem.innerHTML + 
+                  events_list.innerHTML =   events_list.innerHTML + 
                     `<span id="coin" class="col-sm-3 ml-auto"><span class="badge rounded-pill bg-success"><span id="coins" class="badge bg-light text-dark">${player.coins}</span>&nbsp;AB@ COINS</span><br/></span>`;
                 }
             })
-            events_list.innerHTML =  listItem.innerHTML + `</div>`;
+            events_list.innerHTML =   events_list.innerHTML + `</div>`;
         })
     })
   } 
