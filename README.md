@@ -1,6 +1,6 @@
-# Descrição do Projeto 
+ https://anapaulacostacurta-ifpr.github.io/projetoGamificaEduk-Test/# Descrição do Projeto 
 
-## Link app **: https://anapaulacostacurta-ifpr.github.io/projetoGamificaEduk/
+## Link app **: https://anapaulacostacurta-ifpr.github.io/projetoGamificaEduk-Test/
 
 ## Idéias de Protótipos:
 

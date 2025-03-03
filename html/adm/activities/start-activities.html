@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../../../assets/css/style.css" />
+        <link rel="shortcut icon" href="../../../assets/img/favicon.png">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+        <script src="../../../firebase-init.js"></script>
+        <script src="../../../services/user.service.js"></script>
+        <script src="../../../services/activities.service.js"></script>
+        <script src="../../../services/events.service.js"></script>
+    </head>
+    <body>
+    <form id="start-activity-form">
+      <h5 class="text-center">Iniciar Atividade</h5>
+      <hr class="colorgraph">
+        <div class="col-sm-12">
+          <label class="form-label col-3" for="text"><strong>ID:</strong>
+            <input class="form-control form-control-sm" type="text" size="10" id="activity_id" name="activity_id" required>
+          </label>
+          <label class="form-label col-2" for="text"><strong>Fase:</strong>
+            <input class="form-control form-control-sm" type="number" min="0" size="10" id="activity_level" name="activity_level" required>
+          </label>
+          <label class="form-label col-4" for="text"><strong>Data de Início:</strong>
+            <input class="form-control form-control-sm" type="date" id="activity_date" size="5 name="activity_date" required>
+          </label>
+          <div class="col-md-12 d-flex align-items-center">
+            <div class="col-12 text-center">     
+              <button id="bt-success" class="col-4 badge bg-success p-2" type="submit">PESQUISAR</button>
+            </div>
+          </div>
+        </div>   
+    </form>
+    <hr class="colorgraph">
+    <form id="ativate-activity-form">
+      <div id="lista_activities" class="form-check">
+      </div>
+      <hr class="colorgraph">
+      <div class="col-md-12 d-flex align-items-center">
+        <div class="col-12 text-center">     
+          <button id="ativar" class="col-4 badge bg-success p-2" type="submit">ATIVAR</button>
+        </div>
+      </div>
+      <hr class="colorgraph">
+      <div id="alert_sucesso" class="alert alert-success fade">
+        <strong id="res_sucesso"></strong>
+      </div>
+      <div id="alert_error" class="alert alert-danger alert-dismissible fade">
+        <strong id="res_error"></strong>
+      </div>
+    </form>
+  <script src="start-activities.js"></script>
+</body>
+</html>

@@ -19,55 +19,27 @@
   <script src="../../../services/questions.service.js"></script>
 </head>
 <body>
-  <div class="container-sm">
-    <header>
-      <nav class="navbar navbar-expand-sm">
-          <div class="container-fluid">
-              <img class="navbar-brand" src="../../../assets/img/AnaBiTE.svg" alt="80" width="180">
-              <div class="btn-group">
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Config</button>
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="../../adm/boardgames/boardgames.html">Novo Tabuleiro</a>
-                    <a class="dropdown-item" href="../../adm/questions/questions.html">Cadastrar Questões</a>
-                  </div>
-                </div>   
-              <button class="btn btn-link" type="button" class="clear" onclick="logout()">Sair</button>
+    <form id="question-form">
+      <!-- question Box -->
+      <div class="question_box">
+          <header>
+          <div class="timer">
+              <div class="time_left_txt">Tempo Restante</div>
+              <div class="timer_sec">15</div>
           </div>
-      </nav>
-    </header>
-    <div class="card">
-      <p id="nameUser"></p>
-      <p id="level"></p>
-      <p id="score_round"></p>
-      <p id="score_total"></p>
-    </div>
-    <div class="container">
-      <div id="question-card">
-        <form id="question-form">
-          <!-- question Box -->
-          <div class="question_box">
-              <header>
-              <div class="timer">
-                  <div class="time_left_txt">Tempo Restante</div>
-                  <div class="timer_sec">15</div>
-              </div>
-              <div class="time_line"></div>
-              </header>
-              <section>
-              <div class="que_text">
-                  <!-- Here I've inserted question from JavaScript -->
-              </div>
-              <div class="option_list">
-                  <!-- Here I've inserted options from JavaScript -->
-              </div>
-              </section>
+          <div class="time_line"></div>
+          </header>
+          <section>
+          <div class="que_text">
+              <!-- Here I've inserted question from JavaScript -->
           </div>
-          <button class="btn btn-success" type="submit">Enviar</button>
-        </form>
+          <div class="option_list">
+              <!-- Here I've inserted options from JavaScript -->
+          </div>
+          </section>
       </div>
-    </div>
-
-    <script src="question.js"></script>
+      <button class="btn btn-success" type="submit">Enviar</button>
+    </form>
     <script src="quiz.js"></script>
   </div>
 </body>
