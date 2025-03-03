@@ -1,13 +1,9 @@
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {
-    userService.findByUid(User.uid).then(user=>{
-      document.getElementById("nameUser").innerHTML = user.nickname;
-      //var user_UID = User.uid;
-      var avatar = user.avatar;
-      document.getElementById("avatarUser").innerHTML ='<img class="img-fluid rounded-circle img-thumbnail" src="../../assets/img/perfil/'+avatar+'.png" width="50" height="50"></img>';
-    }).catch(error => {
-        console.log(error);
-    });
+    var alert_sucesso = document.getElementById("alert_sucesso");
+    var alert_error = document.getElementById("alert_error");
+    var msg_sucesso = document.getElementById("res_sucesso");
+    var msg_error = document.getElementById("res_error");  
 
     document.getElementById("play-form").addEventListener("submit", function(event) {
       event.preventDefault();
@@ -23,8 +19,15 @@ firebase.auth().onAuthStateChanged((User) => {
       activityService.getActivities(id).then((activities) => {
         activities.forEach(activity => {
           if(activity.dados.id == id){
-            if(ckeckin_date >= activity.dados.date_start &&  ckeckin_date <= activity.dados.date_final){
-              if( ckeckin_time >= activity.dados.time_start && ckeckin_time <= activity.dados.time_final){
+
+            let data_start = event.dados.date_start.split("/");
+            let time_start = event.dados.time_start.split(":");
+            let data_time_start = new Date(data_start[2],data_start[1]-1,data_start[0],time_start[0],time_start[1]);
+            let data_final = event.dados.date_final.split("/");
+            let time_final = event.dados.time_final.split(":");
+            let data_time_final = new Date(data_final[2],data_final[1]-1,data_final[0],time_final[0],time_final[1]);
+
+            if(date >= data_time_start &&  date <= data_time_final){
                   activity_uid = activity.uid; // UID do doc no firestone
                     var players = new Array();
                     var tmp_players = activity.dados.players;
@@ -57,7 +60,7 @@ firebase.auth().onAuthStateChanged((User) => {
                     let tokens_quiz_used = [];
                     players[last] = {user_UID,score,ckeckin_date,ckeckin_time,timestamp,quiz_answered,tokens_quiz_used};
                     activityService.update(activity_uid, {players}).then(window.location.href = "./menu.html?activity_uid="+activity_uid);
-              }
+            
             }else{
               alert("Atividade fora do prazo!");
             }
@@ -72,3 +75,7 @@ firebase.auth().onAuthStateChanged((User) => {
     
   }
 });
+
+function refresh(){
+  location.reload();
+}

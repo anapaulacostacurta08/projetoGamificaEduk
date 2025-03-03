@@ -18,14 +18,28 @@
 </head>
 <body>
   <hr class="colorgraph m-0 p-0">
+  <h4>Check-in em Atividade</h4>
+  <hr class="colorgraph m-0 p-0">
   <div class="m-2 p-2">
     <form id="play-form">
-      <h6>Insira o código da atividade informado pelo professor.</h6>
-      <p>
-        <input class="p-2" type="activity_id" id="activity_id" name="activity_id" placeholder="ID da Atividade:" required/><span>   
+      <label class="form-label col-3" for="text"><strong>ID da Atividade:</strong>
+      <input class="p-2" type="activity_id" id="activity_id" name="activity_id" required/>   
+      </label>
+      <div class="col-md-12 d-flex align-items-center">
+        <div class="col-4 text-center">
+          <button id="refresh" class="col-8 badge bg-primary p-2" onclick="refresh()" type="button">ATUALIZAR</button>
+        </div>
+        <div class="col-4 text-center">
           <button class="badge bg-success p-2" type="submit">ENTRAR</button>
-        </span>
-      </p> 
+        </div>
+      </div>
+      <div id="alert_sucesso" class="alert alert-success fade">
+        <strong id="res_sucesso"></strong>
+      </div>
+      <div id="alert_error" class="alert alert-danger alert-dismissible fade">
+        <strong id="res_error"></strong>
+      </div>
+    </div>
     </form>
   </div>
   <script src="play.js"></script>
