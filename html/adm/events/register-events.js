@@ -29,6 +29,7 @@ firebase.auth().onAuthStateChanged((User) => {
         const state = "waiting"; // "waiting", "started", "finished"
         const hosts_options = document.getElementById("hosts");
         const host = hosts_options.options[hosts_options.selectedIndex].value;
+        const players = [];
       
         // Cria o objeto para salvar o quiz
         const newevent = {
@@ -37,6 +38,7 @@ firebase.auth().onAuthStateChanged((User) => {
           time_start,
           time_final,
           host,
+          players,
           id,
           name,
           state,  
