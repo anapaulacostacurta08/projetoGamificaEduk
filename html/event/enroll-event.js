@@ -13,8 +13,8 @@ firebase.auth().onAuthStateChanged((User) => {
       let coins = 0;
       let user_UID = User.uid;
       let date = new Date();
-      let ckeckin_date = date.toLocaleDateString('pt-BR');
-      let ckeckin_time = date.toLocaleTimeString('pt-BR');
+      let enroll_date = date.toLocaleDateString('pt-BR');
+      let enroll_time = date.toLocaleTimeString('pt-BR');
       let timestamp = date.getTime();
 
       eventService.getEventsByID(id).then((events) => {
@@ -35,18 +35,16 @@ firebase.auth().onAuthStateChanged((User) => {
               for(i=0;i<last;i++){
                 if(tmp_players[i].user_UID == user_UID){
                   coins = tmp_players[i].coins;
-                  //alert('Retornando para o Jogo!');
-                  //window.location.href = "./menu.html?activity_uid="+activity_uid;
                 }else{
                   let user_UID = tmp_players[i].user_UID;
                   let coins = tmp_players[i].coins;
-                  let ckeckin_date = tmp_players[i].ckeckin_date;
-                  let ckeckin_time = tmp_players[i].ckeckin_time;
+                  let enroll_date = tmp_players[i].enroll_date;
+                  let enroll_time = tmp_players[i].enroll_time;
                   let timestamp = tmp_players[i].timestamp;
-                  players[i] = {user_UID,coins,ckeckin_date,ckeckin_time, timestamp};
+                  players[i] = {user_UID,coins,enroll_date,enroll_time, timestamp};
                 }
               }
-              players[last] = {user_UID,coins,ckeckin_date,ckeckin_time,timestamp};
+              players[last] = {user_UID,coins,enroll_date,enroll_time,timestamp};
               eventService.update(event_uid, {players});
               msg_sucesso.innerHTML= "Inscrição no evento realizada com sucesso!";
               alert_sucesso.classList.add("show");
