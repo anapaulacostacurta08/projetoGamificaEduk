@@ -78,7 +78,3 @@ firebase.auth().onAuthStateChanged((User) => {
     
   }
 });
-
-function refresh(){
-  location.reload();
-}
