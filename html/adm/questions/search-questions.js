@@ -8,7 +8,7 @@ firebase.auth().onAuthStateChanged( (User) => {
       // Captura os dados do formulário
       const level = document.getElementById("level").value;
       const category = document.getElementById("category").value;
-      questionService.getQuestionsByLevelCategory(level,category).then(questions => {
+      questionsService.getQuestionsByLevelCategory(level,category).then(questions => {
           questions.forEach(question => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `
