@@ -1,4 +1,5 @@
 popularSelectActivities();
+
 firebase.auth().onAuthStateChanged( (User) => {
   if (User) {
     const card_questions = document.getElementById('card-questions');
