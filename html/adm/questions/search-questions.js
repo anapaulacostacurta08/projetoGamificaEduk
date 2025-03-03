@@ -1,7 +1,7 @@
 firebase.auth().onAuthStateChanged( (User) => {
   if (User) {
-    const questionsList = document.getElementById('questionUid');
-    questionsList.innerHTML = ''; // Limpa a lista de perguntas
+    const card_questions = document.getElementById('card-questions');
+    card_questions.innerHTML = ''; // Limpa a lista de perguntas
 
     document.getElementById("search-form").addEventListener("submit", function(event) {
       event.preventDefault();
@@ -20,7 +20,7 @@ firebase.auth().onAuthStateChanged( (User) => {
               <p><strong>Respostas:</strong> ${question.options}</p>
               <p><strong>Resposta Correta:</strong> ${question.answer}</p>
             `;
-            questionsLevel.appendChild(listItem);
+            card_questions.appendChild(listItem);
           });
       }).catch(error => {
           alert('Erro ao carregar perguntas:'+error.message);
