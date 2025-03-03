@@ -3,7 +3,6 @@ firebase.auth().onAuthStateChanged((User) => {
     let events_list = document.getElementById("events_list").value;
     eventService.getEventsByUserUID(User.uid).then((events) => {
         events.forEach(event => {
-            let event
             const listItem = document.createElement('li')
             listItem.innerHTML = `<div class="card"><span>${event.dados.name} - ${event.dados.state}</span>`;
             let players = event.dados.players;
