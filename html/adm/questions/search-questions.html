@@ -21,7 +21,7 @@
             <h5 class="text-center">Consultar Questão</h5>
             <hr class="colorgraph">
             <label class="form-label" for="level"><strong>Selecione o nível:</strong>
-                <select id="level" name="level">
+                <select id="level" name="level" class="form-control form-control-sm">
                     <option value="1">Nível 1</option>
                     <option value="2">Nível 2</option>
                     <option value="3">Nível 3</option>
@@ -32,7 +32,7 @@
                 </select>
             </label>
             <label class="form-label" for="category"><strong>Selecione a Categoria:</strong>
-                <select id="category" name="category">
+                <select id="category" name="category" class="form-control form-control-sm">
                     <option value="quiz">Quiz</option>
                     <option value="desafio">Desafio</option>
                     <option value="sorte_revez">Sorte/Revez</option>
@@ -40,14 +40,14 @@
                 </select>
             </label>
             <div id="list_activities">
-                <label class="form-label" for="activities"><strong>Atividades:</strong></label>
-                  <select id="activities" name="activities" class="form-control form-control-sm">
-                    <option value=""></option>
-                  </select>
-              </div>
+                <label class="form-label" for="activities"><strong>Atividades:</strong>
+                    <select id="activities" name="activities" class="form-control form-control-sm">
+                        <option value=""></option>
+                    </select>
+                </label>
+            </div>
             <div class="col-12 text-center">     
                 <button id="bt-success" class="col-4 badge bg-success p-2" type="submit">PESQUISAR</button>
-              </div>
             </div>
         </form>
         <ol id="card-questions"></ol>
