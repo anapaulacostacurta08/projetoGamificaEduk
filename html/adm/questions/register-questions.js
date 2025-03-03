@@ -58,10 +58,14 @@ firebase.auth().onAuthStateChanged( (User) => {
 })
 
 function popularSelectActivities() {
-  let Activities = document.getElementById("activities");
-  activityService.getActivitiesActives().then( activities => {
-    activities.forEach(activity => {
-      Activities.innerHTML = Activities.innerHTML + `<option value="${activity.uid}">${activity.dados.name}</option>`;
-    });
+  firebase.auth().onAuthStateChanged( (User) => {
+    if (User){
+      let Activities = document.getElementById("activities");
+      activityService.getActivitiesActives().then( activities => {
+        activities.forEach(activity => {
+          Activities.innerHTML = Activities.innerHTML + `<option value="${activity.uid}">${activity.dados.name}</option>`;
+        });
+      })
+    }
   })
 }
