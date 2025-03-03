@@ -1,8 +1,6 @@
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {
-    var alert_sucesso = document.getElementById("alert_sucesso");
     var alert_error = document.getElementById("alert_error");
-    var msg_sucesso = document.getElementById("res_sucesso");
     var msg_error = document.getElementById("res_error");  
 
     document.getElementById("play-form").addEventListener("submit", function(event) {
@@ -60,16 +58,21 @@ firebase.auth().onAuthStateChanged((User) => {
                     let tokens_quiz_used = [];
                     players[last] = {user_UID,score,ckeckin_date,ckeckin_time,timestamp,quiz_answered,tokens_quiz_used};
                     activityService.update(activity_uid, {players}).then(window.location.href = "./menu.html?activity_uid="+activity_uid);
-            
             }else{
-              alert("Atividade fora do prazo!");
+              msg_error.innerHTML= "Atividade fora do prazo!";
+              alert_error.classList.add("show");
+              document.getElementById("bt-success").disabled = true;
             }
           }else{
-            alert("Atividade Não encontrada!");
+            msg_error.innerHTML= "Atividade não encontrada!";
+            alert_error.classList.add("show");
+            document.getElementById("bt-success").disabled = true;
           }  
         });
       }).catch((error) => {
-        alert(error.menssage);
+        msg_error.innerHTML= error.menssage;
+        alert_error.classList.add("show");
+        document.getElementById("bt-success").disabled = true;
       })
     })
     
