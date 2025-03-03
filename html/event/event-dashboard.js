@@ -4,7 +4,7 @@ firebase.auth().onAuthStateChanged((User) => {
     eventService.getEventsByUserUID(User.uid).then((events) => {
         let card_event = ``;
         events.forEach(event => {
-            lcard_event = `<div class="card"><span>${event.dados.name} - ${event.dados.state}</span>`;
+            card_event = `<div class="card"><span>${event.dados.name} - ${event.dados.state}</span>`;
             let players = event.dados.players;
             players.forEach(player => {
                 if(player.user_UID === User.uid){
