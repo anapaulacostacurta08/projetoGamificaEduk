@@ -4,8 +4,10 @@ firebase.auth().onAuthStateChanged((User) => {
     var player;
     let linhas = ''; 
     const my_activities = document.getElementById("my_activities");
-    
-    activityService.getActivitybyPlayer(User.uid).then((activities) => {
+    const params = new URLSearchParams(window.location.search);
+    var event_uid = params.get('event_uid');
+
+    activityService.getActivitybyEventID(event_uid).then((activities) => {
       activities.forEach(activity => {
         players = activity.dados.players;
         player = players.find(player => player.user_UID == User.uid);                      

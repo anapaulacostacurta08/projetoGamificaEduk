@@ -125,6 +125,27 @@ const activityService = {
                 console.log(activities);
                 return activities;
     },
+    getActivitybyEventID: async (event_id) => {
+        const querySnapshot = await firebase.firestore().collection("activities")
+                .where("event_id","==",event_id)
+                .orderBy("date_start", "asc")
+                .get();
+                console.log(querySnapshot);
+    
+                if(querySnapshot.empty){
+                    throw new Error("01 - Não encontrado.");
+                }
+                var activities = new Array();
+                querySnapshot.forEach(doc => {
+                    var uid = doc.id;
+                    var dados = doc.data();
+                    var players = dados.players;
+                    var activity = {uid,dados};
+                    activities.push(activity);
+                });
+                console.log(activities);
+                return activities;
+    },
     save: async (activities) => {
         try{
             const querySnapshot = await firebase.firestore()
