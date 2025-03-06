@@ -28,16 +28,16 @@ firebase.auth().onAuthStateChanged((User) => {
           `</span>`;
 
           if(activity.dados.state === "started"){
-            card_active_activity = card_active_activity +`<div class="card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
+            card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
           }
           if (activity.dados.state === "finished"){
-            card_closed_activity = card_closed_activity +`<div class="card_closed>${card_activity}${date_start}${date_final}${card_points}</div>`;
+            card_closed_activity = card_closed_activity +`<div class="card card_closed>${card_activity}${date_start}${date_final}${card_points}</div>`;
           }
         })
         active_activities_list.innerHTML = card_active_activity;
         closed_activities_list.innerHTML = card_closed_activity;
-        const card_active = events_list.querySelectorAll(".card_active");
-        const card_closed = events_list.querySelectorAll(".card_closed");
+        const card_active = active_activities_list.querySelectorAll(".card_active");
+        const card_closed = closed_activities_list.querySelectorAll(".card_closed");
 
         // set onclick attribute to all available cards active
         for (i = 0; i < card_active.length; i++) {
