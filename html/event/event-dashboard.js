@@ -4,7 +4,7 @@ firebase.auth().onAuthStateChanged((User) => {
     eventService.getEventsByUserUID(User.uid).then((events) => {
         let card_event = ``;
         events.forEach(event => {
-            card_event = `<div class="card"><span class="event_dados" value="${event.uid}">${event.dados.name} - ${event.dados.state}</span>`;
+            card_event = `<div class="card"><span class="event_dados" id="${event.uid}">${event.dados.name} - ${event.dados.state}</span>`;
             let players = event.dados.players;
             players.forEach(player => {
                 if(player.user_UID === User.uid){
@@ -22,16 +22,11 @@ firebase.auth().onAuthStateChanged((User) => {
           card[i].setAttribute("onclick", "cardSelected(this)");
         }
 
-        //if user clicked on card
-        function cardSelected(answer) {
-          let event_uid= answer.querySelector(".event_dados").value;
-          window.location.href = "./activities-event-dashboard.html?event_uid="+event_uid;
-        }
     });   
   } 
 });
   //if user clicked on card
   function cardSelected(answer) {
-    let event_uid= answer.querySelector(".event_dados").value;
+    let event_uid= answer.querySelector(".event_dados").id
     window.location.href = "./activities-event-dashboard.html?event_uid="+event_uid;
   }
