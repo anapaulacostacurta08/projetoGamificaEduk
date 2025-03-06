@@ -17,8 +17,8 @@ firebase.auth().onAuthStateChanged((User) => {
         events_list.innerHTML = card_event;
 
         const card = events_list.querySelectorAll(".card");
-        // set onclick attribute to all available options
-        for (i = 0; i < option.length; i++) {
+        // set onclick attribute to all available cards
+        for (i = 0; i < card.length; i++) {
           card[i].setAttribute("onclick", "cardSelected(this)");
         }
 
