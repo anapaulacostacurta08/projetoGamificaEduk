@@ -19,7 +19,7 @@ firebase.auth().onAuthStateChanged((User) => {
               let date_final = `<span id="date_time_final">${activity.dados.date_final} - ${activity.dados.time_final}</span>`;
               let card_points = ``;
               if(player.user_UID === User.uid){
-                card_points = `<span id="ponts" class="col-sm-4">`+
+                card_points = `<span id="points" class="col-sm-3 ml-auto">`+
                 `<span class="badge rounded-pill bg-info border border-2 border-dark p-1 m-1">`+
                     `<span id="score" class="badge bg-light text-dark border border-2 border-dark">${player.score}</span>&nbsp;PONTOS`+
                 `</span>`+
