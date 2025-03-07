@@ -1,7 +1,6 @@
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {
     var players;
-    var player;
     let active_activities_list = document.getElementById("active_activities_list");
     let closed_activities_list = document.getElementById("closed_activities_list");
     const params = new URLSearchParams(window.location.search);
@@ -15,24 +14,28 @@ firebase.auth().onAuthStateChanged((User) => {
         activities.forEach(activity => {
           players = activity.dados.players;
           let card_activity = `<span class="activity_dados" id="${activity.uid}">${activity.dados.name}</span>`;
-          player = players.find(player => player.user_UID == User.uid); 
-          let date_start = `<span id="data_time_start">${activity.dados.date_start} - ${activity.dados.time_start}</span>`;
-          let date_final = `<span id="date_time_final">${activity.dados.date_final} - ${activity.dados.time_final}</span>`;
-          let card_points = `<span id="ponts" class="col-sm-4">`+
-            `<span class="badge rounded-pill bg-primary border border-2 border-dark p-1 m-1">`+
-                `<span id="level" class="badge bg-light text-dark border border-2 border-dark">${player.score}</span>&nbsp;&nbsp;NÍVEL&nbsp;`+
-            `</span>`+
-            `<span class="badge rounded-pill bg-info border border-2 border-dark p-1 m-1">`+
-                `<span id="score" class="badge bg-light text-dark border border-2 border-dark">${activity.dados.level}</span>&nbsp;PONTOS NÍVEL`+
-            `</span>`+
-          `</span>`;
+          players.forEach(player => {
+              let date_start = `<span id="data_time_start">${activity.dados.date_start} - ${activity.dados.time_start}</span>`;
+              let date_final = `<span id="date_time_final">${activity.dados.date_final} - ${activity.dados.time_final}</span>`;
+              let card_points = ``;
+              if(player.user_UID === User.uid){
+                card_points = `<span id="ponts" class="col-sm-4">`+
+                `<span class="badge rounded-pill bg-primary border border-2 border-dark p-1 m-1">`+
+                    `<span id="level" class="badge bg-light text-dark border border-2 border-dark">${player.score}</span>&nbsp;&nbsp;NÍVEL&nbsp;`+
+                `</span>`+
+                `<span class="badge rounded-pill bg-info border border-2 border-dark p-1 m-1">`+
+                    `<span id="score" class="badge bg-light text-dark border border-2 border-dark">${activity.dados.level}</span>&nbsp;PONTOS NÍVEL`+
+                `</span>`+
+              `</span>`;
+            }
 
-          if(activity.dados.state === "started"){
-            card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
-          }
-          if (activity.dados.state === "finished"){
-            card_closed_activity = card_closed_activity +`<div class="card card_closed>${card_activity}${date_start}${date_final}${card_points}</div>`;
-          }
+            if(activity.dados.state === "started"){
+              card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
+            }
+            if (activity.dados.state === "finished"){
+              card_closed_activity = card_closed_activity +`<div class="card card_closed>${card_activity}${date_start}${date_final}${card_points}</div>`;
+            }
+          })
         })
         active_activities_list.innerHTML = card_active_activity;
         closed_activities_list.innerHTML = card_closed_activity;
