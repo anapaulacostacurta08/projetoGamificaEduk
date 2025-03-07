@@ -15,8 +15,7 @@ firebase.auth().onAuthStateChanged((User) => {
           players = activity.dados.players;
           let card_activity = `<span class="activity_dados" id="${activity.uid}">${activity.dados.name}</span>`;
           players.forEach(player => {
-              let date_start = `<span id="data_time_start">${activity.dados.date_start} - ${activity.dados.time_start}</span>`;
-              let date_final = `<span id="date_time_final">${activity.dados.date_final} - ${activity.dados.time_final}</span>`;
+              let periodo = `<span id="data_time_start">Inicio:${activity.dados.date_start} - ${activity.dados.time_start} - Fim: ${activity.dados.date_final} - ${activity.dados.time_final}</span>`;
               let card_points = ``;
               if(player.user_UID === User.uid){
                 card_points = `<span id="points" class="col-sm-3 ml-auto">`+
@@ -25,10 +24,10 @@ firebase.auth().onAuthStateChanged((User) => {
                 `</span>`+
               `</span>`;
               if(activity.dados.state === "started"){
-                card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
+                card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${periodo}${card_points}</div>`;
               }
               if (activity.dados.state === "finished"){
-                card_closed_activity = card_closed_activity +`<div class="card card_closed>${card_activity}${date_start}${date_final}${card_points}</div>`;
+                card_closed_activity = card_closed_activity +`<div class="card card_closed>${card_activity}${periodo}${card_points}</div>`;
               }
             }           
           })
