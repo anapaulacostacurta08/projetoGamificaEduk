@@ -2,7 +2,7 @@ firebase.auth().onAuthStateChanged((User) => {
   if (User) {
     var players;
     var player;
-    let active_activities_list = document.getElementById("ctive_activities_list");
+    let active_activities_list = document.getElementById("active_activities_list");
     let closed_activities_list = document.getElementById("closed_activities_list");
     const params = new URLSearchParams(window.location.search);
     var event_uid = params.get('event_uid');
