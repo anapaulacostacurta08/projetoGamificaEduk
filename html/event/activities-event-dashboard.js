@@ -27,14 +27,13 @@ firebase.auth().onAuthStateChanged((User) => {
                     `<span id="score" class="badge bg-light text-dark border border-2 border-dark">${activity.dados.level}</span>&nbsp;PONTOS NÍVEL`+
                 `</span>`+
               `</span>`;
-            }
-
-            if(activity.dados.state === "started"){
-              card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
-            }
-            if (activity.dados.state === "finished"){
-              card_closed_activity = card_closed_activity +`<div class="card card_closed>${card_activity}${date_start}${date_final}${card_points}</div>`;
-            }
+              if(activity.dados.state === "started"){
+                card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
+              }
+              if (activity.dados.state === "finished"){
+                card_closed_activity = card_closed_activity +`<div class="card card_closed>${card_activity}${date_start}${date_final}${card_points}</div>`;
+              }
+            }           
           })
         })
         active_activities_list.innerHTML = card_active_activity;
