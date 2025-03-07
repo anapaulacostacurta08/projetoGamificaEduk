@@ -19,14 +19,10 @@ firebase.auth().onAuthStateChanged((User) => {
               let date_final = `<span id="date_time_final">${activity.dados.date_final} - ${activity.dados.time_final}</span>`;
               let card_points = ``;
               if(player.user_UID === User.uid){
-                card_points = `<span id="ponts" class="col-sm-4">`+
-                `<span class="badge rounded-pill bg-primary border border-2 border-dark p-1 m-1">`+
-                    `<span id="level" class="badge bg-light text-dark border border-2 border-dark">${player.score}</span>&nbsp;&nbsp;NÍVEL&nbsp;`+
-                `</span>`+
+                card_points = 
                 `<span class="badge rounded-pill bg-info border border-2 border-dark p-1 m-1">`+
-                    `<span id="score" class="badge bg-light text-dark border border-2 border-dark">${activity.dados.level}</span>&nbsp;PONTOS NÍVEL`+
-                `</span>`+
-              `</span>`;
+                    `<span id="score" class="badge bg-light text-dark border border-2 border-dark">${player.score}</span>&nbsp;PONTOS`+
+                `</span>`;
               if(activity.dados.state === "started"){
                 card_active_activity = card_active_activity +`<div class="card card_active">${card_activity}${date_start}${date_final}${card_points}</div>`;
               }
