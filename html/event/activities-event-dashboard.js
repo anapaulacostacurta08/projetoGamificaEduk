@@ -59,17 +59,17 @@ function cardActiveSelected(answer) {
       let timestamp = new Date().getTime();
 
       activityService.getActivitybyUid(activity_uid).then((activity) => {
-        let data_start = activity.dados.date_start.split("/");
-        let time_start = activity.dados.time_start.split(":");
+        let data_start = activity.date_start.split("/");
+        let time_start = activity.time_start.split(":");
         let data_time_start = new Date(data_start[2],data_start[1]-1,data_start[0],time_start[0],time_start[1]);
-        let data_final = activity.dados.date_final.split("/");
-        let time_final = activity.dados.time_final.split(":");
+        let data_final = activity.date_final.split("/");
+        let time_final = activity.time_final.split(":");
         let data_time_final = new Date(data_final[2],data_final[1]-1,data_final[0],time_final[0],time_final[1]);
 
         if(date >= data_time_start &&  date <= data_time_final){
           var activity_uid = activity.uid; // UID do doc no firestone
           var players = new Array();
-          var tmp_players = activity.dados.players;
+          var tmp_players = activity.players;
           var last = tmp_players.length;
           for(i=0;i<last;i++){
             if(tmp_players[i].user_UID == user_UID){
