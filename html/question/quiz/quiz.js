@@ -3,14 +3,17 @@ var activity;
 var tokenid;
 var user_uid;
 var activity_uid;
+var question_uid;
+
 firebase.auth().onAuthStateChanged((User) => {
   const question_box = document.getElementById("question_box");
   const que_text = document.getElementById("que_text");
   const option_list = document.getElementById("option_list");
   const timeText = document.getElementById("time_left_txt");
   const timeCount = document.getElementById("timer_sec");
-  var quizzes;
+  //var quizzes;
   var player;
+
   if (!User) {
       window.location.href = "../login/login.html";
   }else{
@@ -21,23 +24,31 @@ firebase.auth().onAuthStateChanged((User) => {
       activityService.getActivitybyUid(activity_uid).then((activityfind) => {
         activity = activityfind;
         var players = activityfind.players;
-        player = players.find(player => player.user_UID == User.uid);
-        //Buscas as Questões a serem respondidas para a atividade de acorco com o nive e categoria.
-        questionsService.getQuizzesByLevel(activity_uid,activity.level,"quiz").then(questions =>{
-          quizzes = questions;
-          //Verificar qual a pergunta que o jogador deverá respoder
-          question = getAtualQuiz();
-          //Verifica se o jogador já respondeu todas as perguntas
-          if(question == null){
-            alert("Não existe nenhum quiz para ser respondido!");
-            window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
-          }else{
-            showQuestion();
-            startTimer(30);
+        players.forEach(playerfind => {
+          if(playerfind.user_UID == User.uid){
+              player = playerfind;      
           }
+        })
+       
+        //Buscas as Questões a serem respondidas para a atividade de acorco com o nive e categoria.
+        
+      //quizzes = questions;
+      //Verificar qual a pergunta que o jogador deverá respoder
+      question_uid = getAtualQuiz();
+      questionsService.findByUid(question_uid).then(question_find =>{
+        question = question_find;
+        //Verifica se o jogador já respondeu todas as perguntas
+        if(question == null){
+          alert("Não existe nenhum quiz para ser respondido!");
+          window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
+        }else{
+          showQuestion();
+          startTimer(30);
+        }
       });
     });
-    
+
+   
     function showQuestion(){
       let que_tag = '<span class="fw-bold">' +  question.numb +".</span>"+'<span class="fw-bold">' +  question.text +"</span>";
       let option_tag = 
@@ -97,22 +108,26 @@ firebase.auth().onAuthStateChanged((User) => {
 
     function getAtualQuiz(){
       let atual_quiz;
-      let answered_quizzes = player.quiz_answered;
-      if(!(quizzes === undefined)){
+      let answered_quizzes = player.user_answered.quiz.questions;
+      let quizzes_questions = activity.schedule.quiz.questions;
+      let stop = quizzes_questions.length;
+      for(i=0;i<stop;i++){
+        if (answered_quizzes.indexOf(quizzes_questions[i]) == -1){ // Não foi respondida
+          atual_quiz = quizzes_questions[i];
+          i=stop;
+        }
+      }
+      /**if(!(quizzes === undefined)){
         quizzes.forEach(quiz => {
           if(answered_quizzes.indexOf(quiz.numb) == -1){ //Não foi respondida
             atual_quiz = quiz;
           }
         });
-      }
+      }**/
       return atual_quiz;
     }
   }
 })
-
-function fechar(){
-  window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
-}
 
 // creating the new div tags which for icons
 let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
@@ -145,58 +160,130 @@ function optionSelected(answer) {
   for (i = 0; i < allOptions; i++) {
     option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
   }
-  setScore(correct, userAns);
+  setPoints(correct, userAns);// Resposta correta e resposta marcada pelo jogador.
 }
 
-function setScore(corret,  user_answer){
+function setPoints(corret,  user_answer){
   let tmp_players = activity.players;
-  let score_old;
-  let score;
+  let points_old;
+  let points;
   let players = new Array();
   var last = tmp_players.length;
   var log_answers;
   for(i=0;i<last;i++){
     let timestamp = tmp_players[i].timestamp;
-    score = tmp_players[i].score;
-    let ckeckin_date = tmp_players[i].ckeckin_date;
-    let ckeckin_time = tmp_players[i].ckeckin_time;
+    points = tmp_players[i].points;
+
     let quiz_answered = new Array();
-    let atual_quiz_answered = tmp_players[i].quiz_answered;
-    let last = atual_quiz_answered.length;
+    let atual_quiz_answered = tmp_players[i].user_answered.quiz.questions;
+    let last_quiz_answered = atual_quiz_answered.length;
     let user_UID = tmp_players[i].user_UID;
-    for (j=0; j<last;j++){
+    for (j=0; j<last_quiz_answered;j++){
         quiz_answered[j] = atual_quiz_answered[j];
     }
     let tokens_quiz_used = new Array();
-    stop = tmp_players[i].tokens_quiz_used.length;
-    let atual_tokens_quiz_used = tmp_players[i].tokens_quiz_used;
-    for (j=0; j<stop;j++){
+    let last_tokens_quiz = tmp_players[i].user_answered.quiz.tokens_used.length;
+    let atual_tokens_quiz_used = tmp_players[i].user_answered.quiz.tokens_used;
+    for (j=0; j<last_tokens_quiz;j++){
         tokens_quiz_used[j] = atual_tokens_quiz_used[j];
     }
+    let bonus_answered = new Array();
+    let atual_bonus_answered =  tmp_players[i].user_answered.bonus.questions;
+    let last_bonus_answered = atual_bonus_answered.length;
+    for (j=0; i<last_bonus_answered;j++){
+      bonus_answered[j] = atual_bonus_answered[j];
+    }
+    let tokens_bonus_used = new Array();
+    let atual_tokens_bonus_used = tmp_players[i].user_answered.bonus.tokens_used;
+    for (j=0; i<atual_tokens_bonus_used.length;j++){
+      tokens_bonus_used[j] = atual_tokens_bonus_used[j];
+    }
+
+    let luck_answered = new Array();
+    let atual_luck_answered =  tmp_players[i].user_answered.luck.questions;
+    for (j=0; i<atual_luck_answered.length;j++){
+      luck_answered[j] = atual_luck_answered[j];
+    }
+    let tokens_luck_used = new Array();
+    let atual_tokens_luck_used = tmp_players[i].user_answered.luck.tokens_used;
+    for (j=0; i<atual_tokens_luck_used.length;j++){
+      tokens_luck_used[j] = atual_tokens_luck_used[j];
+    }
+
+    let setback_answered = new Array();
+    let atual_setback_answered =  tmp_players[i].user_answered.setback.questions;
+    let last_setback = atual_setback_answered;
+    for (j=0; i<last_setback;j++){
+      setback_answered[j] = atual_setback_answered[j];
+    }
+    let tokens_setback_used = new Array();
+    let atual_tokens_setback_used = tmp_players[i].user_answered.setback.tokens_used;
+    for (j=0; i<atual_tokens_setback_used.length;j++){
+      tokens_setback_used[j] = atual_tokens_setback_used[j];
+    }
+
+    let challange_answered = new Array();
+    let atual_challange_answered =  tmp_players[i].user_answered.challange.questions;
+    for (j=0; i<atual_challange_answered.length;j++){
+      challange_answered[j] = atual_challange_answered[j];
+    }
+
+    let tokens_challange_used = new Array();
+    let atual_tokens_challange_used = tmp_players[i].user_answered.challange.tokens_used;
+    for (j=0; i<atual_tokens_challange_used.length;j++){
+      tokens_challange_used[j] = atual_tokens_challange_used[j];
+    }
+
+    let quiz_final_answered = new Array();
+    let atual_quiz_final_answered =  tmp_players[i].user_answered.quiz_final.questions;
+    for (j=0; i<atual_quiz_final_answered.length;j++){
+      quiz_final_answered[j] = atual_quiz_final_answered[j];
+    }
+
+    let tokens_quiz_final_used = new Array();
+    let atual_tokens_quiz_final_used = tmp_players[i].user_answered.quiz_final.tokens_used;
+    for (j=0; i<atual_tokens_quiz_final_used.length;j++){
+      tokens_quiz_final_used[j] = atual_tokens_quiz_final_used[j];
+    }
+
     if(tmp_players[i].user_UID == user_uid){
-      score_old = tmp_players[i].score;
-      //Atualizar os quizzes respondidos
-      quiz_answered[last] = question.numb;
-      //Atualizar score
+      points_old = tmp_players[i].points;
+      //Atualizar os quizzes respondidos gravando o UID da questão.
+      quiz_answered[last_quiz_answered] = question_uid;
+      tokens_quiz_used[last_tokens_quiz] = tokenid;
+      //Atualizar points
       if (corret){
-        score = score_old + 10;
+        points = points_old + question.points;
       }else{
-        score = score_old - 5;
+        points = points_old - question.lose_points;
       }
       timestamp = new Date().getTime();
       const hora = (new Date()).toLocaleTimeString('pt-BR');
       const data = (new Date()).toLocaleDateString('pt-BR');
       let level = activity.level;
       let category =  question.category;
-      let question_numb = question.numb;
-      let score_new = score;
-      log_answers = {user_UID, data, hora, level, activity_uid, category, question_numb,  user_answer, score_old, score_new, tokenid};
+      let points_new = points;
+      log_answers = {user_UID, data, hora, level, activity_uid, category, question_uid,  user_answer, points_old, points_new, tokenid};
     }
-    players[i] = {user_UID,score,ckeckin_date,ckeckin_time, timestamp,quiz_answered,tokens_quiz_used};
+
+    let check_in = {date:tmp_players[i].ckeck_in.date,time:tmp_players[i].ckeck_in.time};
+    let check_out = {date:tmp_players[i].ckeck_out.date,time:tmp_players[i].ckeck_out.time};
+    let bonus = {questions:bonus_answered,tokens_used:tokens_bonus_used};
+    let quiz = {questions:quiz_answered,tokens_used:tokens_quiz_used}; // Atualizado
+    let luck = {questions:luck_answered,tokens_used:tokens_luck_used};
+    let setback = {questions:setback_answered,tokens_used:tokens_setback_used};
+    let challange = {questions: challange_answered,tokens_used:tokens_challange_used};
+    let quiz_final = {questions:quiz_final_answered,tokens_used:tokens_quiz_final_used};
+    let user_answered = {bonus, quiz,luck, setback, challange,quiz_final};
+    players[i] = {user_UID,points,check_in,check_out, timestamp,user_answered};
   }
   //Gravar Dados
-  boardgamesService.update(activity_uid, {players});
+  activityService.update(activity_uid, {players});
 
   //gravar na Log as resposta selecionadas
-  logboardgamesService.save(log_answers);
+  logactivitieService.save(log_answers);
+}
+
+function fechar(){
+  window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
 }

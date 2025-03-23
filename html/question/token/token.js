@@ -3,8 +3,11 @@ var tokenid;
 firebase.auth().onAuthStateChanged( (User) => {
     var player;
     var tmp_players;
-    var atual_tokens_quiz_used;
     var tokens_quiz;
+    var tokens_luck;
+    var tokens_bonus;
+    var tokens_challange;
+    var tokens_quiz_final;
     if (!User) {
         sessionStorage.clear;
         window.location.href = "../login/login.html";
@@ -13,79 +16,97 @@ firebase.auth().onAuthStateChanged( (User) => {
           const category = params.get('category');
           activity_uid = params.get('activity_uid');
           activityService.getActivitybyUid(activity_uid).then((activityfind) => {
-            var activity = activityfind;
             tmp_players = activityfind.players;
-            player = tmp_players.find(player => player.user_UID == User.uid);
-            atual_tokens_quiz_used = player.tokens_quiz_used;
-          });
-
-          tokenService.getTokens().then(tokens => {
+            tmp_players.forEach(playerfind => {
+                if(playerfind.user_UID == User.uid){
+                    player = playerfind;      
+                }
+            })
+            tokenService.getTokens().then(tokens => {
                 tokens.forEach(token => {
                     tokens_quiz = token.quiz;
+                    tokens_luck = token.luck;
+                    tokens_bonus = token.bonus;
+                    tokens_challange = token.challange;
+                    tokens_quiz_final = token.quiz_final;
                 });
             });
-
+          });
+          
           document.getElementById("play-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            // Captura os dados do formulário
+            event.preventDefault();  
             tokenid = document.getElementById("tokenid").value;
-                if(category == "quiz"){
-                    let pos_token = tokens_quiz.indexOf(tokenid);
-                    let pos_token_used = atual_tokens_quiz_used.indexOf(tokenid);  
-                    if (!(pos_token_used > -1)){ // Se encontrado foi usado. retorna -1 Não encontrado.
-                        if(pos_token > -1){ 
-                            var players = new Array();
-                            var last = tmp_players.length;
-                            for(i=0;i<last;i++){
-                                let quiz_answered = new Array();
-                                let atual_quiz_answered = tmp_players[i].quiz_answered;
-                                let last_quiz_answered = atual_quiz_answered.length;
-                                for (j=0; j<last_quiz_answered;j++){
-                                    quiz_answered[j] = atual_quiz_answered[j];
-                                }
-                                let tokens_quiz_used = new Array();
-                                let last_token_quiz = tmp_players[i].tokens_quiz_used.length;
-                                let atual_tokens_quiz_used = tmp_players[i].tokens_quiz_used;
-                                for (j=0; j<last_token_quiz;j++){
-                                    tokens_quiz_used[j] = atual_tokens_quiz_used[j];
-                                }
-                                let user_UID = tmp_players[i].user_UID; 
-                                let score = tmp_players[i].score;
-                                let ckeckin_date = tmp_players[i].ckeckin_date;
-                                let ckeckin_time =  tmp_players[i].ckeckin_time;
-                                let timestamp = tmp_players[i].timestamp;
-                                if(tmp_players[i].user_UID == User.uid){
-                                    timestamp = new Date().getTime();
-                                    tokens_quiz_used[last_token_quiz] = tokenid;
-                                }
-                                players[i] = {user_UID,score,ckeckin_date,ckeckin_time, timestamp, tokens_quiz_used, quiz_answered};
-                            }                              
-                            try{
-                                activityService.update(activity_uid, {players}).then(alert("Token Válido!"));
-                                window.location.href = "../quiz/quiz.html?activity_uid="+activity_uid+"&tokenid="+tokenid;
-                            } catch (error) {
-                                alert(error);
-                                window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
-                            }
-                        }else{
-                            alert("Token inválido!");
-                            window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
-                        }
-                    }else{
-                        alert("Token inválido!");
-                        window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
+            if(category == "quiz"){
+                var atual_tokens_quiz_used;
+                atual_tokens_quiz_used = player.user_answered.quiz.tokens_used;
+                let pos_token = tokens_quiz.indexOf(tokenid);
+                let pos_token_used = atual_tokens_quiz_used.indexOf(tokenid);  
+                if (!(pos_token_used > -1)){ // Se encontrado foi usado. retorna -1 Não encontrado.
+                    if(pos_token > -1){ //Se encontrado foi é porque existe o token valor > -1 
+                        window.location.href = "../quiz/quiz.html?activity_uid="+activity_uid+"&tokenid="+tokenid;
                     }
                 }
-                if(category == "challange"){
-                    window.location.href = "../challange/challange.html";
+                alert("Token inválido!");
+                window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
+            }
+            if(category == "challange"){
+                var atual_tokens_challange_used;
+                atual_tokens_challange_used = player.user_answered.challange.tokens_used;
+                let pos_token = tokens_challange.indexOf(tokenid);
+                let pos_token_used = atual_tokens_challange_used.indexOf(tokenid);  
+                if (!(pos_token_used > -1)){ // Se encontrado foi usado. retorna -1 Não encontrado.
+                    if(pos_token > -1){ //Se encontrado foi é porque existe o token valor > -1 
+                        window.location.href = "../challange/challange.html?activity_uid="+activity_uid+"&tokenid="+tokenid;
+                    }
                 }
-                if(category == "luck"){
-                    window.location.href = "../luck/luck.html";
+                alert("Token inválido!");
+                window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
+            }
+            if(category == "bonus"){
+                var atual_tokens_bonus_used;
+                atual_tokens_bonus_used = player.user_answered.bonus.tokens_used;
+                let pos_token = tokens_bonus.indexOf(tokenid);
+                let pos_token_used = atual_tokens_bonus_used.indexOf(tokenid);  
+                if (!(pos_token_used > -1)){ // Se encontrado foi usado. retorna -1 Não encontrado.
+                    if(pos_token > -1){ //Se encontrado foi é porque existe o token valor > -1 
+                        window.location.href = "../bonus/bonus.html?activity_uid="+activity_uid+"&tokenid="+tokenid;
+                    }
                 }
-                if(category == "quiz_final"){
-                    window.location.href = "../final/final.html";
+                alert("Token inválido!");
+                window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
+            }
+            if(category == "luck"){
+                var atual_tokens_luck_used;
+                var atual_tokens_setback_used;
+                atual_tokens_luck_used = player.user_answered.luck.tokens_used;
+                atual_tokens_setback_used = player.user_answered.setback.tokens_used;
+                let pos_token = tokens_luck.indexOf(tokenid);
+                let pos_token_luck_used = atual_tokens_luck_used.indexOf(tokenid); 
+                let pos_token_setback_used = atual_tokens_setback_used.indexOf(tokenid);
+                if (!(pos_token_luck_used > -1)){ // Se encontrado foi usado. retorna -1 Não encontrado.
+                    if (!(pos_token_setback_used > -1)){ // Se encontrado foi usado. retorna -1 Não encontrado.
+                        if(pos_token > -1){ // Se encontrado foi é porque existe o token valor > -1 
+                            window.location.href = "../luck/spin_luck.html?activity_uid="+activity_uid+"&tokenid="+tokenid;
+                        }
+                    }
                 }
+                alert("Token inválido!");
+                window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
+            }
+            if(category == "quiz_final"){
+                var atual_tokens_quiz_final_used;
+                atual_tokens_quiz_final_used = player.user_answered.quiz_final.tokens_used;
+                let pos_token = tokens_quiz_final.indexOf(tokenid);
+                let pos_token_quiz_final_used = atual_tokens_quiz_final_used.indexOf(tokenid); 
+                if (!(pos_token_quiz_final_used > -1)){ // Se encontrado foi usado. retorna -1 Não encontrado.
+                    if(pos_token > -1){ // Se encontrado foi é porque existe o token valor > -1 
+                        window.location.href = "../final/final.html?activity_uid="+activity_uid+"&tokenid="+tokenid;
+                    }
+                }
+                alert("Token inválido!");
+                window.location.href = "../../play/menu.html?activity_uid="+activity_uid;
+            }
         });
-    } 
+    }
 });
 

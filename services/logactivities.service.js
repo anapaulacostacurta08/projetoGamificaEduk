@@ -1,4 +1,4 @@
-const logprofileService = {
+const logactivitieService = {
     save: (log_profile) => {
         return firebase.firestore()
             .collection("log_profiles")
