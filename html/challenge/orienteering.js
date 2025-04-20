@@ -38,7 +38,7 @@ firebase.auth().onAuthStateChanged((User) => {
     async function verificaQRcode(qrcode, activity_id, user_UID) {
         try {
           await logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(logs => {
-            if(!(validarValor(logs))){
+            if(validarValor(logs)){
               const answeredControlPoints = logs.map(log => ({
                 qrcode: log.ground_control_point_id,
                 pos_point: log.pos_ground_control_point,
@@ -50,7 +50,7 @@ firebase.auth().onAuthStateChanged((User) => {
             if (answeredControlPoints.length > 0) {
               var group_id = answeredControlPoints[0].group_id;
               orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
-                if(!(validarValor(orienteering))){
+                if(validarValor(orienteering)){
                   const pathway = orienteering.pathway;
                   if(pathway.length > 0){
                     const currentQRIndex = pathway.indexOf(qrcode);
@@ -95,7 +95,7 @@ firebase.auth().onAuthStateChanged((User) => {
               // Nenhum ponto foi respondido — tentativa de início
               var group_id = qrcode;
               orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
-                if(!(validarValor(orienteering))){
+                if(validarValor(orienteering)){
                   if (pathway.length > 0) {
                     // Atualiza controle de início
                     const ground_control_point = {
