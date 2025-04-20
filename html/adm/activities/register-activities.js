@@ -18,8 +18,8 @@ firebase.auth().onAuthStateChanged((User) => {
         const level = document.getElementById("activity_level").value;
         const hosts_options = document.getElementById("hosts");
         const host = hosts_options.options[hosts_options.selectedIndex].value;
-        const players = [];
-        const schedule = [];
+        //const players = [];
+        //const schedule = {};
         const id = document.getElementById("activity_id").value;
         const state = "waiting"; // "waiting", "started", "finished"
         const events_options = document.getElementById("events");
@@ -31,8 +31,8 @@ firebase.auth().onAuthStateChanged((User) => {
           date_final,
           time_start,
           time_final,
-          players,
-          schedule,
+          //players,
+          //schedule,
           id,
           name,
           level,

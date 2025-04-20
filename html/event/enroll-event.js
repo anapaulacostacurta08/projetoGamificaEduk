@@ -13,10 +13,7 @@ firebase.auth().onAuthStateChanged((User) => {
       let coins = 0;
       let user_UID = User.uid;
       let date = new Date();
-      let enroll_date = date.toLocaleDateString('pt-BR');
-      let enroll_time = date.toLocaleTimeString('pt-BR');
-      let timestamp = date.getTime();
-
+      
       eventService.getEventsByID(id).then((events) => {
         events.forEach(event => {
           if(event.dados.id == id){
@@ -29,33 +26,30 @@ firebase.auth().onAuthStateChanged((User) => {
 
             if(date >= data_time_start &&  date <= data_time_final){
               event_uid = event.uid; // UID do doc no firestone
-              var players = new Array();
-              var tmp_players = event.dados.players;
-              var last = tmp_players.length;
-              for(i=0;i<last;i++){
-                if(tmp_players[i].user_UID == user_UID){
-                  coins = tmp_players[i].coins;
+              enrollEventService.getEnrollsByEventUidUserUid(event_uid,user_UID).then(enroll_events => {
+                if (!(enroll_events.length > 0)){
+                  let event_id = event_uid;
+                  let new_date = new Date();
+                  let date = new_date.toLocaleDateString('pt-BR');
+                  let time = new_date.toLocaleTimeString('pt-BR');
+                  let enroll_events = {user_UID,coins,date,time,event_id};
+                  enrollEventService.save(enroll_events);
+                  msg_sucesso.innerHTML= "Inscrição no evento realizada com sucesso!";
+                  alert_sucesso.classList.add("show");
+                  document.getElementById("bt-success").disabled = true;
                 }else{
-                  let user_UID = tmp_players[i].user_UID;
-                  let coins = tmp_players[i].coins;
-                  let enroll_date = tmp_players[i].enroll_date;
-                  let enroll_time = tmp_players[i].enroll_time;
-                  let timestamp = tmp_players[i].timestamp;
-                  players[i] = {user_UID,coins,enroll_date,enroll_time, timestamp};
+                  msg_error.innerHTML= "Inscrição já foi realizada para este evento!";
+                  alert_error.classList.add("show");
+                  document.getElementById("bt-success").disabled = true;
                 }
-              }
-              players[last] = {user_UID,coins,enroll_date,enroll_time,timestamp};
-              eventService.update(event_uid, {players});
-              msg_sucesso.innerHTML= "Inscrição no evento realizada com sucesso!";
-              alert_sucesso.classList.add("show");
-              document.getElementById("bt-success").disabled = true;
+              })             
             }else{
                msg_error.innerHTML= "Evento fora do prazo!";
                alert_error.classList.add("show");
                document.getElementById("bt-success").disabled = true;
             }
           }else{
-            msg_error.innerHTML= "Evento Não encontrada!";
+            msg_error.innerHTML= "Evento não encontrado!";
             alert_error.classList.add("show");
             document.getElementById("bt-success").disabled = true;
           }  

@@ -7,7 +7,7 @@ var msg_error = document.getElementById("res_error");
 firebase.auth().onAuthStateChanged((User) => {
     if (User){
         const list_players = document.getElementById("list_players");
-        userService.getPlayersInative(User.uid).then(players_find =>{
+        userService.getPlayers(User.uid).then(players_find =>{
             let linhas=``;
             players = players_find;
             players.forEach(player => {
@@ -45,7 +45,7 @@ function ativar() {
                     }else{
                         // Captura os dados do formulário
                         var player_uid = player.uid;
-                        var users = {state: true};
+                        var users = {uid: player_uid, state: true};
                         var profile_approver = User.uid;
                         var date_approval = (new Date()).toLocaleDateString('pt-BR');
                         var time_approval = (new Date()).toLocaleTimeString('pt-BR');
@@ -54,7 +54,7 @@ function ativar() {
                         const log_profile = {type, profile_approver, date_approval, time_approval, profile_activated};
 
                         //Realiza a ativação do usuário
-                        userService.update(player_uid,users);
+                        userService.update({users});
 
                         //Grava logo da aprocação e ativação do usuário
                         logprofileService.save(log_profile);
@@ -83,7 +83,7 @@ function desativar() {
                     if(player.state){
                         // Captura os dados do formulário
                         var player_uid = player.uid; 
-                        var users = {state: false};
+                        var users = {uid: player.uid, state: false};
                         var profile_disabler = User.uid;
                         var date_disable = (new Date()).toLocaleDateString('pt-BR');
                         var time_disable = (new Date()).toLocaleTimeString('pt-BR');
@@ -92,7 +92,7 @@ function desativar() {
                         const log_profile = {type, profile_disabler, date_disable, time_disable, profile_disactivated};
                         
                         //Realiza a ativação do usuário
-                        userService.update(player_uid,users);
+                        userService.update({users});
                     
                         //Grava logo da aprocação e ativação do usuário
                         logprofileService.save(log_profile);

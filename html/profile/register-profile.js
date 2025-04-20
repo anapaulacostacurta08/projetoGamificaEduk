@@ -56,7 +56,7 @@ firebase.auth().onAuthStateChanged((User) => {
 
                     const log_profile = {type, profile_register, profile_name, date_register,time_register, host_approver, profile_state};
                     
-                    userService.save(User.uid,users);
+                    userService.save({users});
                     logprofileService.save(log_profile);
 
                     msg_sucesso.innerHTML= "Cadastrado atualizado com sucesso! Aguarde seu perfil ser ativado pelo Anfitrião do Evento.";

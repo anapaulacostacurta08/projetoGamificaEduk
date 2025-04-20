@@ -2,54 +2,42 @@ firebase.auth().onAuthStateChanged((User) => {
   if (User) {
     let active_events_list = document.getElementById("active_events_list");
     let closed_events_list = document.getElementById("closed_events_list");
-    eventService.getEventsByUserUID(User.uid).then((events) => {
-        let card_active_event = ``;
-        let card_closed_event = ``;
-        events.forEach(event => {
-            let card_event = `<span class="event_dados" id="${event.uid}">${event.dados.name}</span>`;
-            let players = event.dados.players;
-            players.forEach(player => {
-                if(player.user_UID === User.uid){
-                  card_coins = 
+    enrollEventService.getEnrollsByUserUID(User.uid).then((enroll_events) => {
+      if (!(enroll_events.length === 0)){
+        enroll_events.forEach(enroll_event => {
+          eventService.getEventByUID(enroll_event.dados.event_id).then(event =>{
+            var event_id = enroll_event.dados.event_id;
+            let card_event = `<span class="event_dados" id="${event_id}">${event.name} - ${enroll_event.dados.date} - ${enroll_event.dados.time}</span>`;
+            card_coins = 
                   `<span id="coin" class="col-sm-3 ml-auto">`+
                     `<span class="badge rounded-pill bg-success">`+
-                        `<span id="coins" class="badge bg-light text-dark">${player.coins}</span>`+
+                        `<span id="coins" class="badge bg-light text-dark">${enroll_event.dados.coins}</span>`+
                     `&nbsp;AB@ COINS`+
                     `</span>`+
                     `<br/>`+
                   `</span>`;
-                }
-            })
-            if (event.dados.state === "started"){
-              card_active_event = card_active_event +`<div class="card card_active">${card_event}${card_coins}</div>`;
+            let btn_enroll = `<button type="button" class="btn btn-primary rounded-pill" onclick="cardActiveSelected(${enroll_event.dados.event_id})">Entrar</span>`
+            if (event.state === "started"){
+              active_events_list.innerHTML =active_events_list.innerHTML +`<div class="card">${card_event}${card_coins}${btn_enroll}</div>`;
             }
-            if (event.dados.state === "finished"){
-              card_closed_event = card_closed_event +`<div class="card card_closed">${card_event}${card_coins}</div>`;
+            if (event.state === "finished"){
+              closed_events_list.innerHTML = closed_events_list.innerHTML +`<div class="card">${card_event}${card_coins}${btn_enroll}</div>`;
             }
+          });   
         })
-        active_events_list.innerHTML = card_active_event;
-        closed_events_list.innerHTML = card_closed_event;
-        const card_active = active_events_list.querySelectorAll(".card_active");
-        const card_closed = closed_events_list.querySelectorAll(".card_closed");
-        // set onclick attribute to all available cards active
-        for (i = 0; i < card_active.length; i++) {
-          card_active[i].setAttribute("onclick", "cardActiveSelected(this)");
-        }
-         // set onclick attribute to all available cards closed
-        for (i = 0; i < card_closed.length; i++) {
-          card_closed[i].setAttribute("onclick", "cardClosedSelected(this)");
-        }
-    });   
-  } 
+      }
+    });
+  }
 });
+
   //if user clicked on card
-  function cardActiveSelected(answer) {
-    let event_uid= answer.querySelector(".event_dados").id;
-    window.location.href = `./activities-event-dashboard.html?event_uid=${event_uid}&state=started`;
+  function cardActiveSelected(eventuid) {
+    let event_id = eventuid.id;
+    window.location.href = `./activities-event-dashboard.html?event_id=${event_id}`;
   }
 
   //if user clicked on card
-  function cardClosedSelected(answer) {
-    let event_uid= answer.querySelector(".event_dados").id;
-    window.location.href = `./activities-event-dashboard.html?event_uid=${event_uid}&state=finished`;
+  function cardClosedSelected(eventuid) {
+    let event_id = eventuid.id;
+    window.location.href = `./activities-event-dashboard.html?event_id=${event_id}`;
   }

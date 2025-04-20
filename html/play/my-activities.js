@@ -27,6 +27,15 @@ firebase.auth().onAuthStateChanged((User) => {
       my_activities.innerHTML = table;
     })
 
+    async function getcheckinbyPlayer(activity_id, User_uid) {
+      const checkin_ativities = checkinactivityService.getcheckinbyPlayer(activity_id,User_uid);
+      if(checkin_ativities.length == 1){
+        return checkin_ativities[0];
+      }else{
+        throw "Problemas de configuração. Entre em contato com Administrador do Evento!";
+      }
+    }
+
     document.getElementById("play-form").addEventListener("submit", function(event) {
       event.preventDefault();
       // Captura os dados do formulário

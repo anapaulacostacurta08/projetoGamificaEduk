@@ -22,7 +22,7 @@ const userService = {
             console.log(hosts);            
             return  hosts;
     },
-    getPlayersInative: async (host) => {
+    getPlayers: async (host) => {
         const querySnapshot = await firebase.firestore()
             .collection("users")
             .where('profile','==',"player")
