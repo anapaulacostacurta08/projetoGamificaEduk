@@ -28,7 +28,7 @@ const logActivityService = {
         .where('category','==',category)
         .orderBy("date", "asc")
         .orderBy("time", "asc")
-        .orderBy("pos_control_point","asc")
+        .orderBy("pos_ground_control_point","asc")
         .get();
         console.log(querySnapshot);
 
