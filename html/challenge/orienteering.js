@@ -19,11 +19,11 @@ firebase.auth().onAuthStateChanged((User) => {
 
     try{
       let ground_control_point = verificaQRcode(qrcode, activity_id, user_UID);
-      if(!(validarValor(ground_control_point))){
+      if(validarValor(ground_control_point)){
         setLogQRCode(qrcode, true, activity_id);
         if(isChallenge(qrcode)){
           question = getAtualChallenge(activity_id);
-          if(!(validarValor(question))){
+          if(validarValor(question)){
             showOrienteering(activity_id, question);
             startTimer(30);
           }
