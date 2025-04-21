@@ -16,6 +16,8 @@ firebase.auth().onAuthStateChanged((User) => {
     const params = new URLSearchParams(window.location.search);
     var activity_id = params.get('activity_id'); 
     first_point = params.get('first_point');
+    let activity = getActivity(activity_id); 
+    let points = getPoints(activity_id, user_UID);
     btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">VOLTAR</button>`; 
     if(first_point){
       ground_control_point_id = params.get('ground_control_point_id'); //OK
@@ -23,7 +25,7 @@ firebase.auth().onAuthStateChanged((User) => {
       ground_control_point_next = params.get('ground_control_point_next');
       group_id = params.get('group_id');
       riddleService.getRiddleByGroundControlPointId(ground_control_point_next.trim(), group_id.trim()).then(riddles =>{
-        setLogFirstQRCode(riddles[0].uid, activity_id);  
+        setLogFirstQRCode(riddles[0].uid, activity_id, activity.level, points);  
         showRiddle(riddles[0].dados);
       })
     }else{
@@ -50,18 +52,19 @@ firebase.auth().onAuthStateChanged((User) => {
   }
 
   async function getActivity(activity_id) {
-    return await activityService.getActivitybyUid(activity_id);
+     await activityService.getActivitybyUid(activity_id).then(activity =>{
+        return activity;
+    });
   }
 
-  function setLogFirstQRCode(riddle_id, activity_id){
-      let activity = getActivity(activity_id); 
-      var points = getPoints(activity_id, user_UID);
+  function setLogFirstQRCode(riddle_id, activity_id, level, points){
+      
       const time = (new Date()).toLocaleTimeString('pt-BR');
       const data = (new Date()).toLocaleDateString('pt-BR');
       let category = "challenge";
       let type = "orienteering";
       let tokenid = group_id;// 
-      let level = activity.level;
+      //let level = activity.level;
       let question_id = "";
       let points_new = points;
       let points_old = points; 
