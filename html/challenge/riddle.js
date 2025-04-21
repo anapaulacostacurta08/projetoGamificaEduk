@@ -25,8 +25,8 @@ firebase.auth().onAuthStateChanged((User) => {
       ground_control_point_next = params.get('ground_control_point_next');
       group_id = params.get('group_id');
       riddleService.getRiddleByGroundControlPointId(ground_control_point_next.trim(), group_id.trim()).then(riddles =>{
-        setLogFirstQRCode(riddles[0].uid, activity_id, activity.level, points);  
         showRiddle(riddles[0].dados);
+        setLogFirstQRCode(riddles[0].uid, activity_id, activity.level, points);   
       })
     }else{
       const riddle_id = params.get('riddle_id');
