@@ -36,9 +36,9 @@ firebase.auth().onAuthStateChanged((User) => {
     }
 
   function showRiddle(riddle){
-      let riddle_text_tag = `<span class="riddle_text">${riddle.text}</span>`;
-      let riddle_attention_tag = `<span class="riddle_attention">${riddle.attention}</span>`;
-      let riddle_location_tag = `<span class="riddle_location">${riddle.location}</span>`;
+      let riddle_text_tag = `<span class="riddle_text"><img src="../../assets/images/key.png">${riddle.text}</span>`;
+      let riddle_attention_tag = `<span class="riddle_attention"><img src="../../assets/images/alert.png"><strong>Mas atenção:<stron>${riddle.attention}</span>`;
+      let riddle_location_tag = `<span class="riddle_location"><img src="../../assets/images/location.png">${riddle.location}</span>`;
       riddle_text.innerHTML = `${riddle_text_tag}`;   
       riddle_attention.innerHTML = `${riddle_attention_tag}`;  
       riddle_location.innerHTML = `${riddle_location_tag}`;     
