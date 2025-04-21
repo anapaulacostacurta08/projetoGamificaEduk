@@ -19,6 +19,7 @@ firebase.auth().onAuthStateChanged((User) => {
 
     try{
       let ground_control_point = verificaQRcode(qrcode, activity_id, user_UID);
+      console.log(ground_control_point);
       if(validarValor(ground_control_point)){
         setLogQRCode(qrcode, true, activity_id);
         if(isChallenge(qrcode)){
@@ -119,7 +120,7 @@ firebase.auth().onAuthStateChanged((User) => {
           return null;
         }
       })  
-      }
+    }
     
 
     function validarValor(valor) {
