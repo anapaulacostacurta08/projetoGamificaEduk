@@ -113,9 +113,11 @@ firebase.auth().onAuthStateChanged((User) => {
             }
           })
         } 
-      }).catch( (error) => {
-        console.error("Erro ao obter atividades do log:", error.message);
-        return null;
+      }).catch((error) => {
+        if(validarValor(error)){
+          console.error("Erro ao obter atividades do log:", error.message);
+          return null;
+        }
       })  
       }
     
