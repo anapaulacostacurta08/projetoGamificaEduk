@@ -1,30 +1,29 @@
-var activity; 
-var user_UID; 
-var group_id; // ground_control_point_id vinculdado ao riddle_id
-var ground_control_point_id; // Será populado na função validaQRCode()
-var ground_control_point_next; //Será populado na função validaQRCode()
-var pos_ground_control_point; //Será populado na função validaQRCode()
-var points;
-var activity_id;
+
 
 const riddle_text = document.getElementById("riddle_text");
 const riddle_attention = document.getElementById("riddle_attention");
 const riddle_location = document.getElementById("riddle_location");
+const btn_voltar_tag = document.getElementById("btn_voltar");
 
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {
+    var user_UID; 
+    var group_id; // ground_control_point_id vinculdado ao riddle_id
+    var ground_control_point_id; // Será populado na função validaQRCode()
+    var ground_control_point_next; //Será populado na função validaQRCode()
+    var pos_ground_control_point; //Será populado na função validaQRCode()
     user_UID = User.uid; 
     const params = new URLSearchParams(window.location.search);
-    activity_id = params.get('activity_id'); 
-    points = getPoints(activity_id, user_UID);
-    first_point = params.get('first_point'); 
+    var activity_id = params.get('activity_id'); 
+    first_point = params.get('first_point');
+    btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">VOLTAR</button>`; 
     if(first_point){
       ground_control_point_id = params.get('ground_control_point_id'); //OK
       pos_ground_control_point = params.get('pos_ground_control_point');
       ground_control_point_next = params.get('ground_control_point_next');
       group_id = params.get('group_id');
       riddleService.getRiddleByGroundControlPointId(ground_control_point_next.trim(), group_id.trim()).then(riddles =>{
-        setLogFirstQRCode(riddles[0].uid);  
+        setLogFirstQRCode(riddles[0].uid, activity_id);  
         showRiddle(riddles[0].dados);
       })
     }else{
@@ -50,7 +49,13 @@ firebase.auth().onAuthStateChanged((User) => {
       })
   }
 
-  function setLogFirstQRCode(riddle_id){
+  async function getActivity(activity_id) {
+    return await activityService.getActivitybyUid(activity_id);
+  }
+
+  function setLogFirstQRCode(riddle_id, activity_id){
+      let activity = getActivity(activity_id); 
+      var points = getPoints(activity_id, user_UID);
       const time = (new Date()).toLocaleTimeString('pt-BR');
       const data = (new Date()).toLocaleDateString('pt-BR');
       let category = "challenge";
@@ -85,6 +90,6 @@ firebase.auth().onAuthStateChanged((User) => {
   }
 })
 
-function voltar(){
-  window.location.href = "../play/menu.html?activity_id="+activity_id;
+function voltar(activity_id){
+  window.location.href = `../play/menu.html?activity_id=${activity_id}`;
 }
