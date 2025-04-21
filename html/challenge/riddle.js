@@ -18,7 +18,7 @@ firebase.auth().onAuthStateChanged((User) => {
     first_point = params.get('first_point');
     let activity = getActivity(activity_id); 
     let points = getPoints(activity_id, user_UID);
-    btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">VOLTAR</button>`; 
+    btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">OK</button>`; 
     if(first_point){
       ground_control_point_id = params.get('ground_control_point_id'); //OK
       pos_ground_control_point = params.get('pos_ground_control_point');
