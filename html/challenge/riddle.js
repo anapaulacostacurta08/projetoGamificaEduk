@@ -16,15 +16,20 @@ firebase.auth().onAuthStateChanged((User) => {
     const params = new URLSearchParams(window.location.search);
     var activity_id = params.get('activity_id'); 
     first_point = params.get('first_point');
-    let activity = getActivity(activity_id);
     let level;
-    if(validarValor(activity)){
-      level = activity.level;
-    } 
-    let points = getPoints(activity_id, user_UID);
-    if(validarValor(points)){
-      console.log(points);
-    }
+    activityService.getActivitybyUid(activity_id).then(activity =>{
+      let activity = activity;
+      if(validarValor(activity)){
+        level = activity.level;
+      } 
+    });
+    let points;
+    const checkin_ativities = checkinactivityService.getcheckinbyPlayer(activity_id,user_UID);
+      checkin_ativities.forEach(checkin_ativity =>{
+        if(validarValor(points)){
+          points = checkin_ativity.dados.points;
+        }
+    })  
     btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">OK</button>`; 
     if(first_point){
       ground_control_point_id = params.get('ground_control_point_id'); //OK
@@ -35,12 +40,6 @@ firebase.auth().onAuthStateChanged((User) => {
         showRiddle(riddles[0].dados);
         if(validarValor(level)){
           console.log(level);
-        }
-        if(!(validarValor(level))){
-          level = "";
-        }
-        if(!(validarValor(points))){
-          points=0;
         }
         setLogFirstQRCode(riddles[0].uid, activity_id, level, points)
       })
@@ -65,19 +64,6 @@ firebase.auth().onAuthStateChanged((User) => {
       riddle_text.innerHTML = `${riddle_text_tag}`;   
       riddle_attention.innerHTML = `${riddle_attention_tag}`;  
       riddle_location.innerHTML = `${riddle_location_tag}`;     
-  }
-
-  async function getPoints(activity_uid, user_UID) {
-    const checkin_ativities = await checkinactivityService.getcheckinbyPlayer(activity_uid,user_UID);
-      checkin_ativities.forEach(checkin_ativity =>{
-        return checkin_ativity.dados.points;
-      })
-  }
-
-  async function getActivity(activity_id) {
-     await activityService.getActivitybyUid(activity_id).then(activity =>{
-        return activity;
-    });
   }
 
   function setLogFirstQRCode(riddle_id, activity_id, level, points){
