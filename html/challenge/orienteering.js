@@ -111,7 +111,8 @@ firebase.auth().onAuthStateChanged((User) => {
                 }
             }
           });
-        } else {
+        }
+      } else {
           // Nenhum ponto foi respondido — tentativa de início
           var group_id = qrcode;
           orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
@@ -135,7 +136,6 @@ firebase.auth().onAuthStateChanged((User) => {
             }
           })
         }
-      }
     })
   
     function validarValor(valor) {
