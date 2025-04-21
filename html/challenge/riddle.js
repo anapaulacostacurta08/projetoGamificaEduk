@@ -18,11 +18,11 @@ firebase.auth().onAuthStateChanged((User) => {
     first_point = params.get('first_point');
     let activity = getActivity(activity_id);
     let level;
-    if(activity){
+    if(validarValor(activity)){
       level = activity.level;
     } 
     let points = getPoints(activity_id, user_UID);
-    if(points){
+    if(validarValor(points)){
       console.log(points);
     }
     btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">OK</button>`; 
@@ -33,9 +33,16 @@ firebase.auth().onAuthStateChanged((User) => {
       group_id = params.get('group_id');
       riddleService.getRiddleByGroundControlPointId(ground_control_point_next.trim(), group_id.trim()).then(riddles =>{
         showRiddle(riddles[0].dados);
-        validarValor(level)
-        console.log(level);
-        setLogFirstQRCode(riddles[0].uid, activity_id, activity.level, points)
+        if(validarValor(level)){
+          console.log(level);
+        }
+        if(!(validarValor(level))){
+          level = "";
+        }
+        if(!(validarValor(points))){
+          points=0;
+        }
+        setLogFirstQRCode(riddles[0].uid, activity_id, level, points)
       })
     }else{
       const riddle_id = params.get('riddle_id');
