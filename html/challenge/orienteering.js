@@ -95,6 +95,7 @@ firebase.auth().onAuthStateChanged((User) => {
           var group_id = qrcode;
           orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
             if(validarValor(orienteering)){
+              let pathway = orienteering.pathway;
               if (pathway.length > 0) {
                 // Atualiza controle de início
                 const ground_control_point = {
