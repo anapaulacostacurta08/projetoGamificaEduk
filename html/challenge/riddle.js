@@ -8,7 +8,7 @@ var points;
 var activity_id;
 
 const riddle_text = document.getElementById("riddle_text");
-const riddle_attention = document.getElementById("riddle_attentio");
+const riddle_attention = document.getElementById("riddle_attention");
 const riddle_location = document.getElementById("riddle_location");
 
 firebase.auth().onAuthStateChanged((User) => {
@@ -55,7 +55,7 @@ firebase.auth().onAuthStateChanged((User) => {
       const data = (new Date()).toLocaleDateString('pt-BR');
       let category = "challenge";
       let type = "orienteering";
-      let tokenid = qrcode;// orienteering_id
+      let tokenid = group_id;// orienteering_id
       let level = activity.level;
       let question_id = "";
       let points_new = points;
