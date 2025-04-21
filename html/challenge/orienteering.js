@@ -17,26 +17,7 @@ firebase.auth().onAuthStateChanged((User) => {
     var activity_id = params.get('activity_id'); //OK
     var qrcode = params.get('qrcode'); //OK
 
-    try{
-      let ground_control_point = verificaQRcode(qrcode, activity_id, user_UID);
-      console.log(ground_control_point);
-      if(validarValor(ground_control_point)){
-        setLogQRCode(qrcode, true, activity_id);
-        if(isChallenge(qrcode)){
-          question = getAtualChallenge(activity_id);
-          if(validarValor(question)){
-            showOrienteering(activity_id, question);
-            startTimer(30);
-          }
-        }
-      }else{ // QRCode Incorreto, perde pontos.
-        setLogQRCode(qrcode, false, activity_id);
-      }
-    }catch (error){
-      alert("Erro ao buscar dados:", error);
-    }
-
-    async function verificaQRcode(qrcode, activity_id, user_UID) {
+      var ground_control_point = ``;
       await logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(logs => {
         if(validarValor(logs)){
           const answeredControlPoints = logs.map(log => ({
@@ -55,7 +36,7 @@ firebase.auth().onAuthStateChanged((User) => {
                   const currentQRIndex = pathway.indexOf(qrcode);
                   if (currentQRIndex === -1) {
                     alert("QRCode inválido: não pertence ao percurso.");
-                    return null;
+                    ground_control_point = null;
                   }
                   const lastAnsweredIndex = answeredControlPoints.length - 1;
                   const lastPointPosition = parseInt(answeredControlPoints[lastAnsweredIndex].pos_point);
@@ -65,28 +46,28 @@ firebase.auth().onAuthStateChanged((User) => {
                     const expectedNextQR = answeredControlPoints[lastAnsweredIndex].next_point;
                     if (qrcode === expectedNextQR) {
                       // Atualiza controle de posição
-                      const ground_control_point = {
+                     ground_control_point = {
                         ground_control_point_id: qrcode,
                         pos_ground_control_point: currentQRIndex,
                         ground_control_point_next: pathway[currentQRIndex + 1],
                         group_id: group_id,
                       };
                       alert("QRCode válido e na sequência correta.");
-                      return ground_control_point;
+                     
                     } else {
                       alert("QRCode fora da sequência esperada.");
-                      return null;
+                      ground_control_point = null;
                     }
                   } else if (currentQRIndex < expectedNextPosition) {
                     alert("Este QRCode já foi utilizado.");
-                    return null;
+                    ground_control_point = null;
                   } else {
                     alert("QRCode fora da sequência esperada.");
-                    return null;
+                    ground_control_point = null;
                   }
                 }else{
                   alert("Erro ao verificar ponto de control e buscar o PathWay.");
-                  return null;
+                  ground_control_point = null;
                 }
               }
             });
@@ -99,22 +80,68 @@ firebase.auth().onAuthStateChanged((User) => {
               let pathway = orienteering[0].pathway;
               if (pathway.length > 0) {
                 // Atualiza controle de início
-                const ground_control_point = {
+                ground_control_point = {
                   ground_control_point_id: qrcode,
                   pos_ground_control_point: -1,
                   ground_control_point_next:  pathway[0],
                   group_id: qrcode,
                 };
                 alert("Primeiro QRCode válido.");
-                return ground_control_point;
               } else {
                 alert("Primeiro QRCode inválido. Início incorreto.");
-                return null;
+                ground_control_point = null;
               }
             }
           })
         } 
-      }).catch((error) => {
+      })
+      if(validarValor(ground_control_point)){
+        setLogQRCode(qrcode, true, activity_id);
+        if(isChallenge(qrcode)){
+          challengeService.getChallengesByGroupID(group_id).ther(challenges =>{
+            let answered_challenge = [];
+            for (const challenge of challenges) {
+              // Verifica os logs do usuário para ver o que já foi respondido
+              logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(log_activities =>{
+                if (log_activities.length > 0) {
+                  // Se houver questões respondidas, salva quais foram
+                  var group_id = log_activities[0].group_id;
+                  log_activities.forEach(log_activity => {
+                    answered_challenge.push({
+                      question: log_activity.question_id,
+                    });
+                  });
+                  for (const questionId of challenge.questions) {
+                    if (!answered_challenge.includes(questionId)) {
+                      questionsService.findByUid(questionId).then(question =>{
+                        if (question) {
+                          const dados = question.dados;
+                          const uid = questionId;
+                          question = {uid, dados}; // Primeira questão ainda não respondida
+                        }
+                      })
+                    }
+                  }
+                } else {
+                  // Se nenhuma questão foi respondida, retorna apenas o enigma (riddle) inicial
+                  //Direcionar para riddle.html
+                  window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${true}&ground_control_point_id=${ground_control_point_id}&group_id=${group_id}&pos_ground_control_point=${-1}&ground_control_point_next=${ground_control_point_next}`;
+                }
+              })
+            }         
+            })
+            if(validarValor(question)){
+              showOrienteering(activity_id, question);
+              startTimer(30);
+            }
+        }
+      }else{ // QRCode Incorreto, perde pontos.
+        setLogQRCode(qrcode, false, activity_id);
+      }
+  }
+  
+  async function verificaQRcode(qrcode, activity_id, user_UID) {
+      a.catch((error) => {
         if(validarValor(error)){
           console.error("Erro ao obter atividades do log:", error.message);
           return null;
@@ -139,41 +166,8 @@ firebase.auth().onAuthStateChanged((User) => {
     }
 
     async function getAtualChallenge(activity_id, group_id) {
-      let answered_challenge = [];
-        challengeService.getChallengesByGroupID(group_id).ther(challenges =>{
-        for (const challenge of challenges) {
-          // Verifica os logs do usuário para ver o que já foi respondido
-          logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(log_activities =>{
-            if (log_activities.length > 0) {
-              // Se houver questões respondidas, salva quais foram
-              var group_id = log_activities[0].group_id;
-              log_activities.forEach(log_activity => {
-                answered_challenge.push({
-                  question: log_activity.question_id,
-                });
-              });
-
-              for (const questionId of challenge.questions) {
-                if (!answered_challenge.includes(questionId)) {
-                  questionsService.findByUid(questionId).then(question =>{
-                    if (question) {
-                      const dados = question.dados;
-                      const uid = questionId;
-                      return {uid, dados}; // Primeira questão ainda não respondida
-                    }
-                  })
-                }
-              }
-
-            } else {
-              // Se nenhuma questão foi respondida, retorna apenas o enigma (riddle) inicial
-              //Direcionar para riddle.html
-              window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${true}&ground_control_point_id=${ground_control_point_id}&group_id=${group_id}&pos_ground_control_point=${-1}&ground_control_point_next=${ground_control_point_next}`;
-            }
-          })
-        }   
-        return null;      
-      })      
+        
+              
     }
 
   function showOrienteering(activity_id, Question){
