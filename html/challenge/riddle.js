@@ -16,18 +16,22 @@ firebase.auth().onAuthStateChanged((User) => {
     user_UID = User.uid; 
     const params = new URLSearchParams(window.location.search);
     activity_id = params.get('activity_id'); 
-    checkin_ativities(activity_id, user_UID);
+    points = getPoints(activity_id, user_UID);
     first_point = params.get('first_point'); 
     if(first_point){
       ground_control_point_id = params.get('ground_control_point_id'); //OK
       pos_ground_control_point = params.get('pos_ground_control_point');
       ground_control_point_next = params.get('ground_control_point_next');
       group_id = params.get('group_id');
-      first_QRCode(ground_control_point_next,group_id);
+      riddleService.getRiddleByGroundControlPointId(ground_control_point_next.trim(), group_id.trim()).then(riddles =>{
+        setLogFirstQRCode(riddles[0].uid);  
+        showRiddle(riddles[0].dados);
+      })
     }else{
       const riddle_id = params.get('riddle_id');
-      const riddle = getRiddleByUID(riddle_id)
-      showRiddle(riddle);
+        riddleService.getRiddleByUID(riddle_id).then(riddle =>{
+          showRiddle(riddle);
+      })   
     }
 
   function showRiddle(riddle){
@@ -39,33 +43,11 @@ firebase.auth().onAuthStateChanged((User) => {
       riddle_location.innerHTML = `${riddle_location_tag}`;     
   }
 
-  async function getRiddleByUID(ridle_id){
-    return await riddleService.getRiddleByUID(ridle_id);
-  }
-
-  async function getRiddle(ground_control_point_id,group_id){
-      let atual_riddle = null;
-      const riddles = await riddleService.getRiddleByGroundControlPointId(ground_control_point_id, group_id);
-      if (riddles.length == 1) {
-        atual_riddle = riddles[0]; // Apenas o primeiro enigma
-      }else{
-        alert("problema no cadastro dos enigmas. Verificar com o administrador do evento!")
-      }
-      return atual_riddle;
-  }
-
-  async function first_QRCode(ground_control_point_id,group_id) {
-      const riddle = getRiddle(ground_control_point_id,group_id); 
-      setLogFirstQRCode(riddle.uid);
-      showRiddle(riddle.dados);
-  }
-
-  async function checkin_ativities(activity_uid, user_UID) {
+  async function getPoints(activity_uid, user_UID) {
     const checkin_ativities = await checkinactivityService.getcheckinbyPlayer(activity_uid,user_UID);
       checkin_ativities.forEach(checkin_ativity =>{
-        points = checkin_ativity.dados.points;
+        return checkin_ativity.dados.points;
       })
-      return checkin_ativities;
   }
 
   function setLogFirstQRCode(riddle_id){
