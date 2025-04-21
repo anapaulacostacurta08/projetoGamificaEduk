@@ -5,6 +5,7 @@ var ground_control_point_id; // Será populado na função validaQRCode()
 var ground_control_point_next; //Será populado na função validaQRCode()
 var pos_ground_control_point; //Será populado na função validaQRCode()
 var points;
+var activity_id;
 
 const riddle_text = document.getElementById("riddle_text");
 const riddle_attention = document.getElementById("riddle_attentio");
@@ -22,7 +23,7 @@ firebase.auth().onAuthStateChanged((User) => {
       pos_ground_control_point = params.get('pos_ground_control_point');
       ground_control_point_next = params.get('ground_control_point_next');
       group_id = params.get('group_id');
-      first_QRCode(ground_control_point_id,group_id);
+      first_QRCode(ground_control_point_next,group_id);
     }else{
       const riddle_id = params.get('riddle_id');
       const riddle = getRiddleByUID(riddle_id)
@@ -79,7 +80,7 @@ firebase.auth().onAuthStateChanged((User) => {
       let points_old = points; 
 
       var log_activities ={
-        activity_uid,
+        activity_id,
         category, 
         type, 
         ground_control_point_id, // if orienteering para verificar o ponto de control passado
