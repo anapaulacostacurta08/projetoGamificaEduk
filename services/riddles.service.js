@@ -1,10 +1,7 @@
 const riddleService = {
     getRiddleByGroundControlPointId:  async (ground_control_point_id, group_id) => {
     try {
-        const querySnapshot = await firebase.firestore().collection("riddles")
-        .where('ground_control_point_id', '==', ground_control_point_id)
-        .where('group_id', '==', group_id)
-        .get();
+        const querySnapshot = await firebase.firestore().collection("riddles").get();
 
         if(querySnapshot.empty){
            return [];
