@@ -44,52 +44,52 @@ firebase.auth().onAuthStateChanged((User) => {
             next_point: log.ground_control_point_next,
             group_id: log.group_id,
           }));
-        }
-        // Caso o jogador já tenha respondido pontos
-        if (answeredControlPoints.length > 0) {
-          var group_id = answeredControlPoints[0].group_id;
-          orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
-            if(validarValor(orienteering)){
-              const pathway = orienteering.pathway;
-              if(pathway.length > 0){
-                const currentQRIndex = pathway.indexOf(qrcode);
-                if (currentQRIndex === -1) {
-                  alert("QRCode inválido: não pertence ao percurso.");
-                  return null;
-                }
-                const lastAnsweredIndex = answeredControlPoints.length - 1;
-                const lastPointPosition = parseInt(answeredControlPoints[lastAnsweredIndex].pos_point);
-                const expectedNextPosition = lastPointPosition + 1;
+          // Caso o jogador já tenha respondido pontos
+          if (answeredControlPoints.length > 0) {
+            var group_id = answeredControlPoints[0].group_id;
+            orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
+              if(validarValor(orienteering)){
+                const pathway = orienteering.pathway;
+                if(pathway.length > 0){
+                  const currentQRIndex = pathway.indexOf(qrcode);
+                  if (currentQRIndex === -1) {
+                    alert("QRCode inválido: não pertence ao percurso.");
+                    return null;
+                  }
+                  const lastAnsweredIndex = answeredControlPoints.length - 1;
+                  const lastPointPosition = parseInt(answeredControlPoints[lastAnsweredIndex].pos_point);
+                  const expectedNextPosition = lastPointPosition + 1;
 
-                if (currentQRIndex === expectedNextPosition) {
-                  const expectedNextQR = answeredControlPoints[lastAnsweredIndex].next_point;
-                  if (qrcode === expectedNextQR) {
-                    // Atualiza controle de posição
-                    const ground_control_point = {
-                      ground_control_point_id: qrcode,
-                      pos_ground_control_point: currentQRIndex,
-                      ground_control_point_next: pathway[currentQRIndex + 1],
-                      group_id: group_id,
-                    };
-                    alert("QRCode válido e na sequência correta.");
-                    return ground_control_point;
+                  if (currentQRIndex === expectedNextPosition) {
+                    const expectedNextQR = answeredControlPoints[lastAnsweredIndex].next_point;
+                    if (qrcode === expectedNextQR) {
+                      // Atualiza controle de posição
+                      const ground_control_point = {
+                        ground_control_point_id: qrcode,
+                        pos_ground_control_point: currentQRIndex,
+                        ground_control_point_next: pathway[currentQRIndex + 1],
+                        group_id: group_id,
+                      };
+                      alert("QRCode válido e na sequência correta.");
+                      return ground_control_point;
+                    } else {
+                      alert("QRCode fora da sequência esperada.");
+                      return null;
+                    }
+                  } else if (currentQRIndex < expectedNextPosition) {
+                    alert("Este QRCode já foi utilizado.");
+                    return null;
                   } else {
                     alert("QRCode fora da sequência esperada.");
                     return null;
                   }
-                } else if (currentQRIndex < expectedNextPosition) {
-                  alert("Este QRCode já foi utilizado.");
-                  return null;
-                } else {
-                  alert("QRCode fora da sequência esperada.");
+                }else{
+                  alert("Erro ao verificar ponto de control e buscar o PathWay.");
                   return null;
                 }
-              }else{
-                alert("Erro ao verificar ponto de control e buscar o PathWay.");
-                return null;
               }
-            }
-          })
+            });
+          }
         } else {
           // Nenhum ponto foi respondido — tentativa de início
           var group_id = qrcode;
@@ -136,39 +136,39 @@ firebase.auth().onAuthStateChanged((User) => {
 
     async function getAtualChallenge(activity_id, group_id) {
       let answered_challenge = [];
-      challengeService.getChallengesByGroupID(group_id).ther(challenges =>{
-      for (const challenge of challenges) {
-        // Verifica os logs do usuário para ver o que já foi respondido
-        logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(log_activities =>{
-          if (log_activities.length > 0) {
-            // Se houver questões respondidas, salva quais foram
-            var group_id = log_activities[0].group_id;
-            log_activities.forEach(log_activity => {
-              answered_challenge.push({
-                question: log_activity.question_id,
+        challengeService.getChallengesByGroupID(group_id).ther(challenges =>{
+        for (const challenge of challenges) {
+          // Verifica os logs do usuário para ver o que já foi respondido
+          logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(log_activities =>{
+            if (log_activities.length > 0) {
+              // Se houver questões respondidas, salva quais foram
+              var group_id = log_activities[0].group_id;
+              log_activities.forEach(log_activity => {
+                answered_challenge.push({
+                  question: log_activity.question_id,
+                });
               });
-            });
 
-            for (const questionId of challenge.questions) {
-              if (!answered_challenge.includes(questionId)) {
-                questionsService.findByUid(questionId).then(question =>{
-                  if (question) {
-                    const dados = question.dados;
-                    const uid = questionId;
-                    return {uid, dados}; // Primeira questão ainda não respondida
-                  }
-                })
+              for (const questionId of challenge.questions) {
+                if (!answered_challenge.includes(questionId)) {
+                  questionsService.findByUid(questionId).then(question =>{
+                    if (question) {
+                      const dados = question.dados;
+                      const uid = questionId;
+                      return {uid, dados}; // Primeira questão ainda não respondida
+                    }
+                  })
+                }
               }
-            }
 
-          } else {
-            // Se nenhuma questão foi respondida, retorna apenas o enigma (riddle) inicial
-            //Direcionar para riddle.html
-            window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${true}&ground_control_point_id=${ground_control_point_id}&group_id=${group_id}&pos_ground_control_point=${-1}&ground_control_point_next=${ground_control_point_next}`;
-          }
-        })
-      }   
-      return null;      
+            } else {
+              // Se nenhuma questão foi respondida, retorna apenas o enigma (riddle) inicial
+              //Direcionar para riddle.html
+              window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${true}&ground_control_point_id=${ground_control_point_id}&group_id=${group_id}&pos_ground_control_point=${-1}&ground_control_point_next=${ground_control_point_next}`;
+            }
+          })
+        }   
+        return null;      
       })      
     }
 
