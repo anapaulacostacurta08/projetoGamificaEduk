@@ -121,10 +121,10 @@ firebase.auth().onAuthStateChanged((User) => {
               if (pathway.length > 0) {
                 // Atualiza controle de início
                 ground_control_point = {
-                  ground_control_point_id: qrcode,
+                  ground_control_point_id: qrcode.trim(),
                   pos_ground_control_point: -1,
-                  ground_control_point_next:  pathway[0],
-                  group_id: qrcode,
+                  ground_control_point_next:  pathway[0].trim(),
+                  group_id: qrcode.trim(),
                 };
                 alert("Primeiro QRCode válido. Você será direcionado para dica do seu primeiro ponto de controle...");
                 window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${true}&ground_control_point_id=${ground_control_point.ground_control_point_id}&group_id=${ground_control_point.group_id}&pos_ground_control_point=${ground_control_point.pos_ground_control_point}&ground_control_point_next=${ground_control_point.ground_control_point_next}`;
