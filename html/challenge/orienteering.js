@@ -101,7 +101,7 @@ firebase.auth().onAuthStateChanged((User) => {
                                       if (!answered_challenge.includes(questionId)) {
                                         questionsService.findByUid(questionId).then(question =>{
                                           if (question) {
-                                            const dados = question.dados;
+                                            const dados = question;
                                             const uid = questionId;
                                             question = {uid, dados}; // Primeira questão ainda não respondida\
                                               if(validarValor(question)){
