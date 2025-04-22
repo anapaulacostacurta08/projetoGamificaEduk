@@ -83,7 +83,7 @@ firebase.auth().onAuthStateChanged((User) => {
                                       const uid =  questionId;
                                       question = {uid, dados}; // Primeira questão ainda não respondida\
                                       if(validarValor(question)){
-                                        showOrienteering(activity_id, question);
+                                        showOrienteering();
                                         startTimer(30);
                                       }
                                     })
@@ -99,13 +99,13 @@ firebase.auth().onAuthStateChanged((User) => {
                                     });
                                     for (const questionId of challenge.dados.questions) {
                                       if (!answered_challenge.includes(questionId)) {
-                                        questionsService.findByUid(questionId).then(question =>{
-                                          if (question) {
-                                            const dados = question;
+                                        questionsService.findByUid(questionId).then(Question =>{
+                                          if (validarValor(Question)) {
+                                            const dados = Question;
                                             const uid = questionId;
                                             question = {uid, dados}; // Primeira questão ainda não respondida\
                                               if(validarValor(question)){
-                                                showOrienteering(activity_id, question);
+                                                showOrienteering();
                                                 startTimer(30);
                                               } 
                                           }
@@ -182,8 +182,7 @@ firebase.auth().onAuthStateChanged((User) => {
       })
     }
 
-  function showOrienteering(activity_id, Question){
-    let question = Question.dados;
+  function showOrienteering(){
     let que_tag = `<span class="fw-bold">${question.text}</span>`;
     let option_tag = 
     '<div class="option"><span class="choice-prefix m-2 p-2">A</span><span class="choice-text card m-2 p-2" style="width:380px" data-number="1"><span class="question">' +
@@ -205,7 +204,7 @@ firebase.auth().onAuthStateChanged((User) => {
     const option = option_list.querySelectorAll(".option");
     // set onclick attribute to all available options
     for (i = 0; i < option.length; i++) {
-      option[i].setAttribute("onclick", `optionSelected(this,${activity_id},${Question})`);
+      option[i].setAttribute("onclick", `optionSelected(this)`);
     }
   }
 
@@ -249,8 +248,7 @@ firebase.auth().onAuthStateChanged((User) => {
   let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 
   //if user clicked on optionSelectedOrienteering
-  function optionSelected(answer,activity_id,Question) {
-      let question = Question.dados;
+  function optionSelected(answer) {
       let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
       let correct;
       const allOptions = option_list.children.length; //getting all option items
@@ -298,17 +296,6 @@ firebase.auth().onAuthStateChanged((User) => {
           return null;
         }
       });
-    }
-
-    async function checkin_ativities(activity_id, user_UID) {
-      return await checkinactivityService.getcheckinbyPlayer(activity_id,user_UID);
-    }
-
-    async function getPoints(activity_id) {
-      const checkin_ativities = await checkinactivityService.getcheckinbyPlayer(activity_id,user_UID);
-        checkin_ativities.forEach(checkin_ativity =>{
-          return checkin_ativity.dados.points;
-      })
     }
 
 
