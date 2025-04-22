@@ -74,16 +74,10 @@ firebase.auth().onAuthStateChanged((User) => {
                             for (const challenge of challenges) {
                               // Verifica os logs do usuário para ver o que já foi respondido
                               logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "orienteering").then(log_activities =>{
-                                if (log_activities.length > 0) {
-                                  // Se houver questões respondidas, salva quais foram
+                                if ((log_activities.length ==1)){
                                   var group_id = log_activities[0].group_id;
-                                  log_activities.forEach(log_activity => {
-                                    answered_challenge.push({
-                                      question: log_activity.question_id,
-                                    });
-                                  });
-                                  for (const questionId of challenge.dados.questions) {
-                                    if (!answered_challenge.includes(questionId)) {
+                                  if(log_activities[0].question_id === ""){
+                                    for (const questionId of challenge.dados.questions) {
                                       questionsService.findByUid(questionId).then(question =>{
                                         if (question) {
                                           const dados = question.dados;
@@ -95,6 +89,31 @@ firebase.auth().onAuthStateChanged((User) => {
                                             } 
                                         }
                                       })
+                                    }
+                                  }
+                                }else{
+                                  if(log_activities.length > 0) {
+                                    // Se houver questões respondidas, salva quais foram
+                                    var group_id = log_activities[0].group_id;
+                                    log_activities.forEach(log_activity => {
+                                      answered_challenge.push({
+                                          question: log_activity.question_id,
+                                      });
+                                    });
+                                    for (const questionId of challenge.dados.questions) {
+                                      if (!answered_challenge.includes(questionId)) {
+                                        questionsService.findByUid(questionId).then(question =>{
+                                          if (question) {
+                                            const dados = question.dados;
+                                            const uid = questionId;
+                                            question = {uid, dados}; // Primeira questão ainda não respondida\
+                                              if(validarValor(question)){
+                                                showOrienteering(activity_id, question);
+                                                startTimer(30);
+                                              } 
+                                          }
+                                        })
+                                      }
                                     }
                                   }
                                 }
