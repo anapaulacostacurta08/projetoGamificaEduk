@@ -80,6 +80,7 @@ firebase.auth().onAuthStateChanged((User) => {
                                     const questionId = challenge.dados.questions[0]; 
                                     questionsService.findByUid(questionId).then(question =>{
                                       const dados = question;
+                                      const uid =  questionId;
                                       question = {uid, dados}; // Primeira questão ainda não respondida\
                                       if(validarValor(question)){
                                         showOrienteering(activity_id, question);
