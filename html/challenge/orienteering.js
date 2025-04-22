@@ -76,7 +76,7 @@ firebase.auth().onAuthStateChanged((User) => {
                               logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(log_activities =>{
                                 if (log_activities.length > 0) {
                                   // Se houver questões respondidas, salva quais foram
-                                  //var group_id = log_activities[0].group_id;
+                                  var group_id = log_activities[0].group_id;
                                   log_activities.forEach(log_activity => {
                                     answered_challenge.push({
                                       question: log_activity.question_id,
