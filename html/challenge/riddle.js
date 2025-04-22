@@ -17,8 +17,8 @@ firebase.auth().onAuthStateChanged((User) => {
     var activity_id = params.get('activity_id'); 
     first_point = params.get('first_point');
     let level;
-    activityService.getActivitybyUid(activity_id).then(activity =>{
-      let activity = activity;
+    activityService.getActivitybyUid(activity_id).then(Activity =>{
+      let activity = Activity;
       if(validarValor(activity)){
         level = activity.level;
       } 
