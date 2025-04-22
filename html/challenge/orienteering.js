@@ -50,7 +50,7 @@ firebase.auth().onAuthStateChanged((User) => {
                         ground_control_point = {
                           ground_control_point_id: qrcode,
                           pos_ground_control_point: currentQRIndex,
-                          ground_control_point_next: pathway[currentQRIndex + 1],
+                          ground_control_point_next: pathway[currentQRIndex + 1].trim(),
                           group_id: group_id,
                         };
                         alert("QRCode válido e na sequência correta.");
