@@ -31,7 +31,7 @@ firebase.auth().onAuthStateChanged((User) => {
       })  
     })
     var ground_control_point = ``;
-    logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(logs => {
+    logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "orienteering").then(logs => {
       if(validarValor(logs)){
         const answeredControlPoints = logs.map(log => ({
           qrcode: log.ground_control_point_id,
@@ -73,7 +73,7 @@ firebase.auth().onAuthStateChanged((User) => {
                             let answered_challenge = [];
                             for (const challenge of challenges) {
                               // Verifica os logs do usuário para ver o que já foi respondido
-                              logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(log_activities =>{
+                              logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "orienteering").then(log_activities =>{
                                 if (log_activities.length > 0) {
                                   // Se houver questões respondidas, salva quais foram
                                   var group_id = log_activities[0].group_id;
