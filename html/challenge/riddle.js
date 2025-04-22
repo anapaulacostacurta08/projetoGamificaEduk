@@ -4,7 +4,7 @@ const riddle_text = document.getElementById("riddle_text");
 const riddle_attention = document.getElementById("riddle_attention");
 const riddle_location = document.getElementById("riddle_location");
 const btn_voltar_tag = document.getElementById("btn_voltar");
-
+var activity_id;
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {
     var user_UID; 
@@ -14,7 +14,7 @@ firebase.auth().onAuthStateChanged((User) => {
     var pos_ground_control_point; //Será populado na função validaQRCode()
     user_UID = User.uid; 
     const params = new URLSearchParams(window.location.search);
-    var activity_id = params.get('activity_id'); 
+    activity_id = params.get('activity_id'); 
     first_point = params.get('first_point');
     let level;
     activityService.getActivitybyUid(activity_id).then(activity =>{
@@ -30,7 +30,7 @@ firebase.auth().onAuthStateChanged((User) => {
         }
       })  
     })
-    btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">OK</button>`; 
+    btn_voltar_tag.innerHTML = `<button type="button" class="badge bg-success p-2" onclick="voltar()">OK</button>`; 
     if(first_point){
       ground_control_point_id = params.get('ground_control_point_id'); //OK
       pos_ground_control_point = params.get('pos_ground_control_point');
@@ -101,6 +101,6 @@ firebase.auth().onAuthStateChanged((User) => {
   }
 })
 
-function voltar(activity_id){
+function voltar(){
   window.location.href = `../play/menu.html?activity_id=${activity_id}`;
 }
