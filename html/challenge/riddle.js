@@ -17,19 +17,19 @@ firebase.auth().onAuthStateChanged((User) => {
     var activity_id = params.get('activity_id'); 
     first_point = params.get('first_point');
     let level;
-    activityService.getActivitybyUid(activity_id).then(Activity =>{
-      let activity = Activity;
+    activityService.getActivitybyUid(activity_id).then(activity =>{
       if(validarValor(activity)){
         level = activity.level;
       } 
     });
     let points;
-    const checkin_ativities = checkinactivityService.getcheckinbyPlayer(activity_id,user_UID);
+    checkinactivityService.getcheckinbyPlayer(activity_id,user_UID).then(checkin_ativities =>{
       checkin_ativities.forEach(checkin_ativity =>{
         if(validarValor(points)){
           points = checkin_ativity.dados.points;
         }
-    })  
+      })  
+    })
     btn_voltar_tag.innerHTML = `<button class="badge bg-success p-2" onclick="voltar(${activity_id})" type="button">OK</button>`; 
     if(first_point){
       ground_control_point_id = params.get('ground_control_point_id'); //OK
