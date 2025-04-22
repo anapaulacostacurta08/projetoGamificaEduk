@@ -298,7 +298,6 @@ firebase.auth().onAuthStateChanged((User) => {
 
     function setLogActivityOrienteering(correct, riddle_id, question, level, points,ground_control_point){
       //let level = activity.level;
-      let points = getPoints(activity_id);
       let points_old = 0;
       let points_new = 0;
       const time = (new Date()).toLocaleTimeString('pt-BR');
