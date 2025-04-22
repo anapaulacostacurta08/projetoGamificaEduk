@@ -69,7 +69,7 @@ firebase.auth().onAuthStateChanged((User) => {
                         alert("QRCode válido e na sequência correta.");
                         setLogQRCode(qrcode, true, activity_id, level, points, group_id);
                         if(isChallenge(qrcode)){
-                          challengeService.getChallengesByGroupID(group_id).ther(challenges =>{
+                          challengeService.getChallengesByGroupID(group_id).then(challenges =>{
                             let answered_challenge = [];
                             for (const challenge of challenges) {
                               // Verifica os logs do usuário para ver o que já foi respondido
