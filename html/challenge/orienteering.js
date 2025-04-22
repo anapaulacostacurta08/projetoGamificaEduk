@@ -67,7 +67,7 @@ firebase.auth().onAuthStateChanged((User) => {
                           group_id: group_id,
                         };
                         alert("QRCode válido e na sequência correta.");
-                        setLogQRCode(qrcode, true, activity_id, level, point, group_id);
+                        setLogQRCode(qrcode, true, activity_id, level, points, group_id);
                         if(isChallenge(qrcode)){
                           challengeService.getChallengesByGroupID(group_id).ther(challenges =>{
                             let answered_challenge = [];
@@ -105,22 +105,22 @@ firebase.auth().onAuthStateChanged((User) => {
                       } else {
                         alert("QRCode fora da sequência esperada.");
                         //ground_control_point = null;
-                        setLogQRCode(qrcode, false, activity_id);
+                        setLogQRCode(qrcode, false, activity_id, level, points, group_id);
                       }
                     } else if (currentQRIndex < expectedNextPosition) {
                       alert("Este QRCode já foi utilizado.");
                       //ground_control_point = null;
-                      setLogQRCode(qrcode, false, activity_id);
+                      setLogQRCode(qrcode, false, activity_id, level, points, group_id);
                     } else {
                       alert("QRCode fora da sequência esperada.");
                       //ground_control_point = null;
-                      setLogQRCode(qrcode, false, activity_id);
+                      setLogQRCode(qrcode, false, activity_id, level, points, group_id);
                     }
                   }
                 }else{
                   alert("Erro ao verificar ponto de control e buscar o PathWay.");
                   //ground_control_point = null;
-                  setLogQRCode(qrcode, false, activity_id);
+                  setLogQRCode(qrcode, false, activity_id, level, points, group_id);
                 }
             }
           });
@@ -144,7 +144,7 @@ firebase.auth().onAuthStateChanged((User) => {
               } else {
                 alert("Primeiro QRCode inválido. Início incorreto.");
                 //ground_control_point = null;
-                setLogQRCode(qrcode, false, activity_id);
+                setLogQRCode(qrcode, false, activity_id, level, points, group_id);
               }
             }
           })
@@ -296,7 +296,7 @@ firebase.auth().onAuthStateChanged((User) => {
     }
 
 
-    function setLogActivityOrienteering(correct, riddle_id, question, level, ground_control_point){
+    function setLogActivityOrienteering(correct, riddle_id, question, level, points,ground_control_point){
       //let level = activity.level;
       let points = getPoints(activity_id);
       let points_old = 0;
