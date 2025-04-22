@@ -82,7 +82,7 @@ firebase.auth().onAuthStateChanged((User) => {
                                       question: log_activity.question_id,
                                     });
                                   });
-                                  for (const questionId of challenge.questions) {
+                                  for (const questionId of challenge.dados.questions) {
                                     if (!answered_challenge.includes(questionId)) {
                                       questionsService.findByUid(questionId).then(question =>{
                                         if (question) {
