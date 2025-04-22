@@ -16,7 +16,20 @@ firebase.auth().onAuthStateChanged((User) => {
     const params = new URLSearchParams(window.location.search);
     var activity_id = params.get('activity_id'); //OK
     var qrcode = params.get('qrcode'); //OK
-
+    let level;
+    activityService.getActivitybyUid(activity_id).then(activity =>{
+      if(validarValor(activity)){
+        level = activity.level;
+      } 
+    });
+    let points;
+    checkinactivityService.getcheckinbyPlayer(activity_id,user_UID).then(checkin_ativities =>{
+      checkin_ativities.forEach(checkin_ativity =>{
+        if(validarValor(points)){
+          points = checkin_ativity.dados.points;
+        }
+      })  
+    })
     var ground_control_point = ``;
     logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge").then(logs => {
       if(validarValor(logs)){
@@ -37,7 +50,7 @@ firebase.auth().onAuthStateChanged((User) => {
                 if (currentQRIndex === -1) {
                   alert("QRCode inválido: não pertence ao percurso.");
                   //ground_control_point = null;
-                  setLogQRCode(qrcode, false, activity_id);
+                  setLogQRCode(qrcode, false, activity_id, level, points, group_id);
                 }else{
                     const lastAnsweredIndex = answeredControlPoints.length - 1;
                     const lastPointPosition = parseInt(answeredControlPoints[lastAnsweredIndex].pos_point);
@@ -283,9 +296,8 @@ firebase.auth().onAuthStateChanged((User) => {
     }
 
 
-    function setLogActivityOrienteering(correct, riddle_id, question){
-      let activity = getActivity(activity_uid); //OK
-      let level = activity.level;
+    function setLogActivityOrienteering(correct, riddle_id, question, level, ground_control_point){
+      //let level = activity.level;
       let points = getPoints(activity_id);
       let points_old = 0;
       let points_new = 0;
@@ -295,6 +307,10 @@ firebase.auth().onAuthStateChanged((User) => {
       let type = "orienteering";
       let tokenid = qrcode;
       let question_id = question.uid;
+      let ground_control_point_id = ground_control_point.ground_control_point_id;
+      let pos_ground_control_point = ground_control_point.pos_ground_control_point;
+      let ground_control_point_next = ground_control_point.ground_control_point_next;
+      let group_id = ground_control_point.group_id;
       
       points_old = points;
       if(correct){
@@ -325,17 +341,15 @@ firebase.auth().onAuthStateChanged((User) => {
       logActivityService.save(log_activities);
     }
 
-    function setLogQRCode(qrcode, correct, activity_id){
-      let points = getPoints(activity_id);
-      let activity = getActivity(activity_id); //OK
-      let points_old = 0;
-      let points_new = 0;
+    function setLogQRCode(qrcode, correct, activity_id, level, points, group_id){
+      let points_old;
+      let points_new;
       const time = (new Date()).toLocaleTimeString('pt-BR');
       const data = (new Date()).toLocaleDateString('pt-BR');
       let category = "challenge";
       let type = "qrcode";
       let tokenid = qrcode;// 
-      let level = activity.level;
+      //let level = activity.level;
 
       points_old = points;
       if(correct){
