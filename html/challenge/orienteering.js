@@ -31,7 +31,7 @@ firebase.auth().onAuthStateChanged((User) => {
           var group_id = answeredControlPoints[0].group_id;
           orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
             if(validarValor(orienteering)){
-              const pathway = orienteering.pathway;
+              const pathway = orienteering[0].pathway;
               if(pathway.length > 0){
                 const currentQRIndex = pathway.indexOf(qrcode);
                 if (currentQRIndex === -1) {
