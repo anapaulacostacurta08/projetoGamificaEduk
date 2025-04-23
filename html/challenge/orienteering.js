@@ -79,8 +79,8 @@ firebase.auth().onAuthStateChanged((User) => {
                                   //var group_id = log_activities[0].group_id;
                                   if(log_activities[0].question_id === ""){
                                     const questionId = challenge.dados.questions[0]; 
-                                    questionsService.findByUid(questionId).then(question =>{
-                                      const dados = question;
+                                    questionsService.findByUid(questionId).then(Question =>{
+                                      const dados = Question;
                                       const uid =  questionId;
                                       question = {uid, dados}; // Primeira questão ainda não respondida\
                                       if(validarValor(question)){
