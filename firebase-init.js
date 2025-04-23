@@ -1,6 +1,6 @@
 const firebaseConfig = {
     apiKey: `${APIKEY}`,
-    authDomain: `{$AUTHDOMAIN}`,
+    authDomain: `${$AUTHDOMAIN}`,
     projectId: `${PROJECTID}`,
     storageBucket: `${STORAGEBUCKET}`,
     messagingSenderId: `${MESSAGINGSENDERID}`,
