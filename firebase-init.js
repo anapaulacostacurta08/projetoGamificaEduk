@@ -1,11 +1,11 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyDHI8sWXCb7NIHGeuvVTdY_NkEBOk9s-ns",
-    authDomain: "projetogamificaeduk.firebaseapp.com",
-    projectId: "projetogamificaeduk",
-    storageBucket: "projetogamificaeduk.appspot.com",
-    messagingSenderId: "402375253085",
-    appId: "1:402375253085:web:c882c3e23942e5874801b4",
-    measurementId: "G-2TY4YPL585"
+    apiKey: ${APIKEY},
+    authDomain: ${AUTHDOMAIN},
+    projectId: ${PROJECTID},
+    storageBucket: ${STORAGEBUCKET},
+    messagingSenderId: ${MESSAGINGSENDERID},
+    appId: ${APPID},
+    measurementId: ${MEASUREMENTID}
   };
 
 firebase.initializeApp(firebaseConfig);  
