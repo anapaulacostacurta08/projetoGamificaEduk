@@ -2,11 +2,12 @@ const que_text = document.getElementById("que_text");
 const option_list = document.getElementById("option_list");
 const timeText = document.getElementById("time_left_txt");
 const timeCount = document.getElementById("timer_sec");
+var question;
+var activity_id;
+var user_UID; //OK
 
 firebase.auth().onAuthStateChanged((User) => {
-  if (User) {
-    var question;
-    var user_UID; //OK
+  if (User) {    
     //var group_id; // ground_control_point_id vinculdado ao riddle_id
     //var ground_control_point_id; // Será populado na função validaQRCode()
     //var ground_control_point_next; //Será populado na função validaQRCode()
@@ -14,7 +15,7 @@ firebase.auth().onAuthStateChanged((User) => {
     //var points;
     user_UID = User.uid; //OK
     const params = new URLSearchParams(window.location.search);
-    var activity_id = params.get('activity_id'); //OK
+    activity_id = params.get('activity_id'); //OK
     var qrcode = params.get('qrcode'); //OK
     let level;
     activityService.getActivitybyUid(activity_id).then(activity =>{
