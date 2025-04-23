@@ -248,46 +248,7 @@ firebase.auth().onAuthStateChanged((User) => {
   let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
   let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 
-  //if user clicked on optionSelectedOrienteering
-  function optionSelected(answer) {
-      let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
-      let correct;
-      const allOptions = option_list.children.length; //getting all option items
-      if (userAns == question.dados.answer[0]) {
-        answer.classList.add("correct"); //adding green color to correct selected option
-        answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
-        correct = true;
-      } else {
-        answer.classList.add("incorrect"); //adding red color to correct selected option
-        answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
-        console.log("Wrong Answer");
-        correct = false;
-      }
-      
-      for (i = 0; i < allOptions; i++) {
-        if (option_list.children[i].textContent == question.dados.answer[0]) {
-          //if there is an option which is matched to an array answer
-          option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-          option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-          console.log("Auto selected correct answer.");
-        }
-      }
-      for (i = 0; i < allOptions; i++) {
-        option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
-      }
-      let next_riddle = getNextRiddle();
-      if(validarValor(next_riddle)){
-        setLogActivityOrienteering(correct, next_riddle.uid, question);
-        if(correct){
-          alert("Você Acertou! Parabens! Agora Fique atento ao Enigma para achar o próximo ponto!" );
-        }else{
-          alert("Que pena, você não acertou! Mas fique atento ao Enigma para achar o próximo ponto!" );
-        }
-        //showRiddle(riddle.dados);
-        window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${riddle.uid}`;
-      }
-  }
-
+  
     async function getNextRiddle(ground_control_point_next){
       await riddleService.getRiddleByGroundControlPointId(ground_control_point_next, group_id).then((riddles)=>{
         if (riddles.length == 1) {
@@ -299,52 +260,7 @@ firebase.auth().onAuthStateChanged((User) => {
       });
     }
 
-
-    function setLogActivityOrienteering(correct, riddle_id, question, level, points,ground_control_point){
-      //let level = activity.level;
-      let points_old = 0;
-      let points_new = 0;
-      const time = (new Date()).toLocaleTimeString('pt-BR');
-      const data = (new Date()).toLocaleDateString('pt-BR');
-      let category = "challenge";
-      let type = "orienteering";
-      let tokenid = qrcode;
-      let question_id = question.uid;
-      let ground_control_point_id = ground_control_point.ground_control_point_id;
-      let pos_ground_control_point = ground_control_point.pos_ground_control_point;
-      let ground_control_point_next = ground_control_point.ground_control_point_next;
-      let group_id = ground_control_point.group_id;
-      
-      points_old = points;
-      if(correct){
-        points_new = points + question.dados.points;
-      }else{
-        points_new = points - question.dados.lose_points;
-      }
-      
-      var log_activities ={
-        activity_id,
-        category,
-        type, 
-        ground_control_point_id, // if orienteering para verificar o ponto de control passado
-        pos_ground_control_point, // Ponto inicial
-        ground_control_point_next, // proximo ponto de controle 
-        group_id,
-        data,
-        time,
-        level, 
-        question_id,
-        points_old,
-        points_new, 
-        riddle_id,
-        tokenid,
-        user_UID
-      };
-      //gravar na Log as resposta selecionadas
-      logActivityService.save(log_activities);
-    }
-
-    function setLogQRCode(qrcode, correct, activity_id, level, points, group_id){
+   function setLogQRCode(qrcode, correct, activity_id, level, points, group_id){
       let points_old;
       let points_new;
       const time = (new Date()).toLocaleTimeString('pt-BR');
@@ -388,4 +304,96 @@ firebase.auth().onAuthStateChanged((User) => {
 
 function voltar(){
   window.location.href = "../play/menu.html?activity_id="+activity_id;
+}
+
+//if user clicked on optionSelectedOrienteering
+function optionSelected(answer) {
+  firebase.auth().onAuthStateChanged((User) => {
+      if (User) {
+      let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
+      let correct;
+      const allOptions = option_list.children.length; //getting all option items
+      if (userAns == question.dados.answer[0]) {
+        answer.classList.add("correct"); //adding green color to correct selected option
+        answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+        correct = true;
+      } else {
+        answer.classList.add("incorrect"); //adding red color to correct selected option
+        answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
+        console.log("Wrong Answer");
+        correct = false;
+      }
+      
+      for (i = 0; i < allOptions; i++) {
+        if (option_list.children[i].textContent == question.dados.answer[0]) {
+          //if there is an option which is matched to an array answer
+          option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+          option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+          console.log("Auto selected correct answer.");
+        }
+      }
+      for (i = 0; i < allOptions; i++) {
+        option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+      }
+      let next_riddle = getNextRiddle();
+      if(validarValor(next_riddle)){
+        setLogActivityOrienteering(correct, next_riddle.uid, question);
+        if(correct){
+          alert("Você Acertou! Parabens! Agora Fique atento ao Enigma para achar o próximo ponto!" );
+        }else{
+          alert("Que pena, você não acertou! Mas fique atento ao Enigma para achar o próximo ponto!" );
+        }
+        //showRiddle(riddle.dados);
+        window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${riddle.uid}`;
+      }
+    }
+  })
+}
+
+function setLogActivityOrienteering(correct, riddle_id, question, level, points,ground_control_point){
+  firebase.auth().onAuthStateChanged((User) => {
+    if (User) {
+      //let level = activity.level;
+      let points_old = 0;
+      let points_new = 0;
+      const time = (new Date()).toLocaleTimeString('pt-BR');
+      const data = (new Date()).toLocaleDateString('pt-BR');
+      let category = "challenge";
+      let type = "orienteering";
+      let tokenid = qrcode;
+      let question_id = question.uid;
+      let ground_control_point_id = ground_control_point.ground_control_point_id;
+      let pos_ground_control_point = ground_control_point.pos_ground_control_point;
+      let ground_control_point_next = ground_control_point.ground_control_point_next;
+      let group_id = ground_control_point.group_id;
+      
+      points_old = points;
+      if(correct){
+        points_new = points + question.dados.points;
+      }else{
+        points_new = points - question.dados.lose_points;
+      }
+      
+      var log_activities ={
+        activity_id,
+        category,
+        type, 
+        ground_control_point_id, // if orienteering para verificar o ponto de control passado
+        pos_ground_control_point, // Ponto inicial
+        ground_control_point_next, // proximo ponto de controle 
+        group_id,
+        data,
+        time,
+        level, 
+        question_id,
+        points_old,
+        points_new, 
+        riddle_id,
+        tokenid,
+        user_UID
+      };
+      //gravar na Log as resposta selecionadas
+      logActivityService.save(log_activities);
+    }
+  })
 }
