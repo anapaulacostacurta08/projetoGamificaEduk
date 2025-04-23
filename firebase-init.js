@@ -7,6 +7,6 @@ const firebaseConfig = {
     appId: `${process.env.REACT_APP_PPID}`,
     measurementId: `${process.env.REACT_APP_MEASUREMENTID}`
   };
-
+ 
 firebase.initializeApp(firebaseConfig);  
   
