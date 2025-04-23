@@ -246,20 +246,8 @@ firebase.auth().onAuthStateChanged((User) => {
       }
     }
   }
-
   
-
   
-    async function getNextRiddle(ground_control_point_next){
-      await riddleService.getRiddleByGroundControlPointId(ground_control_point_next, group_id).then((riddles)=>{
-        if (riddles.length == 1) {
-          return riddles[0]; 
-        }else{
-          alert("Problema no cadastro dos enigmas. Verificar com o administrador do evento!")
-          return null;
-        }
-      });
-    }
 
    function setLogQRCode(qrcode, correct, activity_id, level, points, group_id){
       let points_old;
@@ -336,13 +324,18 @@ function optionSelected(answer) {
       for (i = 0; i < allOptions; i++) {
         option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
       }
-      let next_riddle = getNextRiddle();
+      let next_riddle;
+      riddleService.getRiddleByGroundControlPointId(ground_control_point_next, group_id).then((riddles)=>{
+        if (riddles.length == 1) {
+          next_riddle = riddles[0];
+        }
+      })
       if(validarValor(next_riddle)){
         setLogActivityOrienteering(correct, next_riddle.uid, question);
         if(correct){
-          alert("Você Acertou! Parabens! Agora Fique atento ao Enigma para achar o próximo ponto!" );
+          alert("Você Acertou! Parabens! Agora segue a dica para achar o próximo ponto!" );
         }else{
-          alert("Que pena, você não acertou! Mas fique atento ao Enigma para achar o próximo ponto!" );
+          alert("Que pena, você não acertou! Agora segue a dica achar o próximo ponto!" );
         }
         //showRiddle(riddle.dados);
         window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${riddle.uid}`;
