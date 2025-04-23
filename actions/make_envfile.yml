@@ -1,0 +1,21 @@
+name: Create envfile
+
+on: [ push ]
+
+jobs:
+
+  create-envfile:
+ 
+    runs-on: ubuntu-latest
+ 
+    steps:
+    - name: Make envfile
+      uses: SpicyPizza/create-envfile@v2.0
+      with:
+        REACT_APP_APIKEY: ${{ env.SECRET_KEY }}
+        REACT_APP_AUTHDOMAIN: ${{ env.SECRET_KEY }}
+        REACT_APP_PROJECTID: ${{ env.SECRET_KEY }}
+        REACT_APP_STORAGEBUCKET: ${{ env.SOME_ACTION_VARIABLE }}
+        REACT_APP_MESSAGINGSENDERID: ${{ env.SECRET_KEY }}
+        REACT_APP_PPID: ${{ env.SECRET_KEY }}
+        REACT_APP_MEASUREMENTID: ${{ env.SECRET_KEY }}
