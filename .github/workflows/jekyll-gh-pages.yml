@@ -37,6 +37,8 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+      - name: Make envfile
+        uses: ./.github/actions/make_envfile
 
   # Deployment job
   deploy:
