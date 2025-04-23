@@ -2,6 +2,9 @@ const que_text = document.getElementById("que_text");
 const option_list = document.getElementById("option_list");
 const timeText = document.getElementById("time_left_txt");
 const timeCount = document.getElementById("timer_sec");
+// creating the new div tags which for icons
+let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
+let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 var question;
 var activity_id;
 var user_UID; //OK
@@ -244,9 +247,7 @@ firebase.auth().onAuthStateChanged((User) => {
     }
   }
 
-  // creating the new div tags which for icons
-  let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
-  let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
+  
 
   
     async function getNextRiddle(ground_control_point_next){
