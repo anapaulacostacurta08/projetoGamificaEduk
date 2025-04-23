@@ -183,19 +183,19 @@ firebase.auth().onAuthStateChanged((User) => {
     }
 
   function showOrienteering(){
-    let que_tag = `<span class="fw-bold">${question.text}</span>`;
+    let que_tag = `<span class="fw-bold">${question.dados.text}</span>`;
     let option_tag = 
     '<div class="option"><span class="choice-prefix m-2 p-2">A</span><span class="choice-text card m-2 p-2" style="width:380px" data-number="1"><span class="question">' +
-      question.options[0] +
+      question.dados.options[0] +
       "</span></span></div>"+
       '<div class="option"><span class="choice-prefix m-2 p-2">B</span><span class="choice-text card m-2 p-2" style="width:380px" data-number="2"><span class="question">' +
-      question.options[1] +
+      question.dados.options[1] +
       "</span></span></div>" +
       '<div class="option"><span class="choice-prefix m-2 p-2">C</span><span class="choice-text card m-2 p-2" style="width:380px" data-number="3"><span class="question">' +
-      question.options[2] +
+      question.dados.options[2] +
       "</span></span></div>" +
       '<div class="option"><span class="choice-prefix m-2 p-2">D</span><span class="choice-text card m-2 p-2" style="width:380px" data-number="4"><span class="question">' +
-      question.options[3] +
+      question.dados.options[3] +
       "</span></span></div>";
     
     que_text.innerHTML = que_tag; //adding new span tag inside que_tag
@@ -252,7 +252,7 @@ firebase.auth().onAuthStateChanged((User) => {
       let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
       let correct;
       const allOptions = option_list.children.length; //getting all option items
-      if (userAns == question.answer[0]) {
+      if (userAns == question.dados.answer[0]) {
         answer.classList.add("correct"); //adding green color to correct selected option
         answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
         correct = true;
@@ -264,7 +264,7 @@ firebase.auth().onAuthStateChanged((User) => {
       }
       
       for (i = 0; i < allOptions; i++) {
-        if (option_list.children[i].textContent == question.answer[0]) {
+        if (option_list.children[i].textContent == question.dados.answer[0]) {
           //if there is an option which is matched to an array answer
           option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
           option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
@@ -276,7 +276,7 @@ firebase.auth().onAuthStateChanged((User) => {
       }
       let next_riddle = getNextRiddle();
       if(validarValor(next_riddle)){
-        setLogActivityOrienteering(correct, next_riddle.uid, Question);
+        setLogActivityOrienteering(correct, next_riddle.uid, question);
         if(correct){
           alert("Você Acertou! Parabens! Agora Fique atento ao Enigma para achar o próximo ponto!" );
         }else{
