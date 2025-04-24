@@ -172,12 +172,6 @@ firebase.auth().onAuthStateChanged((User) => {
         }
     })
   
-    function validarValor(valor) {
-      if (valor === null) {
-        return false;
-      }
-      return true;
-    }
 
     async function isChallenge(group_id){
       orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
@@ -294,6 +288,13 @@ firebase.auth().onAuthStateChanged((User) => {
 
 function voltar(){
   window.location.href = "../play/menu.html?activity_id="+activity_id;
+}
+
+function validarValor(valor) {
+  if (valor === null) {
+    return false;
+  }
+  return true;
 }
 
 //if user clicked on optionSelectedOrienteering
