@@ -333,23 +333,17 @@ function optionSelected(answer) {
             next_riddle = riddles[0];
           }
         }
+        if(validarValor(next_riddle)){
+          setLogActivityOrienteering(correct, next_riddle.uid, question);
+          if(correct){
+            alert("Você Acertou! Parabens! Agora segue a dica para achar o próximo ponto!" );
+          }else{
+            alert("Que pena, você não acertou! Agora segue a dica achar o próximo ponto!" );
+          }
+          //showRiddle(riddle.dados);
+          window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${riddle.uid}`;
+        }
       })
-      if(validarValor(next_riddle)){
-        setLogActivityOrienteering(correct, next_riddle.uid, question);
-        if(correct){
-          alert("Você Acertou! Parabens! Agora segue a dica para achar o próximo ponto!" );
-        }else{
-          alert("Que pena, você não acertou! Agora segue a dica achar o próximo ponto!" );
-        }
-        //showRiddle(riddle.dados);
-        window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${riddle.uid}`;
-      }else{
-        if(correct){
-          alert("Você Acertou! Parabens! Não tem mais nenhuma dica cadastrada!" );
-        }else{
-          alert("Que pena, você não acertou! Não tem mais nenhuma dica cadastrada!" );
-        }
-      }
     }
   })
 }
