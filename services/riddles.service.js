@@ -7,7 +7,7 @@ const riddleService = {
         .get();
 
         if(querySnapshot.empty){
-           return [];
+           return null;
         }
         const riddles  = new Array();
         querySnapshot.forEach(doc => {
