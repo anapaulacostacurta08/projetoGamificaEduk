@@ -21,7 +21,7 @@ const riddleService = {
 
     } catch (error) {
             console.error("Erro ao carregar Riddle:", error);
-            return [];
+            return  null;
     }
    },
 
