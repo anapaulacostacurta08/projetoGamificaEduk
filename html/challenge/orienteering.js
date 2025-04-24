@@ -328,8 +328,10 @@ function optionSelected(answer) {
       }
       let next_riddle;
       riddleService.getRiddleByGroundControlPointId(ground_control_point.ground_control_point_next, ground_control_point.group_id).then((riddles)=>{
-        if (riddles.length == 1) {
-          next_riddle = riddles[0];
+        if(validarValor(riddles)){
+          if (riddles.length == 1) {
+            next_riddle = riddles[0];
+          }
         }
       })
       if(validarValor(next_riddle)){
@@ -341,6 +343,12 @@ function optionSelected(answer) {
         }
         //showRiddle(riddle.dados);
         window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${riddle.uid}`;
+      }else{
+        if(correct){
+          alert("Você Acertou! Parabens! Não tem mais nenhuma dica cadastrada!" );
+        }else{
+          alert("Que pena, você não acertou! Não tem mais nenhuma dica cadastrada!" );
+        }
       }
     }
   })
