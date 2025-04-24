@@ -8,6 +8,7 @@ let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 var question;
 var activity_id;
 var user_UID; //OK
+var ground_control_point = ``;
 
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {    
@@ -34,7 +35,7 @@ firebase.auth().onAuthStateChanged((User) => {
         }
       })  
     })
-    var ground_control_point = ``;
+    
     logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "orienteering").then(logs => {
       if(validarValor(logs)){
         const answeredControlPoints = logs.map(log => ({
@@ -87,7 +88,7 @@ firebase.auth().onAuthStateChanged((User) => {
                                       const uid =  questionId;
                                       question = {uid, dados}; // Primeira questão ainda não respondida\
                                       if(validarValor(question)){
-                                        showOrienteering(ground_control_point);
+                                        showOrienteering();
                                         startTimer(30);
                                       }
                                     })
@@ -186,7 +187,7 @@ firebase.auth().onAuthStateChanged((User) => {
       })
     }
 
-  function showOrienteering(ground_control_point){
+  function showOrienteering(){
     let que_tag = `<span class="fw-bold">${question.dados.text}</span>`;
     let option_tag = 
     '<div class="option"><span class="choice-prefix m-2 p-2">A</span><span class="choice-text card m-2 p-2" style="width:380px" data-number="1"><span class="question">' +
@@ -208,7 +209,7 @@ firebase.auth().onAuthStateChanged((User) => {
     const option = option_list.querySelectorAll(".option");
     // set onclick attribute to all available options
     for (i = 0; i < option.length; i++) {
-      option[i].setAttribute("onclick", `optionSelected(this,${ground_control_point})`);
+      option[i].setAttribute("onclick", `optionSelected(this)`);
     }
   }
 
@@ -296,7 +297,7 @@ function voltar(){
 }
 
 //if user clicked on optionSelectedOrienteering
-function optionSelected(answer,ground_control_point) {
+function optionSelected(answer) {
   firebase.auth().onAuthStateChanged((User) => {
       if (User) {
       let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
