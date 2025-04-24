@@ -8,7 +8,9 @@ let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 var question;
 var activity_id;
 var user_UID; //OK
-var ground_control_point = ``;
+var ground_control_point;
+var level;
+var points;
 
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {    
@@ -21,13 +23,13 @@ firebase.auth().onAuthStateChanged((User) => {
     const params = new URLSearchParams(window.location.search);
     activity_id = params.get('activity_id'); //OK
     var qrcode = params.get('qrcode'); //OK
-    let level;
+    level;
     activityService.getActivitybyUid(activity_id).then(activity =>{
       if(validarValor(activity)){
         level = activity.level;
       } 
     });
-    let points;
+    points;
     checkinactivityService.getcheckinbyPlayer(activity_id,user_UID).then(checkin_ativities =>{
       checkin_ativities.forEach(checkin_ativity =>{
         if(validarValor(points)){
@@ -304,7 +306,7 @@ function optionSelected(answer) {
       let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
       let correct;
       const allOptions = option_list.children.length; //getting all option items
-      if (userAns == question.dados.answer[0]) {
+      if (userAns == question.dados.answer) {
         answer.classList.add("correct"); //adding green color to correct selected option
         answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
         correct = true;
@@ -334,7 +336,7 @@ function optionSelected(answer) {
           }
         }
         if(validarValor(next_riddle)){
-          setLogActivityOrienteering(correct, next_riddle.uid, question);
+          setLogActivityOrienteering(correct, next_riddle.uid);
           if(correct){
             alert("Você Acertou! Parabens! Agora segue a dica para achar o próximo ponto!" );
           }else{
@@ -348,7 +350,7 @@ function optionSelected(answer) {
   })
 }
 
-function setLogActivityOrienteering(correct, riddle_id, question, level, points,ground_control_point){
+function setLogActivityOrienteering(correct, riddle_id){
   firebase.auth().onAuthStateChanged((User) => {
     if (User) {
       //let level = activity.level;
