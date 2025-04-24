@@ -87,7 +87,7 @@ firebase.auth().onAuthStateChanged((User) => {
                                       const uid =  questionId;
                                       question = {uid, dados}; // Primeira questão ainda não respondida\
                                       if(validarValor(question)){
-                                        showOrienteering();
+                                        showOrienteering(ground_control_point);
                                         startTimer(30);
                                       }
                                     })
@@ -186,7 +186,7 @@ firebase.auth().onAuthStateChanged((User) => {
       })
     }
 
-  function showOrienteering(){
+  function showOrienteering(ground_control_point){
     let que_tag = `<span class="fw-bold">${question.dados.text}</span>`;
     let option_tag = 
     '<div class="option"><span class="choice-prefix m-2 p-2">A</span><span class="choice-text card m-2 p-2" style="width:380px" data-number="1"><span class="question">' +
@@ -208,7 +208,7 @@ firebase.auth().onAuthStateChanged((User) => {
     const option = option_list.querySelectorAll(".option");
     // set onclick attribute to all available options
     for (i = 0; i < option.length; i++) {
-      option[i].setAttribute("onclick", `optionSelected(this)`);
+      option[i].setAttribute("onclick", `optionSelected(this,${ground_control_point})`);
     }
   }
 
@@ -296,7 +296,7 @@ function voltar(){
 }
 
 //if user clicked on optionSelectedOrienteering
-function optionSelected(answer) {
+function optionSelected(answer,ground_control_point) {
   firebase.auth().onAuthStateChanged((User) => {
       if (User) {
       let userAns = answer.querySelector(".choice-text").textContent; //getting user selected option
@@ -325,7 +325,7 @@ function optionSelected(answer) {
         option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
       }
       let next_riddle;
-      riddleService.getRiddleByGroundControlPointId(ground_control_point_next, group_id).then((riddles)=>{
+      riddleService.getRiddleByGroundControlPointId(ground_control_point.ground_control_point_next, ground_control_point.group_id).then((riddles)=>{
         if (riddles.length == 1) {
           next_riddle = riddles[0];
         }
