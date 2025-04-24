@@ -358,7 +358,7 @@ function setLogActivityOrienteering(correct, riddle_id, question, level, points,
       const data = (new Date()).toLocaleDateString('pt-BR');
       let category = "challenge";
       let type = "orienteering";
-      let tokenid = qrcode;
+      let tokenid = ground_control_point.ground_control_point_id;
       let question_id = question.uid;
       let ground_control_point_id = ground_control_point.ground_control_point_id;
       let pos_ground_control_point = ground_control_point.pos_ground_control_point;
