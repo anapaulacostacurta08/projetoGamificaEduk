@@ -343,7 +343,7 @@ function optionSelected(answer) {
             alert("Que pena, você não acertou! Agora segue a dica achar o próximo ponto!" );
           }
           //showRiddle(riddle.dados);
-          window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${riddle.uid}`;
+          window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${false}&riddle_id=${next_riddle.uid}`;
         }
       })
     }
