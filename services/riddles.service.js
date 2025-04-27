@@ -25,7 +25,7 @@ const riddleService = {
     }
    },
 
-   getRiddleByUid:  async (uid) => {
+   getRiddleByUID:  async (uid) => {
     try {
         return await firebase.firestore().collection("riddles")
         .doc(uid)
@@ -35,7 +35,7 @@ const riddleService = {
         });   
     } catch (error) {
             console.error("Erro ao carregar Riddle:", error);
-            return [];
+            return null;
     }
    }
 }

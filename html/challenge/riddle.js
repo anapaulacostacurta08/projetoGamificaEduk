@@ -47,7 +47,11 @@ firebase.auth().onAuthStateChanged((User) => {
     }else{
       const riddle_id = params.get('riddle_id');
         riddleService.getRiddleByUID(riddle_id).then(riddle =>{
-          showRiddle(riddle);
+          if(validarValor(riddle)){
+            showRiddle(riddle);
+          }else{
+            alert("Problema para carregar a dica!");
+          }
       })   
     }
 
