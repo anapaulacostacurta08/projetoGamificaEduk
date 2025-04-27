@@ -366,7 +366,7 @@ function setLogActivityOrienteering(correct, userAns, riddle_id){
       let pos_ground_control_point = ground_control_point.pos_ground_control_point;
       let ground_control_point_next = ground_control_point.ground_control_point_next;
       let group_id = ground_control_point.group_id;
-      let answer = userAns;
+      let  user_answer = userAns;
       
       points_old = points;
       if(correct){
