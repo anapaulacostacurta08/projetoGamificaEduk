@@ -16,6 +16,7 @@ firebase.auth().onAuthStateChanged((User) => {
     const params = new URLSearchParams(window.location.search);
     activity_id = params.get('activity_id'); 
     first_point = params.get('first_point');
+    first_point = (first_point === "true") ? true : false;
     let level;
     activityService.getActivitybyUid(activity_id).then(activity =>{
       if(validarValor(activity)){
