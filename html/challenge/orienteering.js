@@ -371,8 +371,8 @@ function setLogActivityOrienteering(correct, riddle_id){
       if(correct){
         points_new = points + question.dados.points;
       }else{
-        points_new = points - question.dados.lose_  points;
-      }
+        points_new = points - question.dados.lose_points;
+      } 
       
       var log_activities ={
         activity_id,
