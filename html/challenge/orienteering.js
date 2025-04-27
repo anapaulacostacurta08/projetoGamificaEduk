@@ -336,7 +336,7 @@ function optionSelected(answer) {
           }
         }
         if(validarValor(next_riddle)){
-          setLogActivityOrienteering(correct, next_riddle.uid);
+          setLogActivityOrienteering(correct, userAns, next_riddle.uid);
           if(correct){
             alert("Você Acertou! Parabens! Agora segue a dica para achar o próximo ponto!" );
           }else{
@@ -350,7 +350,7 @@ function optionSelected(answer) {
   })
 }
 
-function setLogActivityOrienteering(correct, riddle_id){
+function setLogActivityOrienteering(correct, userAns, riddle_id){
   firebase.auth().onAuthStateChanged((User) => {
     if (User) {
       //let level = activity.level;
@@ -366,6 +366,7 @@ function setLogActivityOrienteering(correct, riddle_id){
       let pos_ground_control_point = ground_control_point.pos_ground_control_point;
       let ground_control_point_next = ground_control_point.ground_control_point_next;
       let group_id = ground_control_point.group_id;
+      let answer = userAns;
       
       points_old = points;
       if(correct){
@@ -390,6 +391,7 @@ function setLogActivityOrienteering(correct, riddle_id){
         points_new, 
         riddle_id,
         tokenid,
+        user_answer,
         user_UID
       };
       //gravar na Log as resposta selecionadas
