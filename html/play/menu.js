@@ -2,14 +2,18 @@ var activity_id;
 firebase.auth().onAuthStateChanged((User) => {
   if (User) {
     const main_menu = document.getElementById("main_menu");
-    userService.findByUid(User.uid).then(user=>{
-      const params = new URLSearchParams(window.location.search);
-      activity_id = params.get('activity_id');
-      activityService.getActivitybyUid(activity_id).then((activity) => {
-        let menu = ``;
-        activityTaskService.getTaskActivity(activity_id).then(activity_tasks => {
-          if(!(activity_tasks.length == 0)){
-            activity_tasks.forEach(activity_task => {           
+    const params = new URLSearchParams(window.location.search);
+    activity_id = params.get('activity_id');
+    activityService.getActivitybyUid(activity_id).then((activity) => {
+      let menu = ``;
+      activityTaskService.getTaskActivity(activity_id).then(activity_tasks => {
+        if(!(activity_tasks.length == 0)){
+          activity_tasks.forEach(activity_task => {
+            activityContentsService.getContentsActivity(activity_id).then(activity_contents =>{
+              activity_contents.forEach(activity_content =>{
+                if (activity_content.dados.all_viewed){
+                  menu = menu +`<p><button type="button" class="badge bg-primary p-2" id="btnConteudo" onclick="btnConteudo()">CONTEÚDO</button></p>`;
+                }
                 if (!(activity_task.dados.quizzes_id==="")){
                   menu = menu +`<p><button type="button" class="badge bg-primary p-2" id="btnQuiz" onclick="btnQuiz()">QUIZ</button></p>`;
                 }
@@ -35,18 +39,24 @@ firebase.auth().onAuthStateChanged((User) => {
                     document.getElementById("points").innerHTML = checkin_ativity.dados.points;
                   })
                 })
+              })
             })
-          }else{
-            menu = "Nenhuma atividade cadastrada. Entre em contato com Adminsitrador do Evento!";
-          }
-        })
+          })
+        }else{
+          menu = "Nenhuma atividade cadastrada. Entre em contato com Adminsitrador do Evento!";
+        }
       })
     })
+
   }
 });
 
 function btnQuiz() {
   window.location.href = "../token/token.html?category=quiz&activity_id="+activity_id;
+}
+
+function btnConteudo() {
+  window.location.href = "../content/content.html?activity_id="+activity_id;
 }
 
 function btnDesafio() {
