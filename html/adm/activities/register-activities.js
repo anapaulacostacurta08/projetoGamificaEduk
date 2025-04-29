@@ -52,20 +52,29 @@ firebase.auth().onAuthStateChanged((User) => {
     });
   }
 })
+
 function popularSelectHosts() {
-  let Hosts = document.getElementById("hosts");
-  userService.getHosts().then(hosts=>{
-    hosts.forEach(host => {
-      Hosts.innerHTML = Hosts.innerHTML +`<option value="${host.uid}">${host.name}</option>`;
-    });
-  });
+  firebase.auth().onAuthStateChanged((User) => {
+    if (User) {
+      let Hosts = document.getElementById("hosts");
+      userService.getHosts().then(hosts=>{
+        hosts.forEach(host => {
+          Hosts.innerHTML = Hosts.innerHTML +`<option value="${host.uid}">${host.name}</option>`;
+        });
+      });
+    }
+  })
 }
 
 function popularSelectEvents() {
-  let Events = document.getElementById("events");
-  eventService.getEvents().then( events => {
-    events.forEach(event => {
-      Events.innerHTML = Events.innerHTML +`<option value="${event.uid}">${event.dados.name}</option>`;
-    });
+  firebase.auth().onAuthStateChanged((User) => {
+    if (User) {
+      let Events = document.getElementById("events");
+      eventService.getEvents().then( events => {
+        events.forEach(event => {
+          Events.innerHTML = Events.innerHTML +`<option value="${event.uid}">${event.dados.name}</option>`;
+        });
+      })
+    }
   })
 }

@@ -12,22 +12,20 @@ firebase.auth().onAuthStateChanged((User) => {
     var ground_control_point_id; // Será populado na função validaQRCode()
     var ground_control_point_next; //Será populado na função validaQRCode()
     var pos_ground_control_point; //Será populado na função validaQRCode()
+    var player2_uid; 
     user_UID = User.uid; 
     const params = new URLSearchParams(window.location.search);
     activity_id = params.get('activity_id'); 
     first_point = params.get('first_point');
     first_point = (first_point === "true") ? true : false;
-    let level;
+    let level, points;
     activityService.getActivitybyUid(activity_id).then(activity =>{
       if(validarValor(activity)){
         level = activity.level;
       } 
-    });
-    let points;
-    checkinactivityService.getcheckinbyPlayer(activity_id,user_UID).then(checkin_ativities =>{
-      checkin_ativities.forEach(checkin_ativity =>{
-        if(validarValor(points)){
-          points = checkin_ativity.dados.points;
+      checkinactivityService.getcheckinbyPlayer(activity_id,user_UID).then(checkin_ativities =>{
+        if(validarValor(checkin_ativities)){
+          points = checkin_ativities[0].dados.points;
         }
       })  
     })
@@ -37,12 +35,14 @@ firebase.auth().onAuthStateChanged((User) => {
       pos_ground_control_point = params.get('pos_ground_control_point');
       ground_control_point_next = params.get('ground_control_point_next');
       group_id = params.get('group_id');
+      player2_uid = params.get('player2_uid');
       riddleService.getRiddleByGroundControlPointId(ground_control_point_next.trim(), group_id.trim()).then(riddles =>{
         showRiddle(riddles[0].dados);
         if(validarValor(level)){
           console.log(level);
         }
-        setLogFirstQRCode(riddles[0].uid, activity_id, level, points)
+        setLogFirstQRCode(riddles[0].uid, activity_id, level, points, user_UID, player2_uid);
+        setLogFirstQRCode(riddles[0].uid, activity_id, level, points, player2_uid, user_UID);
       })
     }else{
       const riddle_id = params.get('riddle_id');
@@ -71,7 +71,7 @@ firebase.auth().onAuthStateChanged((User) => {
       riddle_location.innerHTML = `${riddle_location_tag}`;     
   }
 
-  function setLogFirstQRCode(riddle_id, activity_id, level, points){
+    function setLogFirstQRCode(riddle_id, activity_id, level, points, user_uid, player2_uid){
       const time = (new Date()).toLocaleTimeString('pt-BR');
       const data = (new Date()).toLocaleDateString('pt-BR');
       let category = "challenge";
@@ -80,7 +80,9 @@ firebase.auth().onAuthStateChanged((User) => {
       //let level = activity.level;
       let question_id = "";
       let points_new = points;
-      let points_old = points; 
+      let points_old = points;
+      let user_UID = user_uid;
+      let group_user = player2_uid;
 
       var log_activities ={
         activity_id,
@@ -98,11 +100,14 @@ firebase.auth().onAuthStateChanged((User) => {
         question_id, 
         riddle_id,
         tokenid,
+        group_user,
         user_UID
       };
+
       //gravar na Log as resposta selecionadas
       logActivityService.save(log_activities);
-    } 
+    
+    }    
   }
 })
 

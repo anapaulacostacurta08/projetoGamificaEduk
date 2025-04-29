@@ -15,31 +15,28 @@
   <script src="../../firebase-init.js"></script>
   <script src="../../services/user.service.js"></script>
   <script src="../../services/activities.service.js"></script>
-  <script src="../../services/log.activities.service.js"></script>
-  <script src="../../services/questions.service.js"></script>
-  <script src="../../services/challenges.service.js"></script>
-  <script src="../../services/orienteering.service.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="card card-container">
-      <div id="question_box">
-        <header class="d-flex justify-content-center">
-          <div class="timer card m-1 p-1 bg-primary" style="width:150px">
-              <div id="time_left_txt" class="bg-primary text-center m-1 p-1">Tempo Restante</div>
-              <div id="timer_sec" class="badge rounded-pill bg-warning m-1 p-1"">15</div>
-          </div>
-          <div id="time_line"></div>
-        </header>
-        <hr class="colorgraph">
-        <section>
-            <div id="riddle_box"></div>
-            <div id="que_text"></div>
-            <div id="option_list"></div>
-        </section>
-        <hr class="colorgraph">
+      <div id="challenge_box">
         <section class="d-flex flex-row-reverse">
-          <span class="btn-menu" id="btn_voltar"></span>
+          <div id="list_players">
+            <form id="qrcode-form">
+              <label class="form-label" for="players"><strong>Jogador 2:</strong></label>
+              <select id="players" name="players" class="form-control form-control-sm">;
+                <option value=""></option>
+              </select>
+              <div class="col-md-12 d-flex align-items-center">
+                <div class="col-12 text-center">     
+                  <button id="bt-success" class="col-4 badge bg-success p-2" type="submit">ENVIAR</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <span class="btn-menu" id="btn_voltar">
+            <button class="badge bg-success p-2" onclick="voltar()" type="button">VOLTAR</button>
+          </span>
         </section>
       </div>
     </div>

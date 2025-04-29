@@ -23,20 +23,20 @@ firebase.auth().onAuthStateChanged((User) => {
     const params = new URLSearchParams(window.location.search);
     activity_id = params.get('activity_id'); //OK
     var qrcode = params.get('qrcode'); //OK
-    level;
+    var orienteering_groups_id = params.get('orienteering_groups_id'); //OK
+    var player2_uid = params.get('player2_uid'); //OK
+    
+    let level, points;
     activityService.getActivitybyUid(activity_id).then(activity =>{
-      if(validarValor(activity)){
-        level = activity.level;
-      } 
-    });
-    points;
-    checkinactivityService.getcheckinbyPlayer(activity_id,user_UID).then(checkin_ativities =>{
-      checkin_ativities.forEach(checkin_ativity =>{
-        if(validarValor(points)){
-          points = checkin_ativity.dados.points;
+      checkinactivityService.getcheckinbyPlayer(activity_id,user_UID).then(checkin_ativities =>{
+        if(validarValor(activity)){
+          level = activity.level;
+        } 
+        if(validarValor(checkin_ativities)){
+          points = checkin_ativities[0].dados.points;
         }
-      })  
-    })
+      })
+    });
     
     logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "orienteering").then(logs => {
       if(validarValor(logs)){
@@ -57,7 +57,8 @@ firebase.auth().onAuthStateChanged((User) => {
                 if (currentQRIndex === -1) {
                   alert("QRCode inválido: não pertence ao percurso.");
                   //ground_control_point = null;
-                  setLogQRCode(qrcode, false, activity_id, level, points, group_id);
+                  setLogQRCode(qrcode, false, activity_id, level, points, group_id, user_UID, player2_uid);
+                  setLogQRCode(qrcode, true, activity_id, level, points, group_id, player2_uid, user_UID);
                 }else{
                     const lastAnsweredIndex = answeredControlPoints.length - 1;
                     const lastPointPosition = parseInt(answeredControlPoints[lastAnsweredIndex].pos_point);
@@ -74,104 +75,122 @@ firebase.auth().onAuthStateChanged((User) => {
                           group_id: group_id,
                         };
                         alert("QRCode válido e na sequência correta.");
-                        setLogQRCode(qrcode, true, activity_id, level, points, group_id);
-                        if(isChallenge(group_id)){
-                          challengeService.getChallengesByGroupID(group_id).then(challenges =>{
-                            let answered_challenge = [];
-                            for (const challenge of challenges) {
-                              // Verifica os logs do usuário para ver o que já foi respondido
-                              logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "orienteering").then(log_activities =>{
-                                if ((log_activities.length ==1)){
-                                  //var group_id = log_activities[0].group_id;
-                                  if(log_activities[0].question_id === ""){
-                                    const questionId = challenge.dados.questions[0]; 
-                                    questionsService.findByUid(questionId).then(Question =>{
-                                      const dados = Question;
-                                      const uid =  questionId;
-                                      question = {uid, dados}; // Primeira questão ainda não respondida\
-                                      if(validarValor(question)){
-                                        showOrienteering();
-                                        startTimer(30);
-                                      }
-                                    })
-                                  }
-                                }else{
-                                  if(log_activities.length > 0) {
-                                    // Se houver questões respondidas, salva quais foram
+                        logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "qrcode").then(log_qrcodes =>{
+                          if(!(validarValor(log_qrcodes))){
+                            setLogQRCode(qrcode, true, activity_id, level, points, group_id, user_UID, player2_uid);
+                            setLogQRCode(qrcode, true, activity_id, level, points, group_id, player2_uid, user_UID);
+                          }
+                          if(isChallenge(group_id)){
+                            challengeService.getChallengesByGroupID(group_id).then(challenges =>{
+                              let answered_challenge = [];
+                              for (const challenge of challenges) {
+                                // Verifica os logs do usuário para ver o que já foi respondido
+                                logActivityService.getAtivitityByChallenge(activity_id, user_UID, "challenge", "orienteering").then(log_activities =>{
+                                  if ((log_activities.length ==1)){
                                     //var group_id = log_activities[0].group_id;
-                                    log_activities.forEach(log_activity => {
-                                      answered_challenge.push({
-                                          question: log_activity.question_id,
+                                    if(log_activities[0].question_id === ""){
+                                      const questionId = challenge.dados.questions[0]; 
+                                      questionsService.findByUid(questionId).then(Question =>{
+                                        const dados = Question;
+                                        const uid =  questionId;
+                                        question = {uid, dados}; // Primeira questão ainda não respondida\
+                                        if(validarValor(question)){
+                                          showOrienteering();
+                                          startTimer(30);
+                                        }
+                                      })
+                                    }
+                                  }else{
+                                    if(log_activities.length > 0) {
+                                      // Se houver questões respondidas, salva quais foram
+                                      //var group_id = log_activities[0].group_id;
+                                      log_activities.forEach(log_activity => {
+                                        answered_challenge.push({
+                                            question: log_activity.question_id,
+                                        });
                                       });
-                                    });
-                                    for (const questionId of challenge.dados.questions) {
-                                      if (!answered_challenge.includes(questionId)) {
-                                        questionsService.findByUid(questionId).then(Question =>{
-                                          if (validarValor(Question)) {
-                                            const dados = Question;
-                                            const uid = questionId;
-                                            question = {uid, dados}; // Primeira questão ainda não respondida\
-                                              if(validarValor(question)){
-                                                showOrienteering();
-                                                startTimer(30);
-                                              } 
-                                          }
-                                        })
+                                      for (const questionId of challenge.dados.questions) {
+                                        if (!answered_challenge.includes(questionId)) {
+                                          questionsService.findByUid(questionId).then(Question =>{
+                                            if (validarValor(Question)) {
+                                              const dados = Question;
+                                              const uid = questionId;
+                                              question = {uid, dados}; // Primeira questão ainda não respondida\
+                                                if(validarValor(question)){
+                                                  showOrienteering();
+                                                  startTimer(30);
+                                                } 
+                                            }
+                                          })
+                                        }
                                       }
                                     }
                                   }
-                                }
-                              })
-                            }         
-                          })
-                        }
+                                })
+                              }         
+                            })
+                          }
+                        })
                       } else {
                         alert("QRCode fora da sequência esperada.");
                         //ground_control_point = null;
-                        setLogQRCode(qrcode, false, activity_id, level, points, group_id);
+                        setLogQRCode(qrcode, false, activity_id, level, points, group_id, user_UID, player2_uid);
+                        setLogQRCode(qrcode, false, activity_id, level, points, group_id, player2_uid, user_UID);
                       }
                     } else if (currentQRIndex < expectedNextPosition) {
                       alert("Este QRCode já foi utilizado.");
                       //ground_control_point = null;
-                      setLogQRCode(qrcode, false, activity_id, level, points, group_id);
+                      setLogQRCode(qrcode, false, activity_id, level, points, group_id, user_UID, player2_uid);
+                      setLogQRCode(qrcode, false, activity_id, level, points, group_id, player2_uid, user_UID);
                     } else {
                       alert("QRCode fora da sequência esperada.");
                       //ground_control_point = null;
-                      setLogQRCode(qrcode, false, activity_id, level, points, group_id);
+                      setLogQRCode(qrcode, false, activity_id, level, points, group_id, user_UID, player2_uid);
+                      setLogQRCode(qrcode, false, activity_id, level, points, group_id, player2_uid, user_UID);
                     }
                   }
                 }else{
                   alert("Erro ao verificar ponto de control e buscar o PathWay.");
                   //ground_control_point = null;
-                  setLogQRCode(qrcode, false, activity_id, level, points, group_id);
+                  setLogQRCode(qrcode, false, activity_id, level, points, group_id, user_UID, player2_uid);
+                  setLogQRCode(qrcode, false, activity_id, level, points, group_id, player2_uid, user_UID);
                 }
               }
           });
         }
-      } else {
-          // Nenhum ponto foi respondido — tentativa de início
-          var group_id = qrcode;
-          orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
-            if(validarValor(orienteering)){
-              let pathway = orienteering[0].pathway;
-              if (pathway.length > 0) {
-                // Atualiza controle de início
-                ground_control_point = {
-                  ground_control_point_id: qrcode.trim(),
-                  pos_ground_control_point: -1,
-                  ground_control_point_next:  pathway[0].trim(),
-                  group_id: qrcode.trim(),
-                };
-                alert("Primeiro QRCode válido. Você será direcionado para dica do seu primeiro ponto de controle...");
-                window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${true}&ground_control_point_id=${ground_control_point.ground_control_point_id}&group_id=${ground_control_point.group_id}&pos_ground_control_point=${ground_control_point.pos_ground_control_point}&ground_control_point_next=${ground_control_point.ground_control_point_next}`;
-              } else {
-                alert("Primeiro QRCode inválido. Início incorreto.");
-                //ground_control_point = null;
-                setLogQRCode(qrcode, false, activity_id, level, points, group_id);
-              }
+      } else { // Nenhum ponto foi respondido — tentativa de início verificar group_id
+        orienteeringGroupsService.getOrienteeringByGroupId(orienteering_groups_id).then(orienteering =>{
+          if(validarValor(orienteering)){
+            var groups = orienteering.groups;
+            var pos_groups = groups.indexOf(qrcode);
+            if(pos_groups > -1){ // Encontrou
+              var group_id = qrcode;
+              orienteeringService.getOrienteeringByGroupId(group_id).then(orienteering =>{
+                if(validarValor(orienteering)){
+                  let pathway = orienteering[0].pathway;
+                  if (pathway.length > 0) {
+                    // Atualiza controle de início
+                    ground_control_point = {
+                      ground_control_point_id: qrcode.trim(),
+                      pos_ground_control_point: -1,
+                      ground_control_point_next:  pathway[0].trim(),
+                      group_id: qrcode.trim(),
+                    };
+                    alert("Primeiro QRCode válido. Você será direcionado para dica do seu primeiro ponto de controle...");
+                    window.location.href = `./riddle.html?activity_id=${activity_id}&first_point=${true}&ground_control_point_id=${ground_control_point.ground_control_point_id}&group_id=${ground_control_point.group_id}&pos_ground_control_point=${ground_control_point.pos_ground_control_point}&ground_control_point_next=${ground_control_point.ground_control_point_next}&player2_uid=${player2_uid}`;
+                  } 
+                }else{
+                  alert("Problema no cadastro do Caminho do grupo! Fale com o Administrador.");
+                }
+              })
+            }else{ // Não encontrou QrCode inválido!
+              alert("Primeiro QRCode inválido. Início incorreto.");
+              setLogQRCode(qrcode, false, activity_id, level, points, group_id, user_UID, player2_uid);
+              setLogQRCode(qrcode, false, activity_id, level, points, group_id, player2_uid, user_UID);
             }
-          })
-        }
+          }
+        })
+      }
     })
   
 
@@ -246,14 +265,16 @@ firebase.auth().onAuthStateChanged((User) => {
   
   
 
-   function setLogQRCode(qrcode, correct, activity_id, level, points, group_id){
+   function setLogQRCode(qrcode, correct, activity_id, level, points, group_id, user_uid, player2_uid){
       let points_old;
       let points_new;
       const time = (new Date()).toLocaleTimeString('pt-BR');
       const data = (new Date()).toLocaleDateString('pt-BR');
       let category = "challenge";
       let type = "qrcode";
-      let tokenid = qrcode;// 
+      let tokenid = qrcode;//
+      let user_UID = user_uid;
+      let group_user = player2_uid; 
       //let level = activity.level;
 
       points_old = points;
@@ -279,6 +300,7 @@ firebase.auth().onAuthStateChanged((User) => {
         points_new, 
         //riddle_id,
         tokenid,
+        group_user,
         user_UID
       };
       //gravar na Log as resposta selecionadas
@@ -336,7 +358,8 @@ function optionSelected(answer) {
           }
         }
         if(validarValor(next_riddle)){
-          setLogActivityOrienteering(correct, userAns, next_riddle.uid);
+          setLogActivityOrienteering(correct, userAns, next_riddle.uid, user_UID, player2_uid);
+          setLogActivityOrienteering(correct, userAns, next_riddle.uid, player2_uid, user_UID);
           if(correct){
             alert("Você Acertou! Parabens! Agora segue a dica para achar o próximo ponto!" );
           }else{
@@ -350,7 +373,7 @@ function optionSelected(answer) {
   })
 }
 
-function setLogActivityOrienteering(correct, userAns, riddle_id){
+function setLogActivityOrienteering(correct, userAns, riddle_id, user_uid, player2_uid){
   firebase.auth().onAuthStateChanged((User) => {
     if (User) {
       //let level = activity.level;
@@ -367,6 +390,8 @@ function setLogActivityOrienteering(correct, userAns, riddle_id){
       let ground_control_point_next = ground_control_point.ground_control_point_next;
       let group_id = ground_control_point.group_id;
       let user_answer = userAns;
+      let user_UID = user_uid;
+      let group_user = player2_uid;
       
       points_old = points;
       if(correct){
@@ -392,6 +417,7 @@ function setLogActivityOrienteering(correct, userAns, riddle_id){
         riddle_id,
         tokenid,
         user_answer,
+        group_user,
         user_UID
       };
       //gravar na Log as resposta selecionadas

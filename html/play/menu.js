@@ -11,26 +11,26 @@ firebase.auth().onAuthStateChanged((User) => {
           activity_tasks.forEach(activity_task => {
             activityContentsService.getContentsActivity(activity_id).then(activity_contents =>{
               activity_contents.forEach(activity_content =>{
-                if (activity_content.dados.all_viewed){
+                if (!(activity_content.dados.all_viewed)){
                   menu = menu +`<p><button type="button" class="badge bg-primary p-2" id="btnConteudo" onclick="btnConteudo()">CONTEÚDO</button></p>`;
                 }
                 if (!(activity_task.dados.quizzes_id==="")){
-                  menu = menu +`<p><button type="button" class="badge bg-primary p-2" id="btnQuiz" onclick="btnQuiz()">QUIZ</button></p>`;
+                  menu = menu +`<p><button type="button" class="badge bg-primary p-2 btnQuiz" id="${activity_task.dados.quizzes_id}" onclick="btnQuiz()">QUIZ</button></p>`;
                 }
                 if(!(activity_task.dados.challenge_id==="")){
-                  menu = menu + `<p><button type="button" class="badge bg-primary p-2" id="btnDesafio" onclick="btnDesafio()">DESAFIO</button></p>`;
+                  menu = menu + `<p><button type="button" class="badge bg-primary p-2 btnDesafio" id="${challenge_id}" onclick="btnDesafio()">DESAFIO</button></p>`;
                 }
-                if(!(activity_task.dados.orienteering_id==="")) {
-                  menu = menu + `<p><button type="button" class="badge bg-primary p-2" id="btnOrientacao" onclick="btnOrientacao()">ORIENTAÇÃO</button></p>`;
+                if(!(activity_task.dados.orienteering_groups_id==="")) {
+                  menu = menu + `<p><button type="button" class="badge bg-primary p-2 btnOrientacao" id="${activity_task.dados.orienteering_groups_id}" onclick="btnOrientacao()">ORIENTAÇÃO</button></p>`;
                 }
                 if( (!(activity_task.dados.good_fortune_id==="")) && (!(activity_task.dados.tough_luck_id==="")) ){
-                  menu = menu + `<p><button type="button" class="badge bg-primary p-2" id="btnSorte" onclick="btnSorteouReves()">SORTE OU REVÉS</button></p>`;
+                  menu = menu + `<p><button type="button" class="badge bg-primary p-2 btnSorteouReves" id="${activity_task.dados.good_fortune_id};${activity_task.dados.tough_luck_id}" onclick="btnSorteouReves()">SORTE OU REVÉS</button></p>`;
                 }
                 if (!(activity_task.dados.bonus_id==="")){
-                  menu = menu + `<p><button type="button" class="badge bg-warning p-2" id="btnTarefas" onclick="btnBonus()">TAREFAS</button></p>`; 
+                  menu = menu + `<p><button type="button" class="badge bg-warning p-2 btnBonus" id="${activity_task.dados.bonus_id}" onclick="btnBonus()">TAREFAS</button></p>`; 
                 }       
                 if(!(activity_task.dados.quiz_final_id==="")){
-                  menu = menu + `<p><button type="button" class="badge bg-success p-2 border border-2 border-dark" id="btnQuizfinal" onclick="btnQuizfinal()">QUIZ FINAL</button></p>`;
+                  menu = menu + `<p><button type="button" class="badge bg-success p-2 border border-2 border-dark btnQuizfinal" id="${activity_task.dados.quiz_final_id}" onclick="btnQuizfinal()">QUIZ FINAL</button></p>`;
                 }
                 main_menu.innerHTML = menu;         
                 document.getElementById("level").innerHTML = activity.level;
@@ -52,7 +52,9 @@ firebase.auth().onAuthStateChanged((User) => {
 });
 
 function btnQuiz() {
-  window.location.href = "../token/token.html?category=quiz&activity_id="+activity_id;
+  let botao = document.querySelector('.btnQuiz');
+  let quizzes_id = botao.id;
+  window.location.href = `../token/token.html?category=quiz&quizzes_id=${quizzes_id}&activity_id=${activity_id}`;
 }
 
 function btnConteudo() {
@@ -60,22 +62,35 @@ function btnConteudo() {
 }
 
 function btnDesafio() {
-  window.location.href = "../token/token.html?category=challenge&activity_id="+activity_id;
+  let botao = document.querySelector('.btnDesafio');
+  let challenge_id = botao.id;
+  window.location.href = `../token/token.html?category=challenge&challenge_id=${challenge_id}&activity_id=${activity_id}`;
 }
 
 function btnOrientacao() {
-  window.location.href = "../qrcode/scan_qrcode?category=challenge&type=orienteering&activity_id="+activity_id;
+  let botao = document.querySelector('.btnOrientacao');
+  let orienteering_groups_id = botao.id;
+  window.location.href = `../qrcode/scan_qrcode?category=challenge&type=orienteering&orienteering_groups_id=${orienteering_groups_id}&activity_id=${activity_id}`;
 }
 
 function btnSorteouReves() {
-  window.location.href = "../token/token.html?category=good_fortune&activity_id="+activity_id;
+  let botao = document.querySelector('.btnSorteouReves');
+  let btn_id = botao.id;
+  const btn_sorte_reves = btn_id.split(';');
+  let good_fortune_id = btn_sorte_reves[0];
+  let tough_luck_id = btn_sorte_reves[1];
+  window.location.href = `../token/token.html?category=good_fortune&good_fortune_id=${good_fortune_id}&tough_luck_id=${tough_luck_id}&activity_id=${activity_id}`;
 }
 
 function btnBonus(){
-  window.location.href = "../token/token.html?category=bonus&activity_id="+activity_id;
+  let botao = document.querySelector('.btnBonus');
+  let bonus_id = botao.id;
+  window.location.href = `../token/token.html?category=bonus&bonus_id=${bonus_id}activity_id=${activity_id}`;
 }
 
 function btnQuizfinal(){
-  window.location.href = "../token/token.html?category=quiz_final&activity_id="+activity_id;
+  let botao = document.querySelector('.btnQuizfinal');
+  let quiz_final_id = botao.id;
+  window.location.href = `../token/token.html?category=quiz_final&quiz_final_id=${quiz_final_id}&activity_id=${activity_id}`;
 }
 
