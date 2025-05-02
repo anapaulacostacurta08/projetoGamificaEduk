@@ -4,7 +4,7 @@ var tokenid;
 var user_UID;
 var activity_id;
 var question_id;
-var points;
+
 const question_box = document.getElementById("question_box");
 const que_text = document.getElementById("que_text");
 const option_list = document.getElementById("option_list");
@@ -17,12 +17,13 @@ firebase.auth().onAuthStateChanged((User) => {
       const params = new URLSearchParams(window.location.search);
       activity_id = params.get('activity_id');
       tokenid = params.get('tokenid');
-      
+      let points, level;
       activityService.getActivitybyUid(activity_id).then((activity_find) => {
         activity = activity_find;
+        level = activity.level;
         checkinactivityService.getcheckinbyPlayer(activity_id, user_UID).then(checkin_ativities =>{
           if (checkin_ativities.length>0){
-            points = checkin_ativities.dados.points;
+            points = checkin_ativities[0].dados.points;
             //Usuário realizou Ckeckin
             question_id = getAtualQuiz();
             if(!(question_id ==="")){
@@ -160,10 +161,10 @@ firebase.auth().onAuthStateChanged((User) => {
         for (i = 0; i < allOptions; i++) {
           option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
         }
-        setPoints(correct, userAns);// Resposta correta e resposta marcada pelo jogador.
+        setPoints(correct, userAns, level, points);// Resposta correta e resposta marcada pelo jogador.
       }
       
-      function setPoints(corret,  user_answer){
+      function setPoints(corret,  user_answer, level, points){
         let points_old = points;
         let points_new;
         let level = activity.level;
@@ -171,6 +172,7 @@ firebase.auth().onAuthStateChanged((User) => {
         let type = question.type;
         const time = (new Date()).toLocaleTimeString('pt-BR');
         const data = (new Date()).toLocaleDateString('pt-BR');
+
       
         //Atualizar points
         if (corret){
@@ -185,7 +187,8 @@ firebase.auth().onAuthStateChanged((User) => {
           type, //multiple
           data,
           time,
-          level, 
+          level,
+          group_id,
           question_id,
           points_new,
           points_old,
